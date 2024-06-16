@@ -16,6 +16,6 @@ class Subjects extends Model
     ];
 
     public function users(){
-        return;// リレーションの定義
+        return $this->belongsTo(User::class);// リレーションの定義 6/16 追記
     }
 }
