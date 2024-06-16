@@ -19,10 +19,10 @@ class CreateUsersTable extends Migration
             $table->string('under_name', 60)->index('under_name')->comment('名');
             $table->string('over_name_kana', 60)->index('over_name_kana')->comment('セイ');
             $table->string('under_name_kana', 60)->index('under_name_kana')->comment('メイ');
-            $table->string('mail_address', 60)->unique()->comment('メールアドレス');
-            $table->integer('sex')->index('sex')->comment('性別:1=男性, 2=女性, 3=その他');
-            $table->date('birth_day')->index('birth_day')->comment('生年月日');
-            $table->integer('role')->index('role')->comment('権限:1=教師(国語), 2=教師(数学), 3=教師(英語), 4=生徒');
+            $table->string('mail_address', 60)->unique();
+            $table->integer('sex')->index('sex')->comment('1=男性, 2=女性, 3=その他');
+            $table->date('birth_day')->index('birth_day')->format('Y-m-d');
+            $table->integer('role')->index('role')->nullable()->comment('1=教師(国語), 2=教師(数学), 3=教師(英語), 4=生徒');
             $table->string('password', 191)->comment('パスワード');
             $table->rememberToken();
             $table->timestamp('created_at')->nullable()->comment('登録日時');

@@ -16,16 +16,17 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         DB::table('users')->insert([
-            ['id' => 1,
+            [
             'over_name' => '野間',
             'under_name' => '亜沙美',
             'over_name_kana' => 'ノマ',
             'under_name_kana' => 'アサミ',
             'mail_address' => 'noma@gmail.com',
             'sex' => '2',
-            'birth_day' => '1998年7月16日',
+            'birth_day' => '1998-07-16',
             'role' => '4',
             'password' => Hash::make('password')],
+            // 'id' => 1,
             // 'remember_token' => str_random(10),
             // 'created_at' => DB::raw('NOW()'),
             // 'updated_at' => DB::raw('NOW()'),
