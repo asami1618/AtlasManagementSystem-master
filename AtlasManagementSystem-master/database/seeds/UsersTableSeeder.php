@@ -22,14 +22,14 @@ class UsersTableSeeder extends Seeder
             'over_name_kana' => 'ノマ',
             'under_name_kana' => 'アサミ',
             'mail_address' => 'noma@gmail.com',
-            'sex' => '',
-            'birth_day' => '',
-            'role' => '',
+            'sex' => str_random(10),
+            'birth_day' => str_random(10),
+            'role' => str_random(10),
             'password' => Hash::make('password'),
-            'remember_token' => '',
-            'created_at' => '',
-            'updated_at' => '',
-            'deleted_at' => '',
+            'remember_token' => str_random(10),
+            'created_at' => DB::raw('NOW()'),
+            'updated_at' => DB::raw('NOW()'),
+            'deleted_at' => DB::raw('NOW()'),
         ]);    
     }
 }
