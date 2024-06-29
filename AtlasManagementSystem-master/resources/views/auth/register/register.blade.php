@@ -32,16 +32,16 @@
               <div class="border-bottom border-primary" style="width:140px;">
                 <input type="text" style="width:140px;" class="border-0 over_name" name="over_name">
               </div>
+            </div>
 
             <!-- バリデーション　エラーメッセージ表示 名 under_name-->
-            @if ($errors->has('under_name'))
+            <!-- @if ($errors->has('under_name'))
               <tr>
                 @foreach($errors->get('under_name') as $message)
                 <td> {{ $message }} </td>
                 @endforeach
               </tr>
-            @endif
-            </div>
+            @endif -->
             <div class="" style="width:140px">
               <label class=" d-block m-0" style="font-size:13px">名</label>
               <div class="border-bottom border-primary" style="width:140px;">
@@ -67,13 +67,13 @@
             </div>
 
             <!-- バリデーション　エラーメッセージ表示 メイ under_name_kana-->
-            @if ($errors->has('under_name_kana'))
+            <!-- @if ($errors->has('under_name_kana'))
               <tr>
                 @foreach($errors->get('under_name_kana') as $message)
                 <td> {{ $message }} </td>
                 @endforeach
               </tr>
-            @endif
+            @endif -->
             <div class="" style="width:140px">
               <label class="d-block m-0" style="font-size:13px">メイ</label>
               <div class="border-bottom border-primary" style="width:140px;">

@@ -2,6 +2,7 @@
 
 namespace App\Models\Users;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -22,7 +23,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $table = 'users_table';
+    protected $table = 'users';
 
     protected $fillable = [
         'over_name',

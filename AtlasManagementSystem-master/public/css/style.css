@@ -13,6 +13,21 @@ li{
   list-style:none;
 }
 
+/* Atlasロゴ */
+.container {
+ /* 子要素を水平方向の中央に配置する */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.atlas-image {
+  display: block;
+}
+
+
+
 /* サイドバー */
 .sidebar{
   width:150px;
