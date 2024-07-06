@@ -34,9 +34,10 @@ class RegisterFormRequest extends FormRequest
             'under_name_kana' => 'required|string|max:30|regex:/\A[ァ-ヶー]+\z/u',
             'mail_address' => 'required|email:strict,dns,spoof|unique:users,mail_address|max:100',
             'sex' => 'required',
-            'old_year' => 'required|date|after:2000|before:today',
-            'old_month' => 'required|date|after:01|before:today',
-            'old_day' => 'required|date|after:01|before:today',
+            'old_year' => 'required',
+            'old_month' => 'required',
+            'old_day' => 'required',
+            'birth' => 'required',
             'role' => 'required',
             'password' => 'required|min:8|max:30|confirmed',        
         ];
@@ -60,15 +61,7 @@ class RegisterFormRequest extends FormRequest
             'mail_address' => '※100文字以下で入力してください' ,
             'sex.required' => '※入力必須です' ,
             'sex.regex' => '※いずれかを選んでください' ,
-            'old_year.required' => '※入力必須です' ,
-            'old_year.after' => '※入力できるのは2000年からです' ,
-            'old_year.before' => '※入力できるのは2000年から本日までです' ,
-            'old_month.required' => '※入力必須です' ,
-            'old_month.after' => '※入力できるのは1月からです' ,
-            'old_month.before' => '※入力できるのは1月から本日までです' ,
-            'old_day.required' => '※入力必須です' ,
-            'old_day.after' => '※入力できるのは1月からです' ,
-            'old_day.before' => '※入力できるのは1月から本日までです' ,
+            'birth' => '※入力必須です',
             'role.required' => '※入力必須です' ,
             'role' => '' ,
             'password.required' => '※入力必須です' ,
@@ -76,5 +69,13 @@ class RegisterFormRequest extends FormRequest
             'password' => '※30文字以内で入力してください' ,
             'password' => '※確認用パスワードと一致しません' ,
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        $birth = ($this->filled(['old_year', 'old_month','old_day'])) ? $this->old_year .' '. $this->old_month .' '. $this->old_day : '';
+        $this->merge([
+            'birth' => $birth
+        ]);
     }
 }
