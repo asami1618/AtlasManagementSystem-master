@@ -116,9 +116,9 @@
         </div>
 
             <!-- バリデーション　エラーメッセージ表示 年 old_year-->
-            @if ($errors->has('old_year'))
+            @if ($errors->has('birth'))
               <tr>
-                @foreach($errors->get('old_year') as $message)
+                @foreach($errors->get('birth') as $message)
                 <td> {{ $message }} </td>
                 @endforeach
               </tr>
@@ -156,14 +156,6 @@
           </select>
           <label style="font-size:13px">年</label>
 
-            <!-- バリデーション　エラーメッセージ表示 年 old_month-->
-            @if ($errors->has('old_month'))
-              <tr>
-                @foreach($errors->get('old_month') as $message)
-                <td> {{ $message }} </td>
-                @endforeach
-              </tr>
-            @endif
           <select class="old_month" name="old_month">
             <option value="none">-----</option>
             <option value="01">1</option>
@@ -181,14 +173,6 @@
           </select>
           <label style="font-size:13px">月</label>
 
-            <!-- バリデーション　エラーメッセージ表示 日 old_day-->
-            @if ($errors->has('old_day'))
-              <tr>
-                @foreach($errors->get('old_day') as $message)
-                <td> {{ $message }} </td>
-                @endforeach
-              </tr>
-            @endif
           <select class="old_day" name="old_day">
             <option value="none">-----</option>
             <option value="01">1</option>
