@@ -31,6 +31,19 @@ class UsersTableSeeder extends Seeder
             // 'created_at' => DB::raw('NOW()'),
             // 'updated_at' => DB::raw('NOW()'),
             // 'deleted_at' => DB::raw('NOW()'),
-        ]); 
+        ]);
+
+        DB::table('users')->insert([
+            [
+            'over_name' => 'noma',
+            'under_name' => 'asami',
+            'over_name_kana' => 'ノマ',
+            'under_name_kana' => 'アサミ',
+            'mail_address' => '1616@gmail.com',
+            'sex' => '2',
+            'birth_day' => '2000-07-16',
+            'role' => '4',
+            'password' => Hash::make('password')],
+        ]);
     }
 }
