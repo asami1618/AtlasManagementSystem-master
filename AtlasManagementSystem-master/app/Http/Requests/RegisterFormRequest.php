@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class RegisterFormRequest extends FormRequest
 {
@@ -34,12 +35,12 @@ class RegisterFormRequest extends FormRequest
             'over_name_kana' => 'required|string|max:30|regex:/\A[ァ-ヶー]+\z/u',
             'under_name_kana' => 'required|string|max:30|regex:/\A[ァ-ヶー]+\z/u',
             'mail_address' => 'required|email:strict,dns,spoof|unique:users,mail_address|max:100',
-            'sex' => 'required|integer',
+            'sex' => 'required|' . Rule::in(["1", "2", "3"]),
             'old_year' => 'required',
             'old_month' => 'required',
             'old_day' => 'required',
             'birth' => 'required|between:2000-01-01,today|date',
-            'role' => 'required',
+            'role' => 'required|in:1,2,3,4',
             'password' => 'required|min:8|max:30|confirmed',        
         ];
     }
@@ -61,12 +62,12 @@ class RegisterFormRequest extends FormRequest
             'mail_address.unique' => '※すでに登録されています' ,
             'mail_address' => '※100文字以下で入力してください' ,
             'sex.required' => '※入力必須です' ,
-            'sex.regex' => '※いずれかを選んでください' ,
+            'sex.in' => '※男性、女性、その他以外は無効です。' ,
             'birth.required' => '※入力必須です',
             'birth.between' => '日付は「2000年から本日まで」です。',
             'birth.date' => '正しい日付ではありません。',
             'role.required' => '※入力必須です' ,
-            'role' => '' ,
+            'role.in' => '※講師(国語)、講師(数学)、教師(英語)、生徒以外は無効です。' ,
             'password.required' => '※入力必須です' ,
             'password.min' => '※8文字以上で入力してください' ,
             'password' => '※30文字以内で入力してください' ,
@@ -76,7 +77,7 @@ class RegisterFormRequest extends FormRequest
 
     protected function prepareForValidation()
     {
-        $birth = ($this->filled(['old_year', 'old_month','old_day'])) ? $this->old_year .' '. $this->old_month .' '. $this->old_day : '';
+        $birth = ($this->filled(['old_year', 'old_month','old_day'])) ? $this->old_year .'-'. $this->old_month .'-'. $this->old_day : '';
         $this->merge([
             'birth' => $birth
         ]);

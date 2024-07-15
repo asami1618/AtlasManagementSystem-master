@@ -31,6 +31,6 @@ class UsersTableSeeder extends Seeder
             // 'created_at' => DB::raw('NOW()'),
             // 'updated_at' => DB::raw('NOW()'),
             // 'deleted_at' => DB::raw('NOW()'),
-        ]);    
+        ]); 
     }
 }
