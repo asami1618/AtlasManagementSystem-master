@@ -39,7 +39,7 @@ class RegisterFormRequest extends FormRequest
             'old_year' => 'required',
             'old_month' => 'required',
             'old_day' => 'required',
-            'birth' => 'required|between:2000-01-01,today|date',
+            'birth' => 'required|after:2000-01-01|date',
             'role' => 'required|in:1,2,3,4',
             'password' => 'required|min:8|max:30|confirmed',        
         ];
@@ -64,7 +64,7 @@ class RegisterFormRequest extends FormRequest
             'sex.required' => '※入力必須です' ,
             'sex.in' => '※男性、女性、その他以外は無効です。' ,
             'birth.required' => '※入力必須です',
-            'birth.between' => '日付は「2000年から本日まで」です。',
+            'birth.after' => '日付は「2000年から本日まで」です。',
             'birth.date' => '正しい日付ではありません。',
             'role.required' => '※入力必須です' ,
             'role.in' => '※講師(国語)、講師(数学)、教師(英語)、生徒以外は無効です。' ,
