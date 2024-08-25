@@ -10,8 +10,6 @@ use Auth;
 class TopsController extends Controller
 {
     public function show(){
-
-        $query = User::with('user')->whereIn('role', [1,2,3]);
         return view('authenticated.top.top');
     }
 
