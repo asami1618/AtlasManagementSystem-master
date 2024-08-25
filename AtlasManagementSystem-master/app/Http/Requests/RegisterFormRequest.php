@@ -39,7 +39,7 @@ class RegisterFormRequest extends FormRequest
             'old_year' => 'required',
             'old_month' => 'required',
             'old_day' => 'required',
-            'birth' => 'required|after:2000-01-01|date',
+            'birth' => 'required|after:1999-12-31|date',
             'role' => 'required|in:1,2,3,4',
             'password' => 'required|min:8|max:30|confirmed',        
         ];
@@ -60,7 +60,7 @@ class RegisterFormRequest extends FormRequest
             'mail_address.required' => '※入力必須です' ,
             'mail_address.email' => '※形式が正しくありません' ,
             'mail_address.unique' => '※すでに登録されています' ,
-            'mail_address' => '※100文字以下で入力してください' ,
+            'mail_address.max' => '※100文字以下で入力してください' ,
             'sex.required' => '※入力必須です' ,
             'sex.in' => '※男性、女性、その他以外は無効です。' ,
             'birth.required' => '※入力必須です',
@@ -70,8 +70,8 @@ class RegisterFormRequest extends FormRequest
             'role.in' => '※講師(国語)、講師(数学)、教師(英語)、生徒以外は無効です。' ,
             'password.required' => '※入力必須です' ,
             'password.min' => '※8文字以上で入力してください' ,
-            'password' => '※30文字以内で入力してください' ,
-            'password' => '※確認用パスワードと一致しません' ,
+            'password.max' => '※30文字以内で入力してください' ,
+            'password.confirmed' => '※確認用パスワードと一致しません' ,
         ];
     }
 
