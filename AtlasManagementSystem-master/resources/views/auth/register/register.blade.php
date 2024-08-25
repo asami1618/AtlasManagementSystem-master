@@ -35,13 +35,13 @@
             </div>
 
             <!-- バリデーション　エラーメッセージ表示 名 under_name-->
-            <!-- @if ($errors->has('under_name'))
+            @if ($errors->has('under_name'))
               <tr>
                 @foreach($errors->get('under_name') as $message)
                 <td> {{ $message }} </td>
                 @endforeach
               </tr>
-            @endif -->
+            @endif
             <div class="" style="width:140px">
               <label class=" d-block m-0" style="font-size:13px">名</label>
               <div class="border-bottom border-primary" style="width:140px;">
