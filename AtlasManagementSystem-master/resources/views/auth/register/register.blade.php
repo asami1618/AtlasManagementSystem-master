@@ -67,13 +67,13 @@
             </div>
 
             <!-- バリデーション　エラーメッセージ表示 メイ under_name_kana-->
-            <!-- @if ($errors->has('under_name_kana'))
+            @if ($errors->has('under_name_kana'))
               <tr>
                 @foreach($errors->get('under_name_kana') as $message)
                 <td> {{ $message }} </td>
                 @endforeach
               </tr>
-            @endif -->
+            @endif
             <div class="" style="width:140px">
               <label class="d-block m-0" style="font-size:13px">メイ</label>
               <div class="border-bottom border-primary" style="width:140px;">
