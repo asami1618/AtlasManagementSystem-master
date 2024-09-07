@@ -8,8 +8,8 @@
           <div>
           </div>
           <div>
-            <span class="edit-modal-open" post_title="{{ $post->post_title }}" post_body="{{ $post->post }}" post_id="{{ $post->id }}">編集</span>
-            <a href="{{ route('post.delete', ['id' => $post->id]) }}">削除</a>
+            <span class="edit-modal-open" post_title="{{ $post->post_title }}" post_body="{{ $post->post }}" post_id="{{ $post->id }}"><button type="button" class="btn btn-primary">編集</button></span>
+            <a href="{{ route('post.delete', ['id' => $post->id]) }}"><button type="button" class="btn btn-danger">削除</button></a>
           </div>
         </div>
 

@@ -37,18 +37,24 @@
     </div>
     <form action="{{ route('post.create') }}" method="post" id="postCreate">{{ csrf_field() }}</form>
   </div>
-  @can('admin')
-  <div class="w-25 ml-auto mr-auto">
-    <div class="category_area mt-5 p-5">
-      <div class="">
-        <p class="m-0">メインカテゴリー</p>
-        <input type="text" class="w-100" name="main_category_name" form="mainCategoryRequest">
-        <input type="submit" value="追加" class="w-100 btn btn-primary p-0" form="mainCategoryRequest">
-      </div>
-      <!-- サブカテゴリー追加 -->
-      <form action="{{ route('main.category.create') }}" method="post" id="mainCategoryRequest">{{ csrf_field() }}</form>
-    </div>
-  </div>
-  @endcan
 </div>
+
+  <!--  メインカテゴリー -->
+  @can('admin')
+    <div class="w-25 ml-auto mr-auto">
+      <div class="category_area mt-5 p-5">
+        <div class="main-category">
+          <p class="m-0">メインカテゴリー</p>
+          <input type="text" class="w-100" name="main_category_name" form="mainCategoryRequest">
+          <input type="submit" value="追加" class="w-100 btn btn-primary p-0" form="mainCategoryRequest">
+        </div>
+        <!-- サブカテゴリー追加 -->
+        <form action="{{ route('main.category.create') }}" method="post" id="mainCategoryRequest">{{ csrf_field() }}</form>
+        <p class="m-0">サブカテゴリー</p>
+          <select class="w-100" form="postCreate" name="post_category_id">
+            <option>--</option>
+          <input type="submit" value="追加" class="w-100 btn btn-primary p-0" form="subCategoryRequest">
+      </div>
+    </div>
+    @endcan
 @endsection
