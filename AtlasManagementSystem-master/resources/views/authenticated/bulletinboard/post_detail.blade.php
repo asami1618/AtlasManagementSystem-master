@@ -8,8 +8,12 @@
           <div>
           </div>
           <div>
+            @if(Auth::user()->id == $post->user_id)
+            <!-- 編集ボタン -->
             <span class="edit-modal-open" post_title="{{ $post->post_title }}" post_body="{{ $post->post }}" post_id="{{ $post->id }}"><button type="button" class="btn btn-primary">編集</button></span>
-            <a href="{{ route('post.delete', ['id' => $post->id]) }}"><button type="button" class="btn btn-danger">削除</button></a>
+            <!-- 削除ボタン -->
+            <a href="{{ route('post.delete', ['id' => $post->id]) }}"><button type="button" class="btn btn-danger" onclick='return confirm("本当に削除しますか？")'>削除</button></a>
+            @endif
           </div>
         </div>
 
@@ -52,11 +56,16 @@
     </div>
   </div>
 </div>
+
+<!-- 編集モーダル -->
 <div class="modal js-modal">
   <div class="modal__bg js-modal-close"></div>
   <div class="modal__content">
     <form action="{{ route('post.edit') }}" method="post">
       <div class="w-100">
+        @if($errors->first('post_title'))
+        <span class="error_message">{{ $errors->first('post_title') }}</span>
+        @endif
         <div class="modal-inner-title w-50 m-auto">
           <input type="text" name="post_title" placeholder="タイトル" class="w-100">
         </div>
