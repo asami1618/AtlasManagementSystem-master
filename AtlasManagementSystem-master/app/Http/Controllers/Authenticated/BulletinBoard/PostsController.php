@@ -116,8 +116,8 @@ class PostsController extends Controller
         $like = new Like;
 
         $like->where('like_user_id', $user_id)
-             ->where('like_post_id', $post_id)
-             ->delete();
+            ->where('like_post_id', $post_id)
+            ->delete();
 
         return response()->json();
     }

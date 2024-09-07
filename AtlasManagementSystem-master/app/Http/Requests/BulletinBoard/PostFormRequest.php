@@ -24,6 +24,7 @@ class PostFormRequest extends FormRequest
     public function rules()
     {
         return [
+            'post_category_id' => 'required',
             'post_title' => 'min:4|max:50',
             'post_body' => 'min:10|max:500',
         ];
@@ -31,6 +32,7 @@ class PostFormRequest extends FormRequest
 
     public function messages(){
         return [
+            'post_category_id.required' => '入力必須です。',
             'post_title.min' => 'タイトルは4文字以上入力してください。',
             'post_title.max' => 'タイトルは50文字以内で入力してください。',
             'post_body.min' => '内容は10文字以上入力してください。',

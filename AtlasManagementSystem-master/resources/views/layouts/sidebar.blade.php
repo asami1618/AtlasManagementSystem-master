@@ -19,7 +19,7 @@
   <div class="d-flex">
     <div class="sidebar">
       @section('sidebar')
-      <p><img src="{{ asset('/image/home.png') }}"  width="25" height="25"><a href="{{ route('top.show') }}">トップ</a></p>
+      <p><img src="{{ asset('/image/home.png') }}"  width="25" height="25"><a href="{{ route('top.show') }}">マイページ</a></p>
       <p><img src="{{ asset('/image/logout.png') }}"  width="25" height="25"><a href="/logout">ログアウト</a></p>
       <p><img src="{{ asset('/image/calender3.png') }}"  width="25" height="25"><a href="{{ route('calendar.general.show',['user_id' => Auth::id()]) }}">スクール予約</a></p>
 
