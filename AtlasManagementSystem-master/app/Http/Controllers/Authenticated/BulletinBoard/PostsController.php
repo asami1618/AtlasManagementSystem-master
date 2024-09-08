@@ -105,7 +105,7 @@ class PostsController extends Controller
 
         $like->like_user_id = $user_id;
         $like->like_post_id = $post_id;
-        $like->save();
+        $like->save()->count();
 
         return response()->json();
     }
