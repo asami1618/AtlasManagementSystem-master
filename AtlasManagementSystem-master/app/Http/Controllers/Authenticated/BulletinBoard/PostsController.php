@@ -20,6 +20,7 @@ class PostsController extends Controller
         $posts = Post::with('user', 'postComments')->get();
         $categories = MainCategory::get();
         $like = new Like;
+        // $like_counts = $like->likeCounts();
         $post_comment = new Post;
         if(!empty($request->keyword)){
             $posts = Post::with('user', 'postComments')
@@ -75,7 +76,7 @@ class PostsController extends Controller
         return redirect()->route('post.input');
     }
 
-    public function commentCreate(Request $request){
+    public function commentCreate(PostFormRequest $request){
         PostComment::create([
             'post_id' => $request->post_id,
             'user_id' => Auth::id(),
@@ -111,7 +112,6 @@ class PostsController extends Controller
     }
 
     public function postLike_count(Request $request){
-        $like_counts = $like->likeCounts()->count();
 
         $data = ['like_counts' => $like_counts,];
 
