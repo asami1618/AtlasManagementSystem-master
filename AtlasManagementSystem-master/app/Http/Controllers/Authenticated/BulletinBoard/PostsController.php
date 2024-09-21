@@ -105,10 +105,19 @@ class PostsController extends Controller
 
         $like->like_user_id = $user_id;
         $like->like_post_id = $post_id;
-        $like->save()->count();
+        $like->save();
 
         return response()->json();
     }
+
+    public function postLike_count(Request $request){
+        $like_counts = $like->likeCounts()->count();
+
+        $data = ['like_counts' => $like_counts,];
+
+        return view('post_like' , $data);
+    }
+
 
     public function postUnLike(Request $request){
         $user_id = Auth::id();
