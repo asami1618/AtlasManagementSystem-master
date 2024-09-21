@@ -29,6 +29,6 @@ class Post extends Model
 
     // コメント数
     public function commentCounts($post_id){
-        return Post::with('postComments')->find($post_id)->postComments();
+        return Post::with('postComments')->find($post_id)->postComments()->get()->count();
     }
 }
