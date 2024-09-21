@@ -25,24 +25,18 @@ class PostFormRequest extends FormRequest
     {
         return [
             'post_category_id' => 'required',
-            'post_title' => 'min:4|max:50',
-            'post_body' => 'min:10|max:500',
-            'post_title_edit' => 'required|string|max:100',
-            'post_body_edit' => 'required|string|max:500',
+            'post_title' => 'required|string|max:100',
+            'post_body' => 'required|string|max:5000',
         ];
     }
 
     public function messages(){
         return [
             'post_category_id.required' => '入力必須です。',
-            'post_title.min' => 'タイトルは4文字以上入力してください。',
-            'post_title.max' => 'タイトルは50文字以内で入力してください。',
-            'post_body.min' => '内容は10文字以上入力してください。',
-            'post_body.max' => '最大文字数は500文字です。',
-            'post_title_edit.required' => '入力必須です。',
-            'post_title_edit.max' => '最大文字数は100文字です。',
-            'post_body_edit.required' => '入力必須です。',
-            'post_body_edit.max' => '最大文字数は500文字です。',
+            'post_title.required' => '入力必須です。',
+            'post_title.max' => '最大文字数は100文字です。',
+            'post_body.required' => '入力必須です。',
+            'post_body.max' => '最大文字数は5000文字です。',
         ];
     }
 }
