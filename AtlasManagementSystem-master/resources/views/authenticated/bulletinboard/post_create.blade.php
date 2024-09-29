@@ -45,7 +45,7 @@
       <div class="category_area mt-5 p-5">
         <div class="main-category">
           <p class="m-0">メインカテゴリー</p>
-          <input type="text" class="w-100" name="main_category_name" form="mainCategoryRequest">
+          <input type="text" class="w-100" name="" form="mainCategoryRequest">
           <input type="submit" value="追加" class="w-100 btn btn-primary p-0" form="mainCategoryRequest">
         </div>
         <!-- サブカテゴリー追加 -->

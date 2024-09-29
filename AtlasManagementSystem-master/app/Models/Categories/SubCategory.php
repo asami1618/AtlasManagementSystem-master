@@ -13,7 +13,9 @@ class SubCategory extends Model
         'sub_category',
     ];
     public function mainCategory(){
-        // リレーションの定義
+        // リレーションの定義 9/29　追記
+        //「１対多」の「多」側 → メソッド名は複数形でhasManyを使う
+        return $this->hasMany('App\Models\Categories\SubCategory');
     }
 
     public function posts(){

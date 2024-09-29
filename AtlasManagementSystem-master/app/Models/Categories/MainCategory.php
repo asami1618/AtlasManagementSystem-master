@@ -13,7 +13,9 @@ class MainCategory extends Model
     ];
 
     public function subCategories(){
-        // リレーションの定義
+        // リレーションの定義 9/29　追記
+        //「１対多」の「1」側 → メソッド名は単数形でbelongsToを使う
+        return $this->belongsTo('App\Models\Categories\MainCategory');
     }
 
 }
