@@ -54,10 +54,11 @@
           <select class="w-100" form="postCreate" name="post_category_id" value="{{ $main_category }}">
             <option value="">--</option>
             @foreach($main_categories as $id => $main_category)
-              <option value="{{ $id}}">
-                {{ $main_category }}
+              <option value="{{ $main_category->id }}">
+                {{ $main_category->main_category }}
               </option>  
-            @endforeach          </select>
+            @endforeach
+          </select>
           <input type="text" class="w-100" name="" form="subCategoryRequest">
           <input type="submit" value="追加" class="w-100 btn btn-primary p-0" form="subCategoryRequest">
       </div>

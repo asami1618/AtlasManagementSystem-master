@@ -10,7 +10,7 @@ use App\Models\Posts\Post;
 use App\Models\Posts\PostComment;
 use App\Models\Posts\Like;
 use App\Models\Users\User;
-use App\Http\Requests\PostFormRequest;
+use App\Http\Requests\BulletinBoard\PostFormRequest;
 use App\Http\Requests\PostCommentFormRequest;
 
 use Auth;
