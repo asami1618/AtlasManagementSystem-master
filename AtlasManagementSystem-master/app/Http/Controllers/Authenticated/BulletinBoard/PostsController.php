@@ -11,6 +11,7 @@ use App\Models\Posts\PostComment;
 use App\Models\Posts\Like;
 use App\Models\Users\User;
 use App\Http\Requests\BulletinBoard\PostFormRequest;
+use App\Http\Requests\PostEditFormRequest;
 use App\Http\Requests\PostCommentFormRequest;
 
 use Auth;
@@ -51,6 +52,11 @@ class PostsController extends Controller
         return view('authenticated.bulletinboard.post_create', compact('main_categories'));
     }
 
+    public function postInput_sub(){
+        $sub_categories = SubCategory::get();
+        return view('authenticated.bulletinboard.post_create', compact('sub_categories'));
+    }
+
     public function postCreate(PostFormRequest $request){
         $post = Post::create([
             'user_id' => Auth::id(),
@@ -60,7 +66,7 @@ class PostsController extends Controller
         return redirect()->route('post.show');
     }
 
-    public function postEdit(Request $request){
+    public function postEdit(PostEditFormRequest $request){
         Post::where('id', $request->post_id)->update([
             'post_title' => $request->post_title,
             'post' => $request->post_body,
@@ -75,6 +81,11 @@ class PostsController extends Controller
     public function mainCategoryCreate(Request $request){
         MainCategory::create(['main_category' => $request->main_category_name]);
         return redirect()->route('post.input');
+    }
+
+    public function subCategoryCreate(Request $request){
+        SubCategory::create(['sub_category' => $request->sub_category_name]);
+        return redirect()->route('post.input_sub');
     }
 
     public function commentCreate(PostCommentFormRequest $request){

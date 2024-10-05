@@ -57,10 +57,13 @@
               <option value="{{ $main_category->id }}">
                 {{ $main_category->main_category }}
               </option>  
-            @endforeach
+            @endforeach           
           </select>
-          <input type="text" class="w-100" name="" form="subCategoryRequest">
-          <input type="submit" value="追加" class="w-100 btn btn-primary p-0" form="subCategoryRequest">
+          <form action="{{ route('sub.category.create') }}" method="post" id="subCategoryRequest">{{ csrf_field() }}</form>
+          <div>
+            <input type="text" class="w-100" name="sub_category_name" form="subCategoryRequest">
+            <input type="submit" value="追加" class="w-100 btn btn-primary p-0" form="subCategoryRequest">
+          </div>
       </div>
     </div>
     @endcan
