@@ -13,6 +13,8 @@ use App\Models\Users\User;
 use App\Http\Requests\BulletinBoard\PostFormRequest;
 use App\Http\Requests\PostEditFormRequest;
 use App\Http\Requests\PostCommentFormRequest;
+use App\Http\Requests\MainCategoryFormRequest;
+use App\Http\Requests\SubCategoryFormRequest;
 
 use Auth;
 
@@ -78,12 +80,14 @@ class PostsController extends Controller
         Post::findOrFail($id)->delete();
         return redirect()->route('post.show');
     }
-    public function mainCategoryCreate(Request $request){
+
+    // カテゴリー
+    public function mainCategoryCreate(MainCategoryFormRequest $request){
         MainCategory::create(['main_category' => $request->main_category_name]);
         return redirect()->route('post.input');
     }
 
-    public function subCategoryCreate(Request $request){
+    public function subCategoryCreate(SubCategoryFormRequest $request){
         // dd($request);
         SubCategory::create([
             'sub_category' => $request->sub_category_name,
@@ -92,6 +96,7 @@ class PostsController extends Controller
         return redirect()->route('post.input');
     }
 
+    // コメント
     public function commentCreate(PostCommentFormRequest $request){
         PostComment::create([
             'post_id' => $request->post_id,
