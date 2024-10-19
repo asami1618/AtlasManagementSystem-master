@@ -12,9 +12,12 @@
       <p class="mb-0">カテゴリー</p>
       <select class="w-100" form="postCreate" name="post_category_id">
         @foreach($main_categories as $main_category)
-        <optgroup label="{{ $main_category->main_category }}"></optgroup>
-        <!-- サブカテゴリー表示 -->
-        </optgroup>
+          <optgroup label="{{ $main_category->main_category }}">
+            @foreach($main_category as $sub_category)
+              <!-- サブカテゴリー表示 -->
+              <option value="{{ $sub_category->sub_category }}"></option>
+            @endforeach
+          </optgroup>
         @endforeach
       </select>
     </div>
@@ -55,13 +58,15 @@
         </div>
         <!-- サブカテゴリー追加 -->
         <form action="{{ route('main.category.create') }}" method="post" id="mainCategoryRequest">{{ csrf_field() }}</form>
+
         <!-- バリデーションエラーメッセージ -->
-          @if($errors->first('main_category_id'))
-            <span class="error_message">{{ $errors->first('main_category_id') }}</span>
-          @endif
+        @if($errors->first('main_category_id'))
+          <span class="error_message">{{ $errors->first('main_category_id') }}</span>
+        @endif
+        
         <p class="m-0">サブカテゴリー</p>
           <select class="w-100" form="subCategoryRequest" name="main_category_id"  value="{{ $main_category }}">
-            <option value="">--</option>
+          <option value="">--</option>
             @foreach($main_categories as $id => $main_category)
               <option value="{{ $main_category->id }}">
                 {{ $main_category->main_category }}

@@ -54,11 +54,6 @@ class PostsController extends Controller
         return view('authenticated.bulletinboard.post_create', compact('main_categories'));
     }
 
-    public function postInput_sub(){
-        $sub_categories = SubCategory::get();
-        return view('authenticated.bulletinboard.post_create', compact('sub_categories'));
-    }
-
     public function postCreate(PostFormRequest $request){
         $post = Post::create([
             'user_id' => Auth::id(),
