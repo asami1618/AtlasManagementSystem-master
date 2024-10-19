@@ -13,9 +13,11 @@
       <select class="w-100" form="postCreate" name="post_category_id">
         @foreach($main_categories as $main_category)
           <optgroup label="{{ $main_category->main_category }}">
-            @foreach($main_category as $sub_category)
+            @foreach($main_category->subCategories as $sub_category )
               <!-- サブカテゴリー表示 -->
-              <option value="{{ $sub_category->sub_category }}"></option>
+              <option value="{{ $sub_category->sub_category}}">
+                {{ $sub_category->sub_category }}
+              </option>
             @endforeach
           </optgroup>
         @endforeach
