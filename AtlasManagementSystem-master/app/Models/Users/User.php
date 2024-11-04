@@ -70,6 +70,9 @@ class User extends Authenticatable
     }
 
     public function subjects(){
+        // 　return $this->belongsToMany('①関係するモデルの場所', '②中間テーブルの名前' ,'③中間テーブルにある自分(post)のidが入るカラム' , '④中間テーブルの相手モデル(sub_category)に関係しているカラム');
+        // ::classを使用しても'App'の書き方と場所は同じ。'::class'の書き方をする場合はUse宣言するかしないかを判断する。
+        // 　判断基準としてはディレクトリが同じであればUse宣言不要、別の場所にあれば必要。
         return $this->belongsToMany(Subjects::class,'subject_users', 'user_id', 'subject_id');// リレーションの定義 6/16追記 7/15　修正 11/4修正
     }
 

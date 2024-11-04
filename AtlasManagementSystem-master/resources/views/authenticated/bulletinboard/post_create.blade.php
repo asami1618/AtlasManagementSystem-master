@@ -16,7 +16,7 @@
             @foreach($main_category->subCategories as $sub_category )
             <!-- $main_category->subCategories(MainCategoryモデルのメソッド名) -->
               <!-- サブカテゴリー表示 -->
-              <option value="{{ $sub_category->sub_category}}">
+              <option value="{{ $sub_category->id}}"> <!-- サブカテゴリーテーブルのidを取得 -->
                 {{ $sub_category->sub_category }}
               </option>
             @endforeach
