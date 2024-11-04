@@ -22,6 +22,6 @@ class SubCategory extends Model
         // リレーションの定義 10/19
         // 「postsテーブル」と「subCategories」で「多対多」の関係
         // 　return $this->belongsToMany('①関係するモデルの場所', '②中間テーブルの名前' ,'③中間テーブルにある自分(sub_category)のidが入るカラム' , '④中間テーブルの相手モデル(post)に関係しているカラム');
-        return $this->belongsToMany('App\Models\Posts\Post' , 'post_sub_categories' ,'sub_category_id' ,'post_id');
+        return $this->belongsToMany('App\Models\Posts\Post', 'post_sub_categories', 'sub_category_id', 'post_id');
     }
 }

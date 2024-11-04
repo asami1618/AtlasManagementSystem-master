@@ -14,12 +14,13 @@
         @foreach($main_categories as $main_category)
           <optgroup label="{{ $main_category->main_category }}">
             @foreach($main_category->subCategories as $sub_category )
+            <!-- $main_category->subCategories(MainCategoryモデルのメソッド名) -->
               <!-- サブカテゴリー表示 -->
               <option value="{{ $sub_category->sub_category}}">
                 {{ $sub_category->sub_category }}
               </option>
             @endforeach
-          </optgroup>
+          </optgroup>>
         @endforeach
       </select>
     </div>

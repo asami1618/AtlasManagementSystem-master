@@ -70,7 +70,7 @@ class User extends Authenticatable
     }
 
     public function subjects(){
-        return $this->belongsToMany(Subjects::class,'subject_users');// リレーションの定義 6/16追記 7/15　修正
+        return $this->belongsToMany(Subjects::class,'subject_users', 'user_id', 'subject_id');// リレーションの定義 6/16追記 7/15　修正 11/4修正
     }
 
     // いいねしているかどうか
