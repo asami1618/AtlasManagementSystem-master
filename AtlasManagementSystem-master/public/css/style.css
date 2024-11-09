@@ -48,6 +48,7 @@ li{
   background:#FFF;
 }
 
+
 /* スクール予約関連 */
 .day-blank{
   background:#D3D3D3;
@@ -141,6 +142,55 @@ li{
   color:red;
 }
 
+/* 掲示板　カテゴリー検索 */
+.category-menu{
+  width: 100%;
+  border-bottom: 1px solid #000;
+  .category-menu-item {
+    .category-menu-item-btn {
+      height: 60px;
+      border-top: 1px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    ul {
+      display: none;
+      li {
+        height: 60px;
+        border-top: 1px solid #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  } 
+}
+
+/* 矢印 */
+.category-menu-item-btn {
+  position: relative;
+}
+.category-menu-item-btn::after{
+  border-right: solid 2px #000;
+  border-top: solid 2px #000;
+  content: "";
+  display: block;
+  height: 8px;
+  position: absolute;
+  right: 25px;
+  top: 38%;
+  transform: rotate(135deg);
+  transition: transform .3s ease-in-out, top .3s ease-in-out;
+  width: 8px;
+}
+.category-menu-item-btn.open::after {
+  top: 45%; 
+  transform: rotate(-45deg);
+}
+
+
 /* 掲示板 詳細画面 */
 .contributor{
   font-size:12px;
@@ -200,6 +250,7 @@ li{
   font-size:10px;
   color:#FFF;
 }
+
 .category_btn{
   font-size:12px;
   border-radius:5px;

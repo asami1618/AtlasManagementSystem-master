@@ -32,15 +32,31 @@
       <div class=""><a href="{{ route('post.input') }}"><button type="button" class="btn btn-info">投稿</button></a></div>
       <div class="">
         <input type="text" placeholder="キーワードを検索" name="keyword" form="postSearchRequest">
-        <input type="submit" value="検索" form="postSearchRequest">
+        <input type="submit" value="検索" class="btn btn-info" form="postSearchRequest">
       </div>
-      <input type="submit" name="like_posts" class="category_btn" value="いいねした投稿" form="postSearchRequest">
-      <input type="submit" name="my_posts" class="category_btn" value="自分の投稿" form="postSearchRequest">
+      <input type="submit" name="like_posts" class="btn btn-secondary btnx-indigo category_btn" value="いいねした投稿" form="postSearchRequest">
+      <input type="submit" name="my_posts" class="btn btn-secondary btnx-indigo category_btn" value="自分の投稿" form="postSearchRequest">
       <ul>
         @foreach($categories as $category)
         <li class="main_categories" category_id="{{ $category->id }}"><span>{{ $category->main_category }}<span></li>
         @endforeach
       </ul>
+    </div>
+
+    <!-- カテゴリー検索 -->
+    <div>
+      <p>カテゴリー検索</p>
+      <nav class="category-menu">
+        <div class="category-menu-item">
+          @foreach($categories as $category)
+          <div class="category-menu-item-btn">{{ $category->main_category }}</div>
+          <ul>
+            <li>{{ $category->sub_category }}</li>
+          </ul>
+          @endforeach
+        </div>
+        </div>
+      </nav>
     </div>
   </div>
   <form action="{{ route('post.show') }}" method="get" id="postSearchRequest"></form>
