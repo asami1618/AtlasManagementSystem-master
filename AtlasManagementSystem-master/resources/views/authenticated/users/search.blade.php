@@ -43,6 +43,10 @@
         <span>権限 : </span><span>生徒</span>
         @endif
       </div>
+      
+      <!-- 選択科目の表示 -->
+      <!-- 50行目　UserモデルとSubjectモデルのリレーションを指す。
+      Userモデルに　"subjects"という"belongsToMany"や"hasMany"のリレーションが定義されていることが前提。　-->
       <div>
         @if($user->role == 4)
         @foreach($user->subjects as $subject)
@@ -72,6 +76,8 @@
           <option value="DESC">降順</option>
         </select>
       </div>
+
+      <!-- 検索条件の追加 -->
       <div class="">
         <p class="m-0 search_conditions"><span>検索条件の追加</span></p>
         <div class="search_conditions_inner">
@@ -93,10 +99,14 @@
           </div>
           <div class="selected_engineer">
             <label>選択科目</label>
+            <span>国語</span><input type="radio" name="subject" form="userSearchRequest">
+            <span>数学</span><input type="radio" name="subject" form="userSearchRequest">
+            <span>英語</span><input type="radio" name="subject" form="userSearchRequest">
           </div>
         </div>
       </div>
       <div>
+
         <input type="reset" value="リセット" form="userSearchRequest">
       </div>
       <div>
