@@ -52,13 +52,13 @@
           <div class="category-menu-item-btn">{{ $category->main_category }}</div>
           <ul>
             @foreach($category->subcategories as $sub_category)
-            <li>{{ $sub_category->sub_category }}</li>
+            <li><a href="{{ route('post.show', $sub_category->id) }}">{{ $sub_category->sub_category }}</a></li>
             @endforeach
           </ul>
           @endforeach
         </div>
       </nav>
-    </div>
+    </div>    
   </div>
   <form action="{{ route('post.show') }}" method="get" id="postSearchRequest"></form>
 </div>
