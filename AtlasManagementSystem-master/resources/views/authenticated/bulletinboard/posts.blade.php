@@ -48,13 +48,14 @@
       <p>カテゴリー検索</p>
       <nav class="category-menu">
         <div class="category-menu-item">
-          @foreach($categories as $category)
+          @foreach($categories as $category) 
           <div class="category-menu-item-btn">{{ $category->main_category }}</div>
           <ul>
-            <li>{{ $category->sub_category }}</li>
+            @foreach($category->subcategories as $sub_category)
+            <li>{{ $sub_category->sub_category }}</li>
+            @endforeach
           </ul>
           @endforeach
-        </div>
         </div>
       </nav>
     </div>
