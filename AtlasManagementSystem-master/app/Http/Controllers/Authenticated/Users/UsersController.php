@@ -20,6 +20,7 @@ class UsersController extends Controller
         $updown = $request->updown;
         $gender = $request->sex;
         $role = $request->role;
+        // 11/24　追記
         $subjects = $request->subject;
 
         // $userQuery = User::with('subjects');// ここで検索時の科目を受け取る
