@@ -27,18 +27,29 @@ class PostsController extends Controller
         // $like_counts = $like->likeCounts();
         $post_comment = new Post;
         if(!empty($request->keyword)){
+            // 11/24　追記　キーワード検索されたとき
+            //　posts.blade.php 34行目<input type="text" placeholder="キーワードを検索" name="keyword" form="postSearchRequest">
+            $sub_category = SubCategory::where('sub_category',$request->keyword)->first();
+            // →whereメソッドはDBのクエリ条件を指定するために使用。
+            // この場合sub_categoryカラムがリクエストで送られた$request->keywordと「完全一致するレコード」を検索する
             $posts = Post::with('user', 'postComments')
             ->where('post_title', 'like', '%'.$request->keyword.'%')
             ->orWhere('post', 'like', '%'.$request->keyword.'%')->get();
         }else if($request->category_word){
             $sub_category = $request->category_word;
+
+            // 11/24　修正　サブカテゴリー名が一致する投稿名を取得
             $posts = Post::with('user', 'postComments')
-            ->where('sub_category','$sub_category')->get();
+            ->where('sub_category',$sub_category)->get(); // '$sub_category'が文字列として扱われているため$sub_categoryに変更
         }else if($request->like_posts){
+            // 11/24　追記　「いいねした投稿」というボタンが押された時
+            // posts.blade.php 37行目<input type="submit" name="like_posts" class="btn btn-secondary btnx-indigo category_btn" value="いいねした投稿" form="postSearchRequest">
             $likes = Auth::user()->likePostId()->get('like_post_id');
             $posts = Post::with('user', 'postComments')
             ->whereIn('id', $likes)->get();
         }else if($request->my_posts){
+            // 11/24　追記　「自分の投稿」というボタンが押された時
+            // posts.blade.php 38行目<input type="submit" name="my_posts" class="btn btn-secondary btnx-indigo category_btn" value="自分の投稿" form="postSearchRequest">
             $posts = Post::with('user', 'postComments')
             ->where('user_id', Auth::id())->get();
         }

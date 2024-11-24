@@ -32,7 +32,7 @@
       <div class=""><a href="{{ route('post.input') }}"><button type="button" class="btn btn-info">投稿</button></a></div>
       <div class="">
         <input type="text" placeholder="キーワードを検索" name="keyword" form="postSearchRequest">
-        <input type="submit" value="検索" class="btn btn-info" form="postSearchRequest">
+        <input type="submit" value="検索" class="btn btn-info" name="category_word" form="postSearchRequest">
       </div>
       <input type="submit" name="like_posts" class="btn btn-secondary btnx-indigo category_btn" value="いいねした投稿" form="postSearchRequest">
       <input type="submit" name="my_posts" class="btn btn-secondary btnx-indigo category_btn" value="自分の投稿" form="postSearchRequest">
