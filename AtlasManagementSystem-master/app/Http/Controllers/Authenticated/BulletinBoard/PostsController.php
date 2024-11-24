@@ -39,7 +39,9 @@ class PostsController extends Controller
             $sub_category = $request->category_word;
             // 11/24　修正　サブカテゴリー名が一致する投稿名を取得
             $posts = Post::with('user', 'postComments')
-            ->where('sub_category',$sub_category)->get(); // '$sub_category'が文字列として扱われているため$sub_categoryに変更
+            // '$sub_category'が文字列として扱われているため$sub_categoryに変更
+            // post_titleカラムを指定し、曖昧検索を実行
+            ->where('post_title', 'like', '%' .$sub_category. '%')->get(); 
         }else if($request->like_posts){
             // 11/24　追記　「いいねした投稿」というボタンが押された時
             // posts.blade.php 37行目<input type="submit" name="like_posts" class="btn btn-secondary btnx-indigo category_btn" value="いいねした投稿" form="postSearchRequest">
