@@ -37,7 +37,6 @@ class PostsController extends Controller
             ->orWhere('post', 'like', '%'.$request->keyword.'%')->get();
         }else if($request->category_word){
             $sub_category = $request->category_word;
-
             // 11/24　修正　サブカテゴリー名が一致する投稿名を取得
             $posts = Post::with('user', 'postComments')
             ->where('sub_category',$sub_category)->get(); // '$sub_category'が文字列として扱われているため$sub_categoryに変更
