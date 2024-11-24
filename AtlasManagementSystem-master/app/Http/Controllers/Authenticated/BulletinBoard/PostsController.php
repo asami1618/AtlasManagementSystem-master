@@ -41,7 +41,7 @@ class PostsController extends Controller
             $posts = Post::with('user', 'postComments')
             // '$sub_category'が文字列として扱われているため$sub_categoryに変更
             // post_titleカラムを指定し、曖昧検索を実行
-            ->where('post_title', 'like', '%' .$sub_category. '%')->get(); 
+            ->where('post_title', 'like', '%' . $sub_category . '%')->get(); 
         }else if($request->like_posts){
             // 11/24　追記　「いいねした投稿」というボタンが押された時
             // posts.blade.php 37行目<input type="submit" name="like_posts" class="btn btn-secondary btnx-indigo category_btn" value="いいねした投稿" form="postSearchRequest">
