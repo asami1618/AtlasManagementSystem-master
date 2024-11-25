@@ -29,9 +29,16 @@ class PostsController extends Controller
         if(!empty($request->keyword)){
             // 11/24　追記　キーワード検索されたとき
             //　posts.blade.php 34行目<input type="text" placeholder="キーワードを検索" name="keyword" form="postSearchRequest">
-            $sub_category = SubCategory::where('sub_category',$request->keyword)->first();
-            // →whereメソッドはDBのクエリ条件を指定するために使用。
-            // この場合sub_categoryカラムがリクエストで送られた$request->keywordと「完全一致するレコード」を検索する
+            
+            $title = $request->input('title'); // フォームで送信されたタイトル
+            $sub_category = SubCategory::whereHas('posts', function ($q) use ($title) {
+                $q->where('post_title', '=', $title); //'='は完全一致させる
+            })->get();
+            // →11/25　修正　whereHasメソッドは「リレーション先のテーブルの条件で検索したいとき」に使用する。
+            // whereHasの第一引数にはリレーションメソッド名が入る。
+            // where('post_title', '=', $title)を使用することで、post_titleと完全一致した場合のみ結果が返される。
+            
+
             $posts = Post::with('user', 'postComments')
             ->where('post_title', 'like', '%'.$request->keyword.'%')
             ->orWhere('post', 'like', '%'.$request->keyword.'%')->get();
