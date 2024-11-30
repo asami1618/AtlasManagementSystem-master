@@ -29,26 +29,31 @@ class PostsController extends Controller
         if(!empty($request->keyword)){
             // 11/24　追記　キーワード検索されたとき
             //　posts.blade.php 34行目<input type="text" placeholder="キーワードを検索" name="keyword" form="postSearchRequest">
-            
-            $title = $request->input('title'); // フォームで送信されたタイトル
-            $sub_category = SubCategory::whereHas('posts', function ($q) use ($title) {
-                $q->where('post_title', '=', $title); //'='は完全一致させる
-            })->get();
+
+            // 　サブカテゴリーの完全一致
+            $sub_category_name = $request->keyword; // フォームで送信されたサブカテゴリー
+            // $sub_category = SubCategory::whereHas->get();
+            // dd($request->input('keyword'));
             // →11/25　修正　whereHasメソッドは「リレーション先のテーブルの条件で検索したいとき」に使用する。
             // whereHasの第一引数にはリレーションメソッド名が入る。
             // where('post_title', '=', $title)を使用することで、post_titleと完全一致した場合のみ結果が返される。
             
 
+            //　タイトルの曖昧検索
             $posts = Post::with('user', 'postComments')
             ->where('post_title', 'like', '%'.$request->keyword.'%')
-            ->orWhere('post', 'like', '%'.$request->keyword.'%')->get();
-        }else if($request->category_word){
-            $sub_category = $request->category_word;
-            // 11/24　修正　サブカテゴリー名が一致する投稿名を取得
-            $posts = Post::with('user', 'postComments')
-            // '$sub_category'が文字列として扱われているため$sub_categoryに変更
-            // post_titleカラムを指定し、曖昧検索を実行
-            ->where('post_title', 'like', '%' . $sub_category . '%')->get(); 
+            ->orWhere('post', 'like', '%'.$request->keyword.'%')
+            ->orWhereHas('subCategories', function ($q) use ($sub_category_name) {
+                $q->where('sub_category', '=', $sub_category_name); //'='は完全一致させる
+            })->get();
+
+        // }else if($request->category_word){
+        //     $sub_category = $request->category_word;
+        //     // 11/24　修正　サブカテゴリー名が一致する投稿名を取得
+        //     $posts = Post::with('user', 'postComments')
+        //     // '$sub_category'が文字列として扱われているため$sub_categoryに変更
+        //     // post_titleカラムを指定し、曖昧検索を実行
+        //     ->where('post_title', 'like', '%' . $sub_category . '%')->get(); 
         }else if($request->like_posts){
             // 11/24　追記　「いいねした投稿」というボタンが押された時
             // posts.blade.php 37行目<input type="submit" name="like_posts" class="btn btn-secondary btnx-indigo category_btn" value="いいねした投稿" form="postSearchRequest">
