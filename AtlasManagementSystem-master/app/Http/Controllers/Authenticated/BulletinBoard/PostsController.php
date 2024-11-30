@@ -39,12 +39,22 @@ class PostsController extends Controller
             // where('post_title', '=', $title)を使用することで、post_titleと完全一致した場合のみ結果が返される。
             
 
-            //　タイトルの曖昧検索
+            //　11/30　追記
             $posts = Post::with('user', 'postComments')
+            // Postモデルのリレーション名 'user'メソッドと'postComments'メソッドを取得
+            // ※Post モデルにリレーションが定義されていることが前提
             ->where('post_title', 'like', '%'.$request->keyword.'%')
+            // 最初の条件　基本構文　Model::where('カラム名', '演算子', '値')
+            // 投稿タイトル(post_title)に、フォームから送信されたキーワード($request->keyword)が部分一致するデータを取得
             ->orWhere('post', 'like', '%'.$request->keyword.'%')
+            // 基本構文　Model::where('カラム名', '演算子', '値')->orWhere('カラム名', '演算子', '値');
+            // orWhere は「または」(OR) を用いて、既存の条件に新しい条件を追加
             ->orWhereHas('subCategories', function ($q) use ($sub_category_name) {
-                $q->where('sub_category', '=', $sub_category_name); //'='は完全一致させる
+                $q->where('sub_category', '=', $sub_category_name); //'='は省略が可能、記載がなければ完全一致と認識できる
+            // 1. orWhereHas('subCategories', ...)'subCategories'はPost モデルに定義されたリレーション名
+            // 2. function ($q)　サブクエリを定義するクロージャ(無名関数)
+            // 3. use ($sub_category_name)　外部の変数（$sub_category_name）をクロージャの中で利用するための宣言
+            // 4. $q->where(...)　サブカテゴリの中で、特定の条件（ここでは sub_category = $sub_category_name）を満たすものを検索
             })->get();
 
         // }else if($request->category_word){
