@@ -35,13 +35,16 @@ class SelectIdDetails implements DisplayUsers{
       $q->whereIn('sex', $gender) //性別に一致
       ->whereIn('role', $role); //権限に一致
     })
-    ->whereHas('subjects', function($q) use ($subjects){
-      foreach ($subjects as $subjectId) {
-      // 複数科目で絞り込み
-        $q->where('subjects.id', $subjectId);
+    // 11/30　修正
+    ->whereHas('subjects', function($q) use ($subjects) {
+      foreach ($subjects as $index => $subjectId) {
+        if ($index === 0) {
+          $q->where('subjects.id', $subjectId);
+        } else {
+          $q->orWhere('subjects.id', $subjectId);
+        }
       }
-    })
-    ->orderBy('id', $updown)->get();
+    })->orderBy('subjects.id', $updown)->get();
 
     // // 11/24　追記
     // $subjectIds = [1, 2, 3];
