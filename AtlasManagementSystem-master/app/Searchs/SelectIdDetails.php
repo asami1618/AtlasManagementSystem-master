@@ -35,16 +35,16 @@ class SelectIdDetails implements DisplayUsers{
       $q->whereIn('sex', $gender) //性別に一致
       ->whereIn('role', $role); //権限に一致
     })
-    // 11/30　修正
+    // 11/30　修正 「連想配列のキーを使用する方法」
     ->whereHas('subjects', function($q) use ($subjects) {
       foreach ($subjects as $index => $subjectId) {
-        if ($index === 0) {
+        if ($index === 0) { //最初の教科だった時
           $q->where('subjects.id', $subjectId);
         } else {
           $q->orWhere('subjects.id', $subjectId);
         }
       }
-    })->orderBy('subjects.id', $updown)->get();
+    })->orderBy('id', $updown)->get();
 
     // // 11/24　追記
     // $subjectIds = [1, 2, 3];
