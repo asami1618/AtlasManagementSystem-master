@@ -30,9 +30,10 @@ class SelectNameDetails implements DisplayUsers{
     })
     // 12/1
     ->whereHas('subjects', function($q) use ($subjects){
-      $q->whereIn('subjects.id', $subjects); //whereInは第二引数　複数で探せる
-    })
-    ->orderBy('over_name_kana', $updown)->get();
+      $q->whereIn('subjects.id', $subjects); 
+      // whereを使う場合の条件「単一の条件で絞りこむ時」(例:age = 25)
+      // whereInを使う場合の条件「複数の値のいずれかに一致する条件を設定したいとき(例:age In (25, 30, 35))」
+    })->orderBy('over_name_kana', $updown)->get();
     return $users;
   }
 
