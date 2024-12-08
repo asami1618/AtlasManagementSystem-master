@@ -14,6 +14,8 @@ use DB;
 class CalendarsController extends Controller
 {
     public function show(){
+        //カレンダーを生成する "CalendarView" 
+        // "CalendarView" を　"ビュー (authenticated.calendar.general.calendar) "に渡して表示。
         $calendar = new CalendarView(time());
         return view('authenticated.calendar.general.calendar', compact('calendar'));
     }

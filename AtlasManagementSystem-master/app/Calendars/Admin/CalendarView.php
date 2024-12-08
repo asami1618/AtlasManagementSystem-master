@@ -66,14 +66,23 @@ class CalendarView{
 
   protected function getWeeks(){
     $weeks = [];
-    $firstDay = $this->carbon->copy()->firstOfMonth();
-    $lastDay = $this->carbon->copy()->lastOfMonth();
+    $firstDay = $this->carbon->copy()->firstOfMonth(); //現在の月の「1日目」の日付を取得
+    $lastDay = $this->carbon->copy()->lastOfMonth(); //現在の月の「月末日」の日付を取得
+
+    // 最初の週を表す "CalendarWeek"
     $week = new CalendarWeek($firstDay->copy());
     $weeks[] = $week;
     $tmpDay = $firstDay->copy()->addDay(7)->startOfWeek();
+
+    // ↓while 条件 
+    // $tmpDay（現在計算中の週の開始日）が月末日（$lastDay）以前である限りループを続行
     while($tmpDay->lte($lastDay)){
+      // ↓新しい週を表す "CalendarWeek"
+      // count($weeks)->現在までに作成された週の数（インデックス）を渡している
       $week = new CalendarWeek($tmpDay, count($weeks));
+      // ↓配列 $weeks に現在の週を追加
       $weeks[] = $week;
+      // ↓次の週の日付に進める
       $tmpDay->addDay(7);
     }
     return $weeks;

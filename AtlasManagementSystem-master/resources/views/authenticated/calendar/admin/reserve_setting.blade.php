@@ -1,5 +1,6 @@
 @extends('layouts.sidebar')
 @section('content')
+<!-- スクール枠登録(calendar.admin.setting)が動く -->
 <div class="w-100 vh-100 d-flex" style="align-items:center; justify-content:center;">
   <div class="w-100 vh-100 border p-5">
     {!! $calendar->render() !!}
