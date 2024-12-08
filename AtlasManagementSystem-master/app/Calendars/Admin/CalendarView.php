@@ -39,9 +39,13 @@ class CalendarView{
       $html[] = '<tr class="'.$week->getClassName().'">';
       $days = $week->getDays();
       foreach($days as $day){
+        // -日付の比較とクラスの付与-
+        // ①現在の月の「月初日」を文字列として取得
         $startDay = $this->carbon->format("Y-m-01");
+        // ②現在の日付を取得
         $toDay = $this->carbon->format("Y-m-d");
         //　12/6　↓過去の日付かどうかを判定
+        // ③日付を条件に応じて判定。
         if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
           $html[] = '<td class="past-day border">';
         }else{
