@@ -10,24 +10,24 @@ class CalendarWeekBlankDay extends CalendarWeekDay{
    * @return
    */
 
-   function render(){
-     return '';
-   }
+  function render(){
+    return '';
+  }
 
-   function selectPart($ymd){
-     return '';
-   }
+  function selectPart($ymd){
+    return '';
+  }
 
-   function getDate(){
-     return '';
-   }
+  function getDate(){
+    return '';
+  }
 
-   function cancelBtn(){
-     return '';
-   }
+  function cancelBtn(){
+    return '';
+  }
 
-   function everyDay(){
-     return '';
-   }
+  function everyDay(){
+    return '';
+  }
 
 }
