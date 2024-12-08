@@ -31,76 +31,90 @@ class CalendarWeekDay{
   function selectPart($ymd){
     // 現在の日付
     $today = date('Y-m-d');
+
+    // 予約枠の取得
     // 特定の日付（$ymd）について、各時間帯（1部、2部、3部）の予約可能枠（limit_users）を取得。
     // 時間帯ごとの予約設定が存在しない場合は、枠数を 0 として返す。
     $one_part_frame = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '1')->first();
     $two_part_frame = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '2')->first();
     $three_part_frame = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '3')->first();
+    
+    // 予約枠が存在しない場合の初期化
+    // 各部の予約枠が存在する場合はその limit_users（残り枠数）を取得し、存在しない場合は 0 を設定。
+    // この処理を1部、2部、3部に対して個別に実行。
+    // 1部
     if($one_part_frame){
       $one_part_frame = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '1')->first()->limit_users;
     }else{
       $one_part_frame = '0';
     }
+
+    // 2部
     if($two_part_frame){
       $two_part_frame = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '2')->first()->limit_users;
     }else{
       $two_part_frame = '0';
     }
+
+    // 3部
     if($three_part_frame){
       $three_part_frame = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '3')->first()->limit_users;
     }else{
       $three_part_frame = '0';
     }
 
-    // // 過去日判定
-    // if (strtotime($ymd) < strtotime($today) && $one_part_frame == '0' && $two_part_frame == '0' && $three_part_frame == '0') {
-    //   // 過去日かつ予約枠が全て 0 の場合はセレクトボックスを削除
-    //   return ''; // 空文字列を返してセレクトボックスを表示しない
-    // }    
-    
-    
-    // 過去日判定
-    if (strtotime($ymd) < strtotime($today)) {
-      if ($one_part_frame == 0 && $two_part_frame == 0 && $three_part_frame == 0) {
-        // 予約がない場合
-        $html[] = '<p>受付終了</p>';
-      } else {
-        // 予約がある場合
-        $html[] = '<p>部参加</p>';
-      }
-      return implode('', $html); // 過去日の場合はここで終了
-    }
+    // ユーザーの予約確認
+    $user_reservations = ReserveSettingUsers::where('user_id', $user_id)
+    ->where('reserve_date', $ymd)
+    ->get();
 
-    //   // 過去日は「受付終了」として選択肢を無効化
-    //   $html[] = '</select>'; // select を閉じる
-    //   $html[] = '<option value="" disabled>受付終了</option>';
-    //   return implode('', $html); // ここで結果を返す 
-    // }    
-    
-    // HTML配列の初期化
-    $html = [];
+    // 過去日の場合
+    if (strtotime($ymd) < strtotime($today)) {
+      if ($user_reservations->isEmpty()) {
+          // 予約していない場合
+          $html[] = '<p>受付終了</p>';
+      } else {
+          // 予約がある場合
+          $html[] = '<p>参加した講座:</p>';
+          foreach ($user_reservations as $reservation) {
+              $html[] = '<p>リモ' . $reservation->part . '部</p>';
+          }
+      }
+    } else {    
+    // HTMLのセレクトボックス生成
     $html[] = '<select name="getPart[]" class="border-primary" style="width:70px; border-radius:5px;" form="reserveParts">';
     $html[] = '<option value="" selected></option>';   
     
     // 現在または未来日のオプションを追加
+    // 各部の選択肢生成　残り枠数が 0 の場合は選択肢を disabled（無効化）し、選択不可とする。
+    // 残り枠数が 1 以上の場合は有効な選択肢として表示
+      // 1部
       if($one_part_frame == "0"){
         $html[] = '<option value="1" disabled>リモ1部(残り0枠)</option>';
       }else{
         $html[] = '<option value="1">リモ1部(残り'.$one_part_frame.'枠)</option>';
       }
+
+      // 2部
       if($two_part_frame == "0"){
         $html[] = '<option value="2" disabled>リモ2部(残り0枠)</option>';
       }else{
         $html[] = '<option value="2">リモ2部(残り'.$two_part_frame.'枠)</option>';
       }
+
+      // 3部
       if($three_part_frame == "0"){
         $html[] = '<option value="3" disabled>リモ3部(残り0枠)</option>';
       }else{
         $html[] = '<option value="3">リモ3部(残り'.$three_part_frame.'枠)</option>';
       }
+    }
+    
+
+      // セレクトボックスの閉じタグ
       $html[] = '</select>';
+      // 配列 $html を文字列に結合し、最終的なHTMLコードとして返す。
       return implode('', $html);
-  }
 
   function getDate(){
     return '<input type="hidden" value="'. $this->carbon->format('Y-m-d') .'" name="getData[]" form="reserveParts">';
@@ -118,4 +132,5 @@ class CalendarWeekDay{
     return Auth::user()->reserveSettings->where('setting_reserve', $reserveDate);
   }
 
+}
 }
