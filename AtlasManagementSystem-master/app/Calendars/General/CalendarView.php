@@ -50,6 +50,7 @@ class CalendarView{
         // 予約状態のチェック
         // $day->everyDay() は現在のカレンダーの日付
         // $day->authReserveDay() は、現在ログインしているユーザーが予約している日付のリスト。
+        // 予約がある日
         if(in_array($day->everyDay(), $day->authReserveDay())){
           $reservePart = $day->authReserveDate($day->everyDay())->first()->setting_part;
           if($reservePart == 1){
@@ -59,14 +60,16 @@ class CalendarView{
           }else if($reservePart == 3){
             $reservePart = "リモ3部";
           }
+          // 12/15　どういう処理か調べる
           if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
-            $html[] = '<p class="m-auto p-0 w-75" style="font-size:12px"></p>';
+            $html[] = '<p class="m-auto p-0 w-75" style="font-size:12px">ここ</p>';
             $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
           }else{
+            // キャンセルボタンだった場所
             $html[] = '<button type="submit" class="btn btn-danger p-0 w-75" name="delete_date" style="font-size:12px" value="'. $day->authReserveDate($day->everyDay())->first()->setting_reserve .'">'. $reservePart .'</button>';
             $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
           }
-        }else{
+        }else{//予約がない日
           $html[] = $day->selectPart($day->everyDay());
         }
         $html[] = $day->getDate();

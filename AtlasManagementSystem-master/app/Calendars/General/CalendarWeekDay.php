@@ -20,6 +20,16 @@ class CalendarWeekDay{
     return;
   }
 
+  function getPart()
+  {
+    return $this->getPart;
+  }
+
+  function getData()
+  {
+    return $this->getData;
+  }
+
   /**
    * @return
    */
@@ -66,29 +76,43 @@ class CalendarWeekDay{
     // <ユーザーの予約確認> 12/15
     // ①現在ログインしているユーザーの"id"を取得
     $user_id = Auth::id();
-    // ②ReserveSettingsテーブルの"id"カラムがログインしているユーザーのID($user_id)と一致するデータを取得
-    $user_reservations = ReserveSettings::where('id', $user_id)
-    // ③ReserveSettingsテーブルの"setting_reserve"カラムが$ymdと一致するレコードに絞りこむ
-    // $ymdは日付を表す変数で文字列指定
-    ->where('setting_reserve', $ymd)
-    // ④ReserveSettingsモデルが関連する"users"リレーションを持つ場合に、
-    // そのリレーション先でさらに条件を絞りこむ処理を行っている
-    ->whereHas('users', function ($query) {
-      // クロージャ内の条件では、リレーション先(usersテーブル)に対して
-      // "limit_users"カラムが'confirmed'と一致するデータを条件に指定している
-      $query->where('limit_users','confirmed');
-    // ⑤上記で構築されたクエリを実行し条件に一致する全てのレコードを取得
-    })->get();
-    
+    $html = []; // 変数の初期化    
+
+    // ②ReserveSettingsテーブルからsetting_reserveが$ymdと一致するレコードを取得
+    $user_reservations = ReserveSettings::whereDate('setting_reserve', $ymd)
+    // ③whereHas('users', function($query))は、
+    // ReserveSettingsモデルが関連するusersテーブルのリレーション先に対して条件を追加する
+    // ReserveSettingsレコードに関連するusersテーブルの情報も調べる
+    ->whereHas('users', function ($query) use ($user_id) {
+      $query->where('user_id', $user_id) //ログインしているユーザーの予約だけを探す
+      // ④limit_users = 'confirmed'「予約が確定しているユーザーのみ」対象とする
+      ->where('limit_users', 'confirmed');
+    })
+    ->get();
+
     // 過去日の場合
-    if (strtotime($ymd) < strtotime($today)) {
+    if (strtotime($ymd) <= strtotime($today)) {
       if ($user_reservations->isEmpty()) {
           // 予約していない場合
           $html[] = '<p>受付終了</p>';
+          // ここに$getPartの数を増やす記述をする
+          // 要素数を揃える
+          // ①$getPart配列と$getDate配列の要素数をcount関数で比較
+          // 現状、$getPartは19,$getDateが31
+          // $values($getDateが31) $keys($getPartは19)
+        // if (count($getPart) > count($getDate)) {
+        //     $values = array_pad($getDate, count($getPart), null); // 足りない部分を null で埋める
+        //     // ②$values の要素数が $keys より多い場合
+        // } elseif (count($getPart) < count($getDate)) {
+        //     $values = array_slice($getDate, 0, count($getPart)); // 余分な要素を切り捨てる
+        // }
+        // $result = array_combine($getPart, $getDate);
+        // print_r($result);
       } else {
-        // 予約がある場合
+        // 予約がある場合のCalendarViewではselectPartは使用されていないため、表示がされていない
+        // CalendarViewの54行目に記述
         foreach ($user_reservations as $reservation) {
-          if (isset($reservation->setting_part)) {
+          if (!empty($reservation->setting_part)) {
             $html[] = '<p>リモ' . $reservation->setting_part . '部</p>';
           }
         }
@@ -121,10 +145,9 @@ class CalendarWeekDay{
       }else{
         $html[] = '<option value="3">リモ3部(残り'.$three_part_frame.'枠)</option>';
       }
-    }
-
       // セレクトボックスの閉じタグ
       $html[] = '</select>';
+    }
       // 配列 $html を文字列に結合し、最終的なHTMLコードとして返す。
       return implode('', $html);
     }
