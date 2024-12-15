@@ -109,7 +109,6 @@ class CalendarWeekDay{
         $html[] = '<option value="3">リモ3部(残り'.$three_part_frame.'枠)</option>';
       }
     }
-    
 
       // セレクトボックスの閉じタグ
       $html[] = '</select>';
@@ -118,6 +117,10 @@ class CalendarWeekDay{
 
   function getDate(){
     return '<input type="hidden" value="'. $this->carbon->format('Y-m-d') .'" name="getData[]" form="reserveParts">';
+  }
+
+  function __construct() {
+    $this->carbon = Carbon::now(); // 現在の日付と時刻を設定
   }
 
   function everyDay(){
@@ -131,6 +134,5 @@ class CalendarWeekDay{
   function authReserveDate($reserveDate){
     return Auth::user()->reserveSettings->where('setting_reserve', $reserveDate);
   }
-
 }
 }
