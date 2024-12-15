@@ -64,9 +64,12 @@ class CalendarWeekDay{
     }
 
     // ユーザーの予約確認
-    $user_reservations = ReserveSettingUsers::where('user_id', $user_id)
-    ->where('reserve_date', $ymd)
-    ->get();
+    $user_id = Auth::id();
+    $user_reservations = ReserveSettings::where('id', $user_id)
+    ->where('setting_reserve', $ymd)
+    ->whereHas('users', function ($query) {
+      $query->where('limit_users','confirmed');
+    })->get();
 
     // 過去日の場合
     if (strtotime($ymd) < strtotime($today)) {
@@ -114,14 +117,15 @@ class CalendarWeekDay{
       $html[] = '</select>';
       // 配列 $html を文字列に結合し、最終的なHTMLコードとして返す。
       return implode('', $html);
+    }
 
   function getDate(){
     return '<input type="hidden" value="'. $this->carbon->format('Y-m-d') .'" name="getData[]" form="reserveParts">';
   }
 
-  function __construct() {
-    $this->carbon = Carbon::now(); // 現在の日付と時刻を設定
-  }
+  // function __construct() {
+  //   $this->carbon = Carbon::now(); // 現在の日付と時刻を設定
+  // }
 
   function everyDay(){
     return $this->carbon->format('Y-m-d');
@@ -134,5 +138,4 @@ class CalendarWeekDay{
   function authReserveDate($reserveDate){
     return Auth::user()->reserveSettings->where('setting_reserve', $reserveDate);
   }
-}
 }
