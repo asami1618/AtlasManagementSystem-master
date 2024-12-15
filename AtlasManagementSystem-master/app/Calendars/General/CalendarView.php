@@ -60,16 +60,30 @@ class CalendarView{
           }else if($reservePart == 3){
             $reservePart = "リモ3部";
           }
-          // 12/15　どういう処理か調べる
+          // 12/15　
+          // 7３行目の処理の目的:この条件により$day->everyDay()が
+          // $startDayから$toDayの範囲内の日付であるかどうかを判定している
+
+          // $startDay: 日付範囲の開始日を表している変数
+          // $toDay: 日付範囲の終了日を表している変数
+          // $day->everyDay(): 現在の日付（または特定の繰り返し日）を取得するメソッド
+
+          // $startDay <= $day->everyDay():
+          // ->現在の日付（$day->everyDay()）が日付範囲の開始日よりも後か、または等しい
+          // $toDay >= $day->everyDay():
+          // ->現在の日付（$day->everyDay()）が日付範囲の終了日よりも前か、または等しい
+
+          // 12/15　条件が成立した場合の処理
           if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
-            $html[] = '<p class="m-auto p-0 w-75" style="font-size:12px">ここ</p>';
-            $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
+            $reserve = $day->authReserveDate($day->everyDay())->first();
+            $html[] = '<p class="m-auto p-0 w-75" style="font-size:12px">リモ' . $reserve->setting_part  . '部</p>';
+            $html[] = '<input type="hidden" name="getPart[]" value="' . $day->everyDay() . '" form="reserveParts">';
           }else{
             // キャンセルボタンだった場所
             $html[] = '<button type="submit" class="btn btn-danger p-0 w-75" name="delete_date" style="font-size:12px" value="'. $day->authReserveDate($day->everyDay())->first()->setting_reserve .'">'. $reservePart .'</button>';
             $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
           }
-        }else{//予約がない日
+        }else{ //予約がない日->CalendarWeekDayクラスのselectPart()メソッド
           $html[] = $day->selectPart($day->everyDay());
         }
         $html[] = $day->getDate();
