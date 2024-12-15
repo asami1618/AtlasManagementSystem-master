@@ -63,28 +63,38 @@ class CalendarWeekDay{
       $three_part_frame = '0';
     }
 
-    // ユーザーの予約確認
+    // <ユーザーの予約確認> 12/15
+    // ①現在ログインしているユーザーの"id"を取得
     $user_id = Auth::id();
+    // ②ReserveSettingsテーブルの"id"カラムがログインしているユーザーのID($user_id)と一致するデータを取得
     $user_reservations = ReserveSettings::where('id', $user_id)
+    // ③ReserveSettingsテーブルの"setting_reserve"カラムが$ymdと一致するレコードに絞りこむ
+    // $ymdは日付を表す変数で文字列指定
     ->where('setting_reserve', $ymd)
+    // ④ReserveSettingsモデルが関連する"users"リレーションを持つ場合に、
+    // そのリレーション先でさらに条件を絞りこむ処理を行っている
     ->whereHas('users', function ($query) {
+      // クロージャ内の条件では、リレーション先(usersテーブル)に対して
+      // "limit_users"カラムが'confirmed'と一致するデータを条件に指定している
       $query->where('limit_users','confirmed');
+    // ⑤上記で構築されたクエリを実行し条件に一致する全てのレコードを取得
     })->get();
-
+    
     // 過去日の場合
     if (strtotime($ymd) < strtotime($today)) {
       if ($user_reservations->isEmpty()) {
           // 予約していない場合
           $html[] = '<p>受付終了</p>';
       } else {
-          // 予約がある場合
-          $html[] = '<p>参加した講座:</p>';
-          foreach ($user_reservations as $reservation) {
-              $html[] = '<p>リモ' . $reservation->part . '部</p>';
+        // 予約がある場合
+        foreach ($user_reservations as $reservation) {
+          if (isset($reservation->setting_part)) {
+            $html[] = '<p>リモ' . $reservation->setting_part . '部</p>';
           }
+        }
       }
     } else {    
-    // HTMLのセレクトボックス生成
+    // 現在または未来日のセレクトボックス生成
     $html[] = '<select name="getPart[]" class="border-primary" style="width:70px; border-radius:5px;" form="reserveParts">';
     $html[] = '<option value="" selected></option>';   
     
