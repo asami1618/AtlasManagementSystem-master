@@ -95,8 +95,18 @@ class CalendarWeekDay{
       if ($user_reservations->isEmpty()) {
           // 予約していない場合
           $html[] = '<p>受付終了</p>';
-          // ここに$getPartの数を増やす記述をする
-          // 要素数を揃える
+          // 12/17　ここに$getPartと$getDatの数を揃える記述をする
+          if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
+            // HTMLのname属性からデータを取得
+            $getPart = $_POST['getPart'] ?? null; // 'getPart'の値
+            $getDate = $_POST['getDate'] ?? null; // 'getDate'の値
+            var_dump($getPart, $getDate);
+
+            // 関数を呼び出し、取得したデータを渡す
+            $result = selectPart($getPart, $getDate);
+          }
+
+
           // ①$getPart配列と$getDate配列の要素数をcount関数で比較
           // 現状、$getPartは19,$getDateが31
           // $values($getDateが31) $keys($getPartは19)
