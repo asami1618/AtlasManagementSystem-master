@@ -28,10 +28,10 @@ class CalendarWeek{
         $days[] = $day;
         $tmpDay->addDay(1);
         continue;
-       }
-       $day = new CalendarWeekDay($tmpDay->copy());
-       $days[] = $day;
-       $tmpDay->addDay(1);
+      }
+      $day = new CalendarWeekDay($tmpDay->copy());
+      $days[] = $day;
+      $tmpDay->addDay(1);
     }
     return $days;
   }

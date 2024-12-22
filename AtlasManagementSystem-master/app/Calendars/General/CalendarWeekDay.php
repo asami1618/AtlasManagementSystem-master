@@ -95,6 +95,7 @@ class CalendarWeekDay{
       if ($user_reservations->isEmpty()) {
         // 予約していない場合
         $html[] = '<p>受付終了</p>';
+        // 12/22　下記追記・CalendarView80行目の「' . $day->everyDay() . '」を削除
         $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
       } else {
         // 予約がある場合のCalendarViewではselectPartは使用されていないため、表示がされていない

@@ -34,19 +34,19 @@ class CalendarView{
     $weeks = $this->getWeeks();
     foreach($weeks as $week){
       $html[] = '<tr class="'.$week->getClassName().'">';
-
+      
       $days = $week->getDays();
       foreach($days as $day){
         $startDay = $this->carbon->copy()->format("Y-m-01");
         $toDay = $this->carbon->copy()->format("Y-m-d");
-
+        
         if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
           $html[] = '<td class="past-day border">';
         }else{
           $html[] = '<td class="border '.$day->getClassName().'">';
         }
         $html[] = $day->render();
-
+        
         // 予約状態のチェック
         // $day->everyDay() は現在のカレンダーの日付
         // $day->authReserveDay() は、現在ログインしているユーザーが予約している日付のリスト。
@@ -63,16 +63,16 @@ class CalendarView{
           // 12/15　
           // 7３行目の処理の目的:この条件により$day->everyDay()が
           // $startDayから$toDayの範囲内の日付であるかどうかを判定している
-
+          
           // $startDay: 日付範囲の開始日を表している変数
           // $toDay: 日付範囲の終了日を表している変数
           // $day->everyDay(): 現在の日付（または特定の繰り返し日）を取得するメソッド
-
+          
           // $startDay <= $day->everyDay():
           // ->現在の日付（$day->everyDay()）が日付範囲の開始日よりも後か、または等しい
           // $toDay >= $day->everyDay():
           // ->現在の日付（$day->everyDay()）が日付範囲の終了日よりも前か、または等しい
-
+          
           // 12/15　条件が成立した場合の処理
           if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
             $reserve = $day->authReserveDate($day->everyDay())->first();
@@ -80,9 +80,10 @@ class CalendarView{
             $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
           }else{
             // キャンセルボタンだった場所
-            $html[] = '<button type="submit" class="btn btn-danger p-0 w-75" name="delete_date" style="font-size:12px" value="'. $day->authReserveDate($day->everyDay())->first()->setting_reserve .'">'. $reservePart .'</button>';
+            $html[] = '<button type="button" class="btn btn-danger p-0 w-75" data-bs-toggle="modal" data-bs-target="#testModal"' . $day->authReserveDate($day->everyDay())->first()->setting_reserve .' " style="font-size:12px">'. $reservePart .'</button>';
             $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
           }
+          
         }else{ //予約がない日->CalendarWeekDayクラスのselectPart()メソッド
           $html[] = $day->selectPart($day->everyDay());
         }
@@ -94,7 +95,10 @@ class CalendarView{
     $html[] = '</tbody>';
     $html[] = '</table>';
     $html[] = '</div>';
-    $html[] = '<form action="/reserve/calendar" method="post" id="reserveParts">'.csrf_field().'</form>';
+    $html[] = '
+    <!-- モーダル -->
+    ';
+        $html[] = '<form action="/reserve/calendar" method="post" id="reserveParts">'.csrf_field().'</form>';
     $html[] = '<form action="/delete/calendar" method="post" id="deleteParts">'.csrf_field().'</form>';
 
     return implode('', $html);

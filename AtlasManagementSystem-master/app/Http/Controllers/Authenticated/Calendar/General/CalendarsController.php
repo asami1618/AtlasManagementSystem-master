@@ -26,6 +26,8 @@ class CalendarsController extends Controller
             $getPart = $request->getPart;
             $getDate = $request->getData;
             // dd($getPart,$getDate);
+            // 12/22　array_combineとは
+            // ->連想配列(キーと値のペア)を作成するphpの関数
             $reserveDays = array_filter(array_combine($getDate, $getPart));
             foreach($reserveDays as $key => $value){
                 $reserve_settings = ReserveSettings::where('setting_reserve', $key)->where('setting_part', $value)->first();
