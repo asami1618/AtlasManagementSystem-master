@@ -31,14 +31,18 @@ class CalendarWeekDay{
 
     // 12/15　スクール予約画面
     $html[] = '<div class="text-left">';
+    // 12/22　追記
     if($one_part){
-      $html[] = '<p class="day_part m-0 pt-1"><a href="/calendar/' . urlencode($ymd) .'/1">1部</a></p>';
+      $count_one = onePartFrame($ymd, 1); // 1部の予約人数を取得
+      $html[] = '<p class="day_part m-0 pt-1"><a href="/calendar/' . urlencode($ymd) .'/1">1部</a><span class="reservation-count">(' . $count_one . ')</span></p>';
     }
     if($two_part){
-      $html[] = '<p class="day_part m-0 pt-1"><a href="/calendar/' . urlencode($ymd) .'/2">2部</a></p>';
+      $count_two = reserveSettings($ymd, 2); // 2部の予約人数を取得
+      $html[] = '<p class="day_part m-0 pt-1"><a href="/calendar/' . urlencode($ymd) .'/2">2部</a><span class="reservation-count">(' . $ccount_two . ')</span></p>';
     }
     if($three_part){
-      $html[] = '<p class="day_part m-0 pt-1"><a href="/calendar/' . urlencode($ymd) .'/3">3部</a></p>';
+      $count_three = reserveSettings($ymd, 3); // 3部の予約人数を取得
+      $html[] = '<p class="day_part m-0 pt-1"><a href="/calendar/' . urlencode($ymd) .'/3">3部</a><span class="reservation-count">(' . $count_three . ')</span></p>';
     }
     $html[] = '</div>';
 
