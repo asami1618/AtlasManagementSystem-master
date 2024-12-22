@@ -93,31 +93,9 @@ class CalendarWeekDay{
     // 過去日の場合
     if (strtotime($ymd) <= strtotime($today)) {
       if ($user_reservations->isEmpty()) {
-          // 予約していない場合
-          $html[] = '<p>受付終了</p>';
-          // 12/17　ここに$getPartと$getDatの数を揃える記述をする
-          if ($_SERVER['REQUEST_METHOD'] === 'POST' ) {
-            // HTMLのname属性からデータを取得
-            $getPart = $_POST['getPart'] ?? null; // 'getPart'の値
-            $getDate = $_POST['getDate'] ?? null; // 'getDate'の値
-            var_dump($getPart, $getDate);
-
-            // 関数を呼び出し、取得したデータを渡す
-            $result = selectPart($getPart, $getDate);
-          }
-
-
-          // ①$getPart配列と$getDate配列の要素数をcount関数で比較
-          // 現状、$getPartは19,$getDateが31
-          // $values($getDateが31) $keys($getPartは19)
-        // if (count($getPart) > count($getDate)) {
-        //     $values = array_pad($getDate, count($getPart), null); // 足りない部分を null で埋める
-        //     // ②$values の要素数が $keys より多い場合
-        // } elseif (count($getPart) < count($getDate)) {
-        //     $values = array_slice($getDate, 0, count($getPart)); // 余分な要素を切り捨てる
-        // }
-        // $result = array_combine($getPart, $getDate);
-        // print_r($result);
+        // 予約していない場合
+        $html[] = '<p>受付終了</p>';
+        $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
       } else {
         // 予約がある場合のCalendarViewではselectPartは使用されていないため、表示がされていない
         // CalendarViewの54行目に記述
