@@ -76,6 +76,12 @@ class CalendarWeekDay{
     // 条件に一致する最初のレコードを取得　この結果は「$reserveSettings」に格納される
 
     // 2.リレーションを通じてユーザー数を取得
+    // $reserveSettings->users()
+    // ->「ReserveSettings」モデルに定義されたリレーション(users)を使って「ReserveSettings」レコードに関連づけられている「User」レコードを取得
+    // 今回は「belongsToMany」と設定されている
+
+    // ->count();
+    // 関連づけられた「User」レコードの数をカウント　この数は「$count_one」に格納される
 
 
     return implode("", $html);
