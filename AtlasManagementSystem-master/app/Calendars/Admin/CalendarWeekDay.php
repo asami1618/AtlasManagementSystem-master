@@ -29,7 +29,7 @@ class CalendarWeekDay{
     $two_part = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '2')->first();
     $three_part = ReserveSettings::with('users')->where('setting_reserve', $ymd)->where('setting_part', '3')->first();
 
-    // 12/15　スクール予約画面
+    // 12/15　スクール予約確認画面
     $html[] = '<div class="text-left">';
     if($one_part){
       // 1/4 追記　リレーションからユーザー数を取得
@@ -38,7 +38,7 @@ class CalendarWeekDay{
       ->first();
       $count_one = $reserveSettings->users()->count();
       // dd($count_one);
-      $html[] = '<p class="day_part m-0 pt-1"><a href="/calendar/' . urlencode($ymd) .'/1">1部</a><span class="reservation-count">(' . $count_one . ')</span></p>';
+      $html[] = '<p class="day_part m-0 pt-1"><a href="/calendar/' . urlencode($ymd) .'/1">1部</a><span class="reservation-count"> ' . $count_one . ' </span></p>';
     }
     if($two_part){
       // 1/4 追記　リレーションからユーザー数を取得
@@ -47,7 +47,7 @@ class CalendarWeekDay{
       ->first();
       $count_two = $reserveSettings->users()->count();
       // dd($count_one);
-      $html[] = '<p class="day_part m-0 pt-1"><a href="/calendar/' . urlencode($ymd) .'/2">2部</a><span class="reservation-count">(' . $count_two . ')</span></p>';
+      $html[] = '<p class="day_part m-0 pt-1"><a href="/calendar/' . urlencode($ymd) .'/2">2部</a><span class="reservation-count"> ' . $count_two . ' </span></p>';
     }
     if($three_part){
       $reserveSettings = new ReserveSettings(); // 1/4追記　インスタンス生成
@@ -57,9 +57,26 @@ class CalendarWeekDay{
       ->first();
       $count_three = $reserveSettings->users()->count();
       // dd($count_one);
-      $html[] = '<p class="day_part m-0 pt-1"><a href="/calendar/' . urlencode($ymd) .'/3">3部</a><span class="reservation-count">(' . $count_three . ')</span></p>';
+      $html[] = '<p class="day_part m-0 pt-1"><a href="/calendar/' . urlencode($ymd) .'/3">3部</a><span class="reservation-count"> ' . $count_three . ' </span></p>';
     }
     $html[] = '</div>';
+
+    // 1/4 「予約している人数を表示」処理解説
+    // 1.「$reserveSettings」にデータを取得する部分
+    // <ReserveSettings::where>
+    // ->「ReserveSettings」テーブルから特定の条件に一致するレコードを検索
+
+    // <条件1 ('setting_reserve', $ymd)>
+    // -> 「ReserveSettings」テーブルの「setting_reserve」カラムが＄ymd(ユーザーが選択した日付)と一致するレコードを検索する
+
+    // <条件2 ('setting_part', 1)>
+    // -> 「ReserveSettings」テーブルの「setting_part」カラムが1(「1部」を意味する値)であるレコードに絞り込む
+
+    // ・->first();
+    // 条件に一致する最初のレコードを取得　この結果は「$reserveSettings」に格納される
+
+    // 2.リレーションを通じてユーザー数を取得
+
 
     return implode("", $html);
   }
