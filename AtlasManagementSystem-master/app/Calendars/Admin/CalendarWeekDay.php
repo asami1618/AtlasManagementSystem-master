@@ -31,17 +31,32 @@ class CalendarWeekDay{
 
     // 12/15　スクール予約画面
     $html[] = '<div class="text-left">';
-    // 12/22　追記
     if($one_part){
-      $count_one = onePartFrame($ymd, 1); // 1部の予約人数を取得
+      // 1/4 追記　リレーションからユーザー数を取得
+      $reserveSettings = ReserveSettings::where('setting_reserve', $ymd) //「setting_reserve」カラムが　$ymd の値と一致するレコードを検索する
+      ->where('setting_part', 1) //「setting_part」カラムが「1」であるレコードを条件に追加・この部分で、2つの条件（setting_reserve が $ymd で、setting_part が 1）に一致するレコードを絞り込み
+      ->first();
+      $count_one = $reserveSettings->users()->count();
+      // dd($count_one);
       $html[] = '<p class="day_part m-0 pt-1"><a href="/calendar/' . urlencode($ymd) .'/1">1部</a><span class="reservation-count">(' . $count_one . ')</span></p>';
     }
     if($two_part){
-      $count_two = reserveSettings($ymd, 2); // 2部の予約人数を取得
-      $html[] = '<p class="day_part m-0 pt-1"><a href="/calendar/' . urlencode($ymd) .'/2">2部</a><span class="reservation-count">(' . $ccount_two . ')</span></p>';
+      // 1/4 追記　リレーションからユーザー数を取得
+      $reserveSettings = ReserveSettings::where('setting_reserve', $ymd) //「setting_reserve」カラムが　$ymd の値と一致するレコードを検索する
+      ->where('setting_part', 2) //「setting_part」カラムが「2」であるレコードを条件に追加・この部分で、2つの条件（setting_reserve が $ymd で、setting_part が 2）に一致するレコードを絞り込み
+      ->first();
+      $count_two = $reserveSettings->users()->count();
+      // dd($count_one);
+      $html[] = '<p class="day_part m-0 pt-1"><a href="/calendar/' . urlencode($ymd) .'/2">2部</a><span class="reservation-count">(' . $count_two . ')</span></p>';
     }
     if($three_part){
-      $count_three = reserveSettings($ymd, 3); // 3部の予約人数を取得
+      $reserveSettings = new ReserveSettings(); // 1/4追記　インスタンス生成
+      // 1/4 追記　リレーションからユーザー数を取得
+      $reserveSettings = ReserveSettings::where('setting_reserve', $ymd) //「setting_reserve」カラムが　$ymd の値と一致するレコードを検索する
+      ->where('setting_part', 3) //「setting_part」カラムが「3」であるレコードを条件に追加・この部分で、2つの条件（setting_reserve が $ymd で、setting_part が 3）に一致するレコードを絞り込み
+      ->first();
+      $count_three = $reserveSettings->users()->count();
+      // dd($count_one);
       $html[] = '<p class="day_part m-0 pt-1"><a href="/calendar/' . urlencode($ymd) .'/3">3部</a><span class="reservation-count">(' . $count_three . ')</span></p>';
     }
     $html[] = '</div>';
