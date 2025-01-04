@@ -20,6 +20,8 @@ class CalendarsController extends Controller
     }
 
     public function reserveDetail($date, $part){
+        // 1/4追記　指定された日付($date)と部($part)に該当する予約情報を取得しviewに渡している
+        // そのため、viewで詳細情報を表示することができる
         $reservePersons = ReserveSettings::with('users')->where('setting_reserve', $date)->where('setting_part', $part)->get();
         return view('authenticated.calendar.admin.reserve_detail', compact('reservePersons', 'date', 'part'));
     }
