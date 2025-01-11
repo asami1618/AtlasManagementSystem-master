@@ -145,6 +145,24 @@ li{
 .post_bottom_area{
   justify-content: space-between;
 }
+
+.input-group.search{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+/* いいねした投稿 */
+input.btn.pink-bg{
+  background-color: #ffcccc; /* ピンク色 */
+  color: #ffffff; /* 白文字 */
+}
+
+/* 自分の投稿 */
+input.btn.yellow-bg{
+  background-color: #ffcc33; /* 黄色 */
+  color: #ffffff; /* 白文字 */
+}
+
 .like_btn,
 .un_like_btn{
   cursor:pointer;
@@ -204,6 +222,10 @@ li{
 .category-menu-item-btn.open::after {
   top: 45%; 
   transform: rotate(-45deg);
+}
+
+.category_search_box{
+  margin-left: 15px;
 }
 
 
