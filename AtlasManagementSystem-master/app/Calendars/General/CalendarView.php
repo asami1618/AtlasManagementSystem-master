@@ -76,14 +76,40 @@ class CalendarView{
           // 12/15　条件が成立した場合の処理
           if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
             $reserve = $day->authReserveDate($day->everyDay())->first();
-            $html[] = '<p class="m-auto p-0 w-75" style="font-size:12px">リモ' . $reserve->setting_part  . '部</p>';
+            $html[] = '<p class="m-auto p-0 w-75" style="font-size:16px">リモ' . $reserve->setting_part  . '部</p>';
             $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
           }else{
-            // キャンセルボタンだった場所
-            $html[] = '<button type="button" class="btn btn-danger p-0 w-75" data-bs-toggle="modal" data-bs-target="#testModal"' . $day->authReserveDate($day->everyDay())->first()->setting_reserve .' " style="font-size:12px">'. $reservePart .'</button>';
-            $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
+            // 予約データを取得する例 (配列を仮定)
+            $date = $day->everyDay(); // 予約日
+            $reserve = $day->authReserveDate($date)->first();
+
+            if($reserve) {
+              $part = $reserve->setting_part;
+              // キャンセルボタン
+              $html[] = '<button type="button" class="btn btn-danger p-0 w-75" data-bs-toggle="modal" data-bs-target="#cancelModal"'  . $day->authReserveDate($day->everyDay())->first()->setting_reserve .' " style="font-size:12px">'. $reservePart .'</button>';
+              $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
+            }
+
+            // モーダルを追加
+            $html[] = '<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">';
+            $html[] = '  <div class="modal-dialog">';
+            $html[] = '    <div class="modal-content">';
+            $html[] = '      <div class="modal-header">';
+            $html[] = '        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
+            $html[] = '      </div>';
+            $html[] = '      <div class="modal-body">';
+            $html[] = '        <p>予約日:'. htmlspecialchars($date, ENT_QUOTES, 'UTF-8') . '</p>';
+            $html[] = '        <p>時間:'. $reserve->setting_part  .'部</p>';
+            $html[] = '        <p>上記の予約をキャンセルしてもよろしいですか？</p>';
+            $html[] = '      </div>';
+            $html[] = '      <div class="modal-footer">';
+            $html[] = '        <button type="button" class="btn btn-secondary bg-primary" data-bs-dismiss="modal">閉じる</button>';
+            $html[] = '        <button type="button" class="btn btn-danger" id="confirmCancel">キャンセルする</button>';
+            $html[] = '      </div>';
+            $html[] = '    </div>';
+            $html[] = '  </div>';
+            $html[] = '</div>';
           }
-          
         }else{ //予約がない日->CalendarWeekDayクラスのselectPart()メソッド
           $html[] = $day->selectPart($day->everyDay());
         }
@@ -92,12 +118,13 @@ class CalendarView{
       }
       $html[] = '</tr>';
     }
+    $html[] = '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>';
     $html[] = '</tbody>';
     $html[] = '</table>';
     $html[] = '</div>';
     $html[] = '
     <!-- モーダル -->
-
+    
     ';
     $html[] = '<form action="/reserve/calendar" method="post" id="reserveParts">'.csrf_field().'</form>';
     $html[] = '<form action="/delete/calendar" method="post" id="deleteParts">'.csrf_field().'</form>';

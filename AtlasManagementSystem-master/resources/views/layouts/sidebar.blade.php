@@ -19,17 +19,17 @@
   <div class="d-flex">
     <div class="sidebar">
       @section('sidebar')
-      <p><img src="{{ asset('/image/home.png') }}"  width="25" height="25"><a href="{{ route('top.show') }}">マイページ</a></p>
-      <p><img src="{{ asset('/image/logout.png') }}"  width="25" height="25"><a href="/logout">ログアウト</a></p>
-      <p><img src="{{ asset('/image/calender3.png') }}"  width="25" height="25"><a href="{{ route('calendar.general.show',['user_id' => Auth::id()]) }}">スクール予約</a></p>
+      <p><img src="{{ asset('/image/home.png') }}" class="sidebar_icon" width="25" height="25"><a href="{{ route('top.show') }}">マイページ</a></p>
+      <p><img src="{{ asset('/image/logout.png') }}" class="sidebar_icon" width="25" height="25"><a href="/logout">ログアウト</a></p>
+      <p><img src="{{ asset('/image/calender3.png') }}" class="sidebar_icon" width="25" height="25"><a href="{{ route('calendar.general.show',['user_id' => Auth::id()]) }}">スクール予約</a></p>
 
       @if(Auth::user()->role !== 4)
-      <p><img src="{{ asset('/image/calender2.png') }}"  width="25" height="25"><a href="{{ route('calendar.admin.show',['user_id' => Auth::id()]) }}">スクール予約確認</a></p>
-      <p><img src="{{ asset('/image/calender1.png') }}"  width="25" height="25"><a href="{{ route('calendar.admin.setting',['user_id' => Auth::id()]) }}">スクール枠登録</a></p>
+      <p><img src="{{ asset('/image/calender2.png') }}" class="sidebar_icon" width="25" height="25"><a href="{{ route('calendar.admin.show',['user_id' => Auth::id()]) }}">スクール予約確認</a></p>
+      <p><img src="{{ asset('/image/calender1.png') }}" class="sidebar_icon" width="25" height="25"><a href="{{ route('calendar.admin.setting',['user_id' => Auth::id()]) }}">スクール枠登録</a></p>
       @endif
 
-      <p><img src="{{ asset('/image/comment.png') }}"  width="25" height="25"><a href="{{ route('post.show') }}">掲示板</a></p>
-      <p><img src="{{ asset('/image/user.png') }}"  width="25" height="25"><a href="{{ route('user.show') }}">ユーザー検索</a></p>
+      <p><img src="{{ asset('/image/comment.png') }}" class="sidebar_icon" width="25" height="25"><a href="{{ route('post.show') }}">掲示板</a></p>
+      <p><img src="{{ asset('/image/user.png') }}" class="sidebar_icon" width="25" height="25"><a href="{{ route('user.show') }}">ユーザー検索</a></p>
       @show
     </div>
     <div class="main-container">

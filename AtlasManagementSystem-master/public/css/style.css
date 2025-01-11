@@ -24,13 +24,19 @@ li{
 
 .atlas-image {
   display: block;
+  margin-top: 130px; /* 上の外側余白 */
+  margin-bottom: 25px;
+}
+
+.text-center{
+  margin-bottom: 20px;
 }
 
 
 
 /* サイドバー */
 .sidebar{
-  width:150px;
+  width:210px;
   height:100vh;
   background-color:#03AAD2;
   font-weight:bold;
@@ -40,8 +46,18 @@ li{
 }
 .sidebar p a{
   color:#FFF;
+  letter-spacing: 0.1em; /* 文字間の余白を指定 */
+  padding-left: 10px; /* 左の内側余白 */
 }
 
+.sidebar p {
+  margin-top: 20px;  /* 上の余白 */
+  margin-bottom: 20px; /* 各項目の間に余白を追加 */
+}
+
+.sidebar_icon{
+  margin-left: 10px; /* 左の外側余白 */
+}
 /* トップページ */
 .user_status{
   border-radius:10px;
