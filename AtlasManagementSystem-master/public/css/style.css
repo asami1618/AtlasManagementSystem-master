@@ -457,7 +457,6 @@ select {
   height: 8px;
   position: absolute;
   right: 0; /* ボタンの右端に配置 */
-  right: 25px;
   top: 38%;
   transform: rotate(135deg);
   transition: transform .3s ease-in-out, top .3s ease-in-out;
