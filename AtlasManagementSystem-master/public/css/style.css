@@ -320,16 +320,76 @@ input.btn.yellow-bg{
   font-size:12px;
 }
 .one_person{
-  width:250px;
-  height:250px;
+  /* width:250px;
+  height:250px; */
+  border: 1px solid #ccc; /* 枠線 */
+  border-radius: 10px; /* 角を丸くする */
+  padding: 15px; /* 内側余白 */
+  background-color: #fff; /* 背景色 */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 軽い影をつける */
+  width: calc(33.33% - 20px); /* 3列配置を想定（スペース分を差し引く） */
+  box-sizing: border-box;
+  margin: 8px;
 }
-.search_conditions span{
+
+/* 検索条件の追加 開閉*/
+.p.m-0.search_conditions {
+  display: flex;           /* 横並びにする */
+  align-items: center;     /* 縦方向を中央揃えにする */
+}
+
+.add_search_conditions {
+  position: relative;
+  align-items: center;     /* 縦方向を中央揃えにする */
   cursor:pointer;
+  border-bottom: #000;
 }
-.search_conditions_inner{
-  display:none;
-  background:#FFF;
+
+.add_search_conditions::after{
+  border-right: solid 2px #000;
+  border-top: solid 2px #000;
+  content: "";
+  display: block;
+  height: 8px;
+  right: 25px;
+  top: 38%;
+  transform: rotate(135deg);
+  transition: transform .3s ease-in-out, top .3s ease-in-out;
+  width: 8px;
 }
+
+.add_search_conditions.open::after {
+  top: 45%; 
+  transform: rotate(-45deg);
+}
+
+/* スライドコンテンツ */
+.search_conditions_inner {
+  display: none; /* 初期状態では非表示 */
+  overflow: hidden;
+  padding: 10px 15px;
+  background-color: #ECF1F6;
+}
+
+
+/* セクションのスタイル */
+.search_conditions_inner div {
+  margin-bottom: 15px;
+}
+
+/* ラジオボタンやチェックボックスのスタイル */
+input[type="radio"],
+input[type="checkbox"] {
+  margin-left: 10px;
+}
+
+select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
 .subject_edit_btn{
   font-size:12px;
   color:#0000FF;
@@ -337,4 +397,44 @@ input.btn.yellow-bg{
 }
 .subject_inner{
   display:none;
+}
+
+/* 内部の要素を縦並びにする */
+.search_area > div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* 各要素間の間隔 */
+  margin-bottom: 20px; /* セクションごとの余白 */
+}
+
+.search_free_word_area{
+  margin-top: 50px;
+}
+
+.search_title{
+  font-size: 25px;
+  color: #778899;
+}
+
+.free_word{
+  border: none; /* 枠線を削除 */
+  padding: 10px; /* 余白の調整 */
+  width: 80%; /* フル幅（必要に応じて調整） */
+  background-color: #DCDCDC;
+  border-radius: 8px; /* 全体の角を丸くする */
+  margin-left: 10px; /* 要素の外側の余白 */
+}
+
+.caregory_title, .updown_title{
+  font-size: 15px;
+  color: #778899;
+}
+
+.category_select, .updown_select, .engineer{
+  border: none; /* 枠線を削除 */
+  padding: 10px; /* 余白の調整 */
+  width: 30%; /* フル幅（必要に応じて調整） */
+  background-color: #DCDCDC;
+  border-radius: 8px; /* 全体の角を丸くする */
+  margin-left: 10px; /* 要素の外側の余白 */
 }

@@ -33,13 +33,13 @@ class UsersController extends Controller
         
         $userFactory = new SearchResultFactories();
         $users = $userFactory->initializeUsers($keyword, $category, $updown, $gender, $role, $subjects);
-        $allSubjects = Subjects::all();
+        $allSubjects = Subjects::all()->unique('subject');
         return view('authenticated.users.search', compact('users', 'allSubjects'));
     }
 
     public function userProfile($id){
         $user = User::with('subjects')->findOrFail($id);
-        $subject_lists = Subjects::all();
+        $subject_lists = Subjects::all()->unique('subject');
         return view('authenticated.users.profile', compact('user', 'subject_lists'));
     }
 
