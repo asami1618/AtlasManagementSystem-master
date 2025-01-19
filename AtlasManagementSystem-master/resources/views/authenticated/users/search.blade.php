@@ -89,13 +89,13 @@
         </p>
         <div class="search_conditions_inner">
           <div>
-            <p>性別</p>
+            <p class="sex_title">性別</p>
             <span>男</span><input type="radio" name="sex" value="1" form="userSearchRequest">
             <span>女</span><input type="radio" name="sex" value="2" form="userSearchRequest">
             <span>その他</span><input type="radio" name="sex" value="3" form="userSearchRequest">
           </div>
           <div>
-            <p>権限</p>
+            <p class="role_title">権限</p>
             <select name="role" form="userSearchRequest" class="engineer">
               <option selected disabled>----</option>
               <option value="1">教師(国語)</option>
@@ -105,7 +105,7 @@
             </select>
           </div>
           <div class="selected_engineer">
-            <p>選択科目</p>
+            <p class="subject_title">選択科目</p>
             @foreach($allSubjects as $subject)
                 <input type="checkbox" id="subject_{{ $subject->id }}" name="subject[]" value="{{ $subject->id }}" form="userSearchRequest">
                 <label for="subject_{{ $subject->id }}">{{ $subject->subject }}</label>
@@ -118,16 +118,25 @@
       </div>
 
       <!-- 検索ボタン -->
-      <div>
-        <input type="submit" name="search_btn" class="btn btn-info" value="検索" form="userSearchRequest">
-      </div>
-
-      <!-- リセットボタン -->
-      <div>
-        <input type="reset" value="リセット" form="userSearchRequest">
-      </div>
+      <form action="{{ route('user.show') }}" method="get" id="userSearchRequest">
+        <div class="users_search_area">
+          <input type="submit" name="search_btn" class="users_search_btn btn btn-info" value="検索" form="userSearchRequest">
+        </div>
+        
+        <!-- リセットボタン -->
+        <div class="users_reset_area">
+          <a href="#" onclick="resetForm(event)">リセット</a>
+        </div>
+      </form>
+      <script>
+        function resetForm(event) {
+          event.preventDefault(); // デフォルトのリンク動作を無効化
+          const form = document.getElementById('userSearchRequest');
+          form.reset(); // フォームのリセット
+        }
+      </script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     </div>
-    <form action="{{ route('user.show') }}" method="get" id="userSearchRequest"></form>
   </div>
 </div>
 @endsection

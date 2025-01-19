@@ -425,7 +425,8 @@ select {
   margin-left: 10px; /* 要素の外側の余白 */
 }
 
-.caregory_title, .updown_title{
+.caregory_title, .updown_title, .sex_title,
+.role_title, .subject_title{
   font-size: 15px;
   color: #778899;
 }
@@ -437,4 +438,33 @@ select {
   background-color: #DCDCDC;
   border-radius: 8px; /* 全体の角を丸くする */
   margin-left: 10px; /* 要素の外側の余白 */
+}
+
+/* ユーザー検索ボタン */
+.users_search_area{
+  display: flex;          /* Flexbox を適用 */
+  justify-content: center; /* 横方向に中央揃え */
+  align-items: center;     /* 縦方向に中央揃え */
+  height: 100px;           /* 必要に応じて高さを設定 */
+}
+
+.users_search_btn{
+  width: 80%;
+}
+
+/* ユーザー検索　リセットボタン */
+.users_reset_area{
+  display: flex;          /* Flexbox を適用 */
+  justify-content: center; /* 横方向に中央揃え */
+  align-items: center;     /* 縦方向に中央揃え */
+}
+
+
+/* 予約詳細確認画面 */
+/* Bootstrap の table-striped の背景色をカスタマイズ */
+.table-striped tbody tr:nth-child(odd) {
+  background-color: #66b2f4; /* 明るい青色 */
+}
+.table-striped tbody tr:nth-child(even) {
+  background-color: #ffffff; /* 白色 */
 }

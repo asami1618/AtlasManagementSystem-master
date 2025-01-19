@@ -10,12 +10,11 @@
       <span class="ml-3">{{ $part }}部</span>
     </p>
     <div class="h-75 border">
-      <table class="">
+      <table class="table table-striped">
         <thead>
           <tr class="text-center">
             <th class="w-25">ID</th>
-            <th class="w-25">名前</th>
-            <th class="w-25"></th>
+            <th class="w-50">名前</th>
             <th class="w-25">予約場所</th>
           </tr>
         </thead>
@@ -28,8 +27,7 @@
             @foreach($reserve->users as $user)
               <tr class="text-center">
                 <td class="w-25">{{ $user->id }}</td>
-                <td class="w-25">{{ $user->over_name }}</td>
-                <td class="w-25">{{ $user->under_name}}</td>
+                <td class="w-25">{{ $user->over_name }}{{ $user->under_name}}</td>
                 <!-- 予約場所が設定されていない場合は、デフォルト値として「リモート」を表示 -->
                 <td class="w-25">{{ $reserve->location ?? 'リモート'}}</td>
               </tr>
