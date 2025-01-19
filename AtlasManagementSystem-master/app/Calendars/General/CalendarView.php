@@ -86,7 +86,7 @@ class CalendarView{
             if($reserve) {
               $part = $reserve->setting_part;
               // キャンセルボタン
-              $html[] = '<button type="button" class="btn btn-danger p-0 w-75" data-bs-toggle="modal" data-bs-target="#cancelModal"'  . $day->authReserveDate($day->everyDay())->first()->setting_reserve .' " style="font-size:12px">'. $reservePart .'</button>';
+              $html[] = '<button type="button" class="btn btn-danger p-0 w-75" data-bs-toggle="modal" data-bs-target= #cancelModal data-date="'  . $day->authReserveDate($day->everyDay())->first()->setting_reserve .'" data-part="' . htmlspecialchars($reserve->setting_part, ENT_QUOTES, 'UTF-8') . '" style="font-size:12px">'. $reservePart .'</button>';
               $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
             }
 
@@ -98,8 +98,8 @@ class CalendarView{
             $html[] = '        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
             $html[] = '      </div>';
             $html[] = '      <div class="modal-body">';
-            $html[] = '        <p>予約日:'. htmlspecialchars($date, ENT_QUOTES, 'UTF-8') . '</p>';
-            $html[] = '        <p>時間:'. $reserve->setting_part  .'部</p>';
+            $html[] = '        <p>予約日:</p>';
+            $html[] = '        <p>時間:リモ 部</p>';
             $html[] = '        <p>上記の予約をキャンセルしてもよろしいですか？</p>';
             $html[] = '      </div>';
             $html[] = '      <div class="modal-footer">';
@@ -119,6 +119,18 @@ class CalendarView{
       $html[] = '</tr>';
     }
     $html[] = '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>';
+    $html[] = '<script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const cancelModal = document.getElementById("cancelModal");
+        cancelModal.addEventListener("show.bs.modal", function (event) {
+          const button = event.relatedTarget; 
+          const date = button.getAttribute("data-date");
+          const part = button.getAttribute("data-part");
+          cancelModal.querySelector(".modal-body p:nth-child(1)").textContent = "予約日: " + date;
+          cancelModal.querySelector(".modal-body p:nth-child(2)").textContent = "時間: " + part + "部";
+        });
+      });
+    </script>';
     $html[] = '</tbody>';
     $html[] = '</table>';
     $html[] = '</div>';
