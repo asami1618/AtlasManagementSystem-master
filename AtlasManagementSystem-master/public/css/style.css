@@ -137,6 +137,7 @@ li{
 }
 .detail_container{
   background:#FFF;
+  border-radius: 10px; /* 角を丸くする（半径10px） */
 }
 .post_area{
   background:#FFF;
@@ -152,15 +153,45 @@ li{
 }
 
 /* いいねした投稿 */
-input.btn.pink-bg{
+.btn.pink-bg{
   background-color: #ffcccc; /* ピンク色 */
   color: #ffffff; /* 白文字 */
+  margin-top: 10px;
 }
 
 /* 自分の投稿 */
-input.btn.yellow-bg{
+.btn.yellow-bg{
   background-color: #ffcc33; /* 黄色 */
   color: #ffffff; /* 白文字 */
+  margin-top: 10px;
+  border-radius: 8px; /* 角を丸くする */
+}
+
+
+/* 投稿　サブカテゴリーボタン */
+.btn-info.sub_category_btn {
+  border-radius: 10px;
+  padding: 2px 3px; /* 内側の余白を小さくする */
+  margin-bottom: 10px;
+  font-size: 15px;
+  border-radius: 8px; /* 角を丸くする */
+}
+
+/* 投稿一覧画面　投稿ボタン */
+.btn-info.post_button {
+  margin-top: 10px;
+  border-radius: 8px; /* 角を丸くする */
+}
+
+/* 投稿一覧画面　キーワード検索欄 */
+.form-control{
+  margin-top: 10px;
+  background-color: #ECF1F6;
+}
+
+/* 投稿一覧画面　検索ボタン */
+.btn-info.post_search {
+  margin-top: 10px;
 }
 
 .like_btn,
@@ -260,7 +291,19 @@ input.btn.yellow-bg{
 .comment_container{
   background:#FFF;
 }
-.comment_area p,
+
+.post_btn {
+  float: right; /* ボタンを右端に配置 */
+  margin-top: 10px;
+}
+
+.comment_area {
+  width: 100%; /* 親要素の幅を設定 */
+  box-sizing: border-box; /* paddingを含めた幅を計算 */
+  overflow: hidden; /* 子要素がはみ出さないように隠す */
+  border-radius: 15px; /* 角を丸くする */
+}
+
 .comment_area input{
   font-size:12px;
   font-weight:bold;
@@ -305,12 +348,17 @@ input.btn.yellow-bg{
 }
 
 /* ユーザー検索 */
+.users_title{
+  color: #778899;
+  margin: 5px;
+}
+
 .reserve_users_area{
   display:flex;
   flex-wrap:wrap;
   width:800px;
   margin:10px auto;
-  height:80vh;
+  /* height:80vh; */
   overflow: scroll;
   padding:10px;
   background:#FFF;
@@ -320,8 +368,8 @@ input.btn.yellow-bg{
   font-size:12px;
 }
 .one_person{
-  /* width:250px;
-  height:250px; */
+  width:250px;
+  height:220px;
   border: 1px solid #ccc; /* 枠線 */
   border-radius: 10px; /* 角を丸くする */
   padding: 15px; /* 内側余白 */
@@ -390,13 +438,34 @@ select {
   border-radius: 5px;
 }
 
+.subject_inner{
+  display:none;
+}
+
 .subject_edit_btn{
   font-size:12px;
   color:#0000FF;
   cursor:pointer;
+  position: relative;
 }
-.subject_inner{
-  display:none;
+/* 矢印 */
+.subject_edit_btn::after{
+  border-right: solid 2px #000;
+  border-top: solid 2px #000;
+  content: "";
+  display: block;
+  height: 8px;
+  position: absolute;
+  right: 0; /* ボタンの右端に配置 */
+  right: 25px;
+  top: 38%;
+  transform: rotate(135deg);
+  transition: transform .3s ease-in-out, top .3s ease-in-out;
+  width: 8px;
+}
+.subject_edit_btn.open::after {
+  top: 45%; 
+  transform: rotate(-45deg);
 }
 
 /* 内部の要素を縦並びにする */

@@ -94,15 +94,12 @@ class CalendarView{
             $html[] = '<div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModalLabel" aria-hidden="true">';
             $html[] = '  <div class="modal-dialog">';
             $html[] = '    <div class="modal-content">';
-            $html[] = '      <div class="modal-header">';
-            $html[] = '        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>';
-            $html[] = '      </div>';
             $html[] = '      <div class="modal-body">';
             $html[] = '        <p>予約日:</p>';
             $html[] = '        <p>時間:リモ 部</p>';
             $html[] = '        <p>上記の予約をキャンセルしてもよろしいですか？</p>';
             $html[] = '      </div>';
-            $html[] = '      <div class="modal-footer">';
+            $html[] = '      <div class="modal-footer justify-content-between">';
             $html[] = '        <button type="button" class="btn btn-secondary bg-primary" data-bs-dismiss="modal">閉じる</button>';
             $html[] = '        <button type="button" class="btn btn-danger" id="confirmCancel">キャンセルする</button>';
             $html[] = '      </div>';

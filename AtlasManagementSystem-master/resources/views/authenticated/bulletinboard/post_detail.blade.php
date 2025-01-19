@@ -5,7 +5,13 @@
     <div class="m-3 detail_container">
       <div class="p-3">
         <div class="detail_inner_head">
+          <!-- サブカテゴリー -->
           <div>
+            @foreach($post->subCategories as $subcategory)
+            <button type="button" class="btn btn-info sub_category_btn">
+              {{ $subcategory->sub_category}}
+            </button>
+            @endforeach
           </div>
           <div>
             @if(Auth::user()->id == $post->user_id)
@@ -54,7 +60,7 @@
         <p class="m-0">コメントする</p>
         <textarea class="w-100" name="comment" form="commentRequest"></textarea>
         <input type="hidden" name="post_id" form="commentRequest" value="{{ $post->id }}">
-        <input type="submit" class="btn btn-primary" form="commentRequest" value="投稿">
+        <input type="submit" class="btn btn-primary post_btn" form="commentRequest" value="投稿">
         <form action="{{ route('comment.create') }}" method="post" id="commentRequest" class="d-flex">{{ csrf_field() }}</form>
       </div>
     </div>

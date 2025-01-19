@@ -121,4 +121,8 @@ $(function () {
   });
   })
 
-  // キャンセルモーダル
+  // 　プロフィール
+  document.querySelector('.subject_edit_btn').addEventListener('click', function() {
+    this.classList.toggle('open'); // クリック時にopenクラスをトグル
+  });
+  
