@@ -7,14 +7,14 @@
     <div class="w-75 m-auto border" style="border-radius:5px;">
 
     <!--12/8 カレンダーのタイトルを取得 -->
-      <p class="text-center">{{ $calendar->getTitle() }}</p> 
+      <p class="calendar_title">{{ $calendar->getTitle() }}</p> 
       <div class="">
         <!--12/8 カレンダーのHTMLを生成 -->
         {!! $calendar->render() !!}
       </div>
     </div>
     <div class="text-right w-75 m-auto">
-      <input type="submit" class="btn btn-primary" value="予約する" form="reserveParts">
+      <input type="submit" class="btn btn-primary reserve" value="予約する" form="reserveParts">
     </div>
   </div>
 </div>

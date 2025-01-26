@@ -157,6 +157,7 @@ li{
   background-color: #ffcccc; /* ピンク色 */
   color: #ffffff; /* 白文字 */
   margin-top: 10px;
+  border-radius: 8px; /* 角を丸くする */
 }
 
 /* 自分の投稿 */
@@ -530,9 +531,33 @@ select {
 
 /* 予約詳細確認画面 */
 /* Bootstrap の table-striped の背景色をカスタマイズ */
-.table-striped tbody tr:nth-child(odd) {
-  background-color: #66b2f4; /* 明るい青色 */
+/* 奇数行の背景色をに設定 */
+.user_title_contents:nth-child(odd){
+  background-color: white;
 }
-.table-striped tbody tr:nth-child(even) {
-  background-color: #ffffff; /* 白色 */
+
+/* 偶数行の背景色を白に設定 */
+.user_title_contents:nth-child(even) {
+  background-color: #f8f9fa; /* 薄いグレー */
 }
+
+.user_title{
+  background-color: #03AAD2;
+  color: #fff;
+}
+
+.date_text,
+.part_text{
+  font-size: 20px;
+}
+
+/* カレンダー */
+.btn-primary.reserve{
+  margin-top: 30px;
+}
+
+.calendar_title{
+  margin-top: 10px;
+  text-align: center;
+}
+
