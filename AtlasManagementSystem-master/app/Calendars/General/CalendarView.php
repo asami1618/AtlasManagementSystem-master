@@ -101,7 +101,7 @@ class CalendarView{
             $html[] = '      </div>';
             $html[] = '      <div class="modal-footer justify-content-between">';
             $html[] = '        <button type="button" class="btn btn-secondary bg-primary" data-bs-dismiss="modal">閉じる</button>';
-            $html[] = '        <button type="button" class="btn btn-danger" id="confirmCancel" data-reservation-id="' . $day->authReserveDate($day->everyDay())->first()->setting_reserve . '">キャンセルする</button>';
+            $html[] = '        <button type="button" class="btn btn-danger" id="confirmCancel" data-reservation-id="' . $day->authReserveDate($day->everyDay())->first()->id . '">キャンセルする</button>';
             $html[] = '      </div>';
             $html[] = '    </div>';
             $html[] = '  </div>';
@@ -120,14 +120,40 @@ class CalendarView{
     $html[] = '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>';
     $html[] = '<script>
       document.addEventListener("DOMContentLoaded", function () {
+      // ①DOMContentLoaded イベント:ページの読み込みが完了したときに実行されるイベントリスナーを設定、ページが完全に読み込まれるまでスクリプトの処理を遅らせる
         const cancelModal = document.getElementById("cancelModal");
+        // ②モーダルを取得:Dが cancelModal の要素（モーダル）を取得、このモーダルはキャンセル確認のUI要素を指す
         cancelModal.addEventListener("show.bs.modal", function (event) {
-          const button = event.relatedTarget; 
-          const date = button.getAttribute("data-date");
-          const part = button.getAttribute("data-part");
-          cancelModal.querySelector(".modal-body p:nth-child(1)").textContent = "予約日: " + date;
-          cancelModal.querySelector(".modal-body p:nth-child(2)").textContent = "時間: " + part + "部";
-        });
+        // ③show.bs.modal イベントリスナーを追加:Bootstrapモーダルが表示される直前（show.bs.modal イベント）に実行される処理を設定
+        // event オブジェクトは、モーダルを表示するトリガーとなった要素（ボタンなど）に関する情報
+
+        // ④トリガーボタンの情報を取得:
+        const button = event.relatedTarget; 
+        const date = button.getAttribute("data-date");
+        const part = button.getAttribute("data-part");
+        const reservationId = button.getAttribute("data-reservation-id");  // 予約IDを取得
+
+        // event.relatedTarget はモーダルを表示するためにクリックされたボタン要素を指す
+        // ボタンに設定されたカスタム属性（data-date, data-part, data-reservation-id）から値を取得
+        // data-date: 予約日
+        // data-part: 時間帯や区分（例: 午前・午後など）
+        // data-reservation-id: キャンセル対象の予約ID
+
+        // ⑤モーダルの内容を更新:
+        cancelModal.querySelector(".modal-body p:nth-child(1)").textContent = "予約日: " + date;
+        cancelModal.querySelector(".modal-body p:nth-child(2)").textContent = "時間: " + part + "部";
+        // モーダル内の予約日や時間帯の表示を、ボタンから取得した値で動的に更新
+        // querySelector:
+        // .modal-body p:nth-child(1): モーダル内の最初の段落（予約日表示）
+        // .modal-body p:nth-child(2): モーダル内の2番目の段落（時間帯表示）。
+
+      // ⑥キャンセルボタンに予約IDを設定
+      const cancelButton = cancelModal.querySelector("#confirmCancel");
+      cancelButton.setAttribute("data-reservation-id", reservationId);
+      });
+      // モーダル内にあるキャンセルボタン（IDが confirmCancel）を取得
+      // キャンセルボタンに data-reservation-id 属性を動的に設定し、対象の予約IDを埋め込む
+      // これにより、キャンセルボタンがクリックされた際に予約IDを利用できるようになる
 
       // キャンセルボタンがクリックされたときの処理
       document.getElementById("confirmCancel").addEventListener("click", function () {
