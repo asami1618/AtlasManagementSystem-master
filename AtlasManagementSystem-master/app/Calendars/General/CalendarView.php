@@ -101,11 +101,13 @@ class CalendarView{
             $html[] = '      </div>';
             $html[] = '      <div class="modal-footer justify-content-between">';
             $html[] = '        <button type="button" class="btn btn-secondary bg-primary" data-bs-dismiss="modal">閉じる</button>';
-            $html[] = '        <button type="button" class="btn btn-danger" id="confirmCancel">キャンセルする</button>';
+            $html[] = '        <button type="button" class="btn btn-danger" id="confirmCancel" data-reservation-id="' . $day->authReserveDate($day->everyDay())->first()->setting_reserve . '">キャンセルする</button>';
             $html[] = '      </div>';
             $html[] = '    </div>';
             $html[] = '  </div>';
             $html[] = '</div>';
+            $html[] = '<script>
+          </script>';            
           }
         }else{ //予約がない日->CalendarWeekDayクラスのselectPart()メソッド
           $html[] = $day->selectPart($day->everyDay());
@@ -126,14 +128,29 @@ class CalendarView{
           cancelModal.querySelector(".modal-body p:nth-child(1)").textContent = "予約日: " + date;
           cancelModal.querySelector(".modal-body p:nth-child(2)").textContent = "時間: " + part + "部";
         });
+
+      // キャンセルボタンがクリックされたときの処理
+      document.getElementById("confirmCancel").addEventListener("click", function () {
+        const reservationId = this.getAttribute("data-reservation-id");
+        const deleteForm = document.getElementById("deleteParts");
+
+        // フォームに予約IDをセット
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "reservation_id"; // サーバーで受け取る予約IDの名前
+        input.value = reservationId;
+        deleteForm.appendChild(input);
+        
+        // フォームを送信
+        deleteForm.submit();
+        });
       });
-    </script>';
+      </script>';
+    
     $html[] = '</tbody>';
     $html[] = '</table>';
     $html[] = '</div>';
-    $html[] = '
-    <!-- モーダル -->
-    
+    $html[] = '    
     ';
     $html[] = '<form action="/reserve/calendar" method="post" id="reserveParts">'.csrf_field().'</form>';
     $html[] = '<form action="/delete/calendar" method="post" id="deleteParts">'.csrf_field().'</form>';
