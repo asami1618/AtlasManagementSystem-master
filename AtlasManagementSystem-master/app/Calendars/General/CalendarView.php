@@ -117,62 +117,56 @@ class CalendarView{
       }
       $html[] = '</tr>';
     }
+    $html[] = '<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>'; // ① jQuery を先に読み込む
     $html[] = '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>';
     $html[] = '<script>
-      document.addEventListener("DOMContentLoaded", function () {
-      // ①DOMContentLoaded イベント:ページの読み込みが完了したときに実行されるイベントリスナーを設定、ページが完全に読み込まれるまでスクリプトの処理を遅らせる
-        const cancelModal = document.getElementById("cancelModal");
-        // ②モーダルを取得:Dが cancelModal の要素（モーダル）を取得、このモーダルはキャンセル確認のUI要素を指す
-        cancelModal.addEventListener("show.bs.modal", function (event) {
-        // ③show.bs.modal イベントリスナーを追加:Bootstrapモーダルが表示される直前（show.bs.modal イベント）に実行される処理を設定
-        // event オブジェクトは、モーダルを表示するトリガーとなった要素（ボタンなど）に関する情報
+    $(document).ready(function () {
+      // ①ページ読み込みが完了した時に実行される処理
+      const cancelModal = $("#cancelModal");
+      // 取得した要素を"cancelModal"という変数に保存
 
-        // ④トリガーボタンの情報を取得:
-        const button = event.relatedTarget; 
-        const date = button.getAttribute("data-date");
-        const part = button.getAttribute("data-part");
-        const reservationId = button.getAttribute("data-reservation-id");  // 予約IDを取得
+      // ②モーダルが表示される直前のイベントリスナーを設定
+      cancelModal.on("show.bs.modal", function (event) {
+        // ③トリガーボタンの情報を取得
+        const button = $(event.relatedTarget); // トリガーとなったボタン
+        const date = button.data("date"); // data-date 属性の値を取得
+        const part = button.data("part"); // data-part 属性の値を取得
+        const reservationId = button.data("reservation-id"); // data-reservation-id 属性の値を取得
 
-        // event.relatedTarget はモーダルを表示するためにクリックされたボタン要素を指す
-        // ボタンに設定されたカスタム属性（data-date, data-part, data-reservation-id）から値を取得
-        // data-date: 予約日
-        // data-part: 時間帯や区分（例: 午前・午後など）
-        // data-reservation-id: キャンセル対象の予約ID
+        // ④モーダルの内容を更新
+        cancelModal.find(".modal-body p:nth-child(1)").text("予約日: " + date);
+        cancelModal.find(".modal-body p:nth-child(2)").text("時間: " + part + "部");
 
-        // ⑤モーダルの内容を更新:
-        cancelModal.querySelector(".modal-body p:nth-child(1)").textContent = "予約日: " + date;
-        cancelModal.querySelector(".modal-body p:nth-child(2)").textContent = "時間: " + part + "部";
-        // モーダル内の予約日や時間帯の表示を、ボタンから取得した値で動的に更新
-        // querySelector:
-        // .modal-body p:nth-child(1): モーダル内の最初の段落（予約日表示）
-        // .modal-body p:nth-child(2): モーダル内の2番目の段落（時間帯表示）。
-
-      // ⑥キャンセルボタンに予約IDを設定
-      const cancelButton = cancelModal.querySelector("#confirmCancel");
-      cancelButton.setAttribute("data-reservation-id", reservationId);
+        // ⑤キャンセルボタンに予約IDを設定
+        $("#confirmCancel").data("reservation-id", reservationId); // data-reservation-id を設定
       });
-      // モーダル内にあるキャンセルボタン（IDが confirmCancel）を取得
-      // キャンセルボタンに data-reservation-id 属性を動的に設定し、対象の予約IDを埋め込む
-      // これにより、キャンセルボタンがクリックされた際に予約IDを利用できるようになる
 
-      // キャンセルボタンがクリックされたときの処理
-      document.getElementById("confirmCancel").addEventListener("click", function () {
-        const reservationId = this.getAttribute("data-reservation-id");
-        const deleteForm = document.getElementById("deleteParts");
+      // ⑥キャンセルボタンがクリックされたときの処理
+      $("#confirmCancel").on("click" , function() {
+        const reservationId = $(this).data("reservation-id");
 
-        // フォームに予約IDをセット
-        const input = document.createElement("input");
-        input.type = "hidden";
-        input.name = "reservation_id"; // サーバーで受け取る予約IDの名前
-        input.value = reservationId;
-        deleteForm.appendChild(input);
-        
-        // フォームを送信
-        deleteForm.submit();
+        // ⑦AJAXでキャンセルリクエストを送信
+        // AJAXという仕組みを用いてページを再読み込みせずにサーバーと通信
+        $.ajax({
+          url: "/delete/calendar", //キャンセル処理を実行するサーバー
+          // ボタンをクリックするとこのファイルにデータが送信される
+          type: "POST",
+          data: { 
+            reservation_id: reservationId, //送信するデータ(予約ID)を指定
+          },
+          success: function(response) { //キャンセルが成功した時の処理
+            console.log("サーバーの応答:", response);
+
+            // 成功したらモーダルを閉じてリロード
+            $("#cancelModal").modal("hide");
+            alert("予約がキャンセルされました");
+            location.reload(); // ページをリロードして反映
+          }
         });
       });
-      </script>';
-    
+    });
+    </script>';
+        
     $html[] = '</tbody>';
     $html[] = '</table>';
     $html[] = '</div>';
