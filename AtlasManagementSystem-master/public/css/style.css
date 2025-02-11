@@ -388,16 +388,22 @@ li{
 }
 
 .add_search_conditions {
-  position: relative;
-  align-items: center;     /* 縦方向を中央揃えにする */
   cursor:pointer;
-  border-bottom: #000;
+  position: relative; /* 擬似要素を相対位置で配置 */
+  display: inline-block; /* テキストが横に並ぶようにする */
+  border-bottom: 1px solid #000; /* 2pxの黒い棒線 */
+  padding-bottom: 5px; /* 文字と棒線の間に少し余白を追加 */
+  padding-top: 20px;
+  width: 85%;
+  margin-left: 5%; /* 左右のスペースを調整 */
+  margin-right: 10%; /* ボーダーの幅を中央に配置するためのスペース */
 }
 
 .add_search_conditions::after{
   border-right: solid 2px #000;
   border-top: solid 2px #000;
   content: "";
+  position: absolute;
   display: block;
   height: 8px;
   right: 25px;
@@ -439,33 +445,55 @@ select {
   border-radius: 5px;
 }
 
+
 .subject_inner{
   display:none;
+  overflow: visible;
 }
 
-.subject_edit_btn{
-  font-size:12px;
-  color:#0000FF;
-  cursor:pointer;
-  position: relative;
+.subject_inner form {
+  display: flex; /* フォーム全体を横並びに */
+  flex-wrap: wrap; /* 行が折り返されるように */
 }
+
+.subject-item{
+  display: flex; /* 各subject-itemを横並びに */
+  align-items: center; /* ラベルとチェックボックスを縦方向に中央揃え */
+  margin-right: 10px; /* 各項目の間にスペースを追加 */
+}
+
+.subject-item label {
+  margin-right: 2px; /* ラベルとチェックボックスの間にスペース */
+}
+
+/* 検索科目の登録　ボタン箇所 */
+.subject_edit_btn{
+  display: inline-flex; /* 横並びにするためのフレックスボックス */
+  position: relative; /* ::afterの絶対位置を基準にする */
+  padding-right: 20px; /* 矢印と文字の間隔を調整 */
+  font-size:12px;
+  padding-top: 10px;
+  color:#2bc3d1;
+  cursor:pointer;
+}
+
 /* 矢印 */
 .subject_edit_btn::after{
-  border-right: solid 2px #000;
-  border-top: solid 2px #000;
+  border-right: solid 2px #2bc3d1;
+  border-top: solid 2px #2bc3d1;
   content: "";
-  display: block;
   height: 8px;
   position: absolute;
   right: 0; /* ボタンの右端に配置 */
-  top: 38%;
+  top: 10px;
   transform: rotate(135deg);
   transition: transform .3s ease-in-out, top .3s ease-in-out;
   width: 8px;
 }
+
 .subject_edit_btn.open::after {
-  top: 45%; 
-  transform: rotate(-45deg);
+  top: 15px; 
+  transform: rotate(-45deg);/* 矢印を反転させる */
 }
 
 /* 内部の要素を縦並びにする */

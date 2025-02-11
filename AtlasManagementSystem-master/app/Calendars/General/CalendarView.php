@@ -85,8 +85,16 @@ class CalendarView{
 
             if($reserve) {
               $part = $reserve->setting_part;
+              $reservations = $day->authReserveDate($day->everyDay()); // 予約データを取得
+
               // キャンセルボタン
-              $html[] = '<button type="button" class="btn btn-danger p-0 w-75" data-bs-toggle="modal" data-bs-target= #cancelModal data-date="'  . $day->authReserveDate($day->everyDay())->first()->setting_reserve .'" data-part="' . htmlspecialchars($reserve->setting_part, ENT_QUOTES, 'UTF-8') . '" style="font-size:12px">'. $reservePart .'</button>';
+              foreach ($reservations as $reservation) {
+                $html[] = '<button type="button" class="btn btn-danger p-0 w-75" data-bs-toggle="modal" data-bs-target= #cancelModal 
+                          data-reservation-id="' . htmlspecialchars($reservation->id, ENT_QUOTES, 'UTF-8') . '"
+                          data-date="'  . htmlspecialchars($reservation->setting_reserve, ENT_QUOTES, 'UTF-8') .'"
+                          data-part="' . htmlspecialchars($reserve->setting_part, ENT_QUOTES, 'UTF-8') . '"
+                          style="font-size:12px">'. htmlspecialchars($reservePart, ENT_QUOTES, 'UTF-8') .'</button>';
+              }
               $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
             }
 
@@ -99,10 +107,15 @@ class CalendarView{
             $html[] = '        <p>時間:リモ 部</p>';
             $html[] = '        <p>上記の予約をキャンセルしてもよろしいですか？</p>';
             $html[] = '      </div>';
-            $html[] = '      <div class="modal-footer justify-content-between">';
-            $html[] = '        <button type="button" class="btn btn-secondary bg-primary" data-bs-dismiss="modal">閉じる</button>';
-            $html[] = '        <button type="button" class="btn btn-danger" id="confirmCancel" data-reservation-id="' . $day->authReserveDate($day->everyDay())->first()->id . '">キャンセルする</button>';
-            $html[] = '      </div>';
+
+            $reservations = $day->authReserveDate($day->everyDay()); // 予約データを取得
+
+            foreach ($reservations as $reservation) {
+                $html[] = '      <div class="modal-footer justify-content-between">';
+                $html[] = '        <button type="button" class="btn btn-secondary bg-primary" data-bs-dismiss="modal">閉じる</button>';
+                $html[] = '        <button type="button" class="btn btn-danger confirmCancel" data-reservation-id="' . $reservation->id . '">キャンセルする</button>';
+                $html[] = '      </div>';
+            }
             $html[] = '    </div>';
             $html[] = '  </div>';
             $html[] = '</div>';
@@ -117,7 +130,7 @@ class CalendarView{
       }
       $html[] = '</tr>';
     }
-    $html[] = '<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>'; // ① jQuery を先に読み込む
+    $html[] = '<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>';
     $html[] = '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>';
     $html[] = '<script>
     $(document).ready(function () {
@@ -138,12 +151,13 @@ class CalendarView{
         cancelModal.find(".modal-body p:nth-child(2)").text("時間: " + part + "部");
 
         // ⑤キャンセルボタンに予約IDを設定
-        $("#confirmCancel").data("reservation-id", reservationId); // data-reservation-id を設定
+        $("#confirmCancel").data("reservation-id", reservationId); 
+        // data-reservation-id を設定
       });
 
       // ⑥キャンセルボタンがクリックされたときの処理
       $("#confirmCancel").on("click" , function() {
-        const reservationId = $(this).data("reservation-id");
+        var reservationId = $(this).data("reservation-id");
 
         // ⑦AJAXでキャンセルリクエストを送信
         // AJAXという仕組みを用いてページを再読み込みせずにサーバーと通信

@@ -14,13 +14,14 @@
         <span>{{ $subject->subject }}</span>
         @endforeach
       </div>
-      <div class="">
+      <div class="subject_inner_content">
         @can('admin')
         <span class="subject_edit_btn">選択科目の登録</span>
         <div class="subject_inner">
           <form action="{{ route('user.edit') }}" method="post">
+            <!-- 教科の選択箇所 -->
             @foreach($subject_lists as $subject_list)
-            <div>
+            <div class="subject-item">
               <label>{{ $subject_list->subject }}</label>
               <input type="checkbox" name="subjects[]" value="{{ $subject_list->id }}">
             </div>

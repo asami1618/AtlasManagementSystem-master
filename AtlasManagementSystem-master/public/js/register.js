@@ -1,9 +1,10 @@
 $(function () {
-  $(document).on('click', '.other_role', function () {
-    $('.select_teacher').removeClass('d-none');
-  });
-  $(document).on('click', '.admin_role', function () {
-    $('.select_teacher').addClass('d-none');
+    $(document).on('click', '.other_role', function () {
+      $('.select_teacher').removeClass('d-none');
+    });
+    $(document).on('click', '.admin_role', function () {
+      $('.select_teacher').addClass('d-none');
+    });
   });
 
   $(document).on('click keyup change', function () {
@@ -97,7 +98,7 @@ $(function () {
       $('.register_btn').prop('disabled', true);
     }
   });
-
+  
   //  掲示板　カテゴリー検索
   $(function () {
     // タイトルをクリックすると
@@ -113,11 +114,12 @@ $(function () {
   document.querySelector('.add_search_conditions').addEventListener('click', function() {
     this.classList.toggle('open'); // クリック時にopenクラスをトグル
   });
-  })
   
   // 　プロフィール
-  document.querySelector('.subject_edit_btn').addEventListener('click', function() {
-    this.classList.toggle('open'); // クリック時にopenクラスをトグル
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('.subject_edit_btn').addEventListener('click', function() {
+      this.classList.toggle('open'); // クリック時にopenクラスをトグル
+    });
   });
   
   // キャンセル処理
