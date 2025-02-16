@@ -81,20 +81,24 @@ class CalendarsController extends Controller
 
         // ⑤ もし予約があるなら削除
         if ($hasReservation) {
-            // 予約があるなら次の削除処理へ進む
-            // 予約との関連を削除（中間テーブルのデータを削除）
+        // ◇$hasReservation がtrueなら、削除処理を実行する
+        // ・exists()で調べた結果、ユーザーがこの予約を持っている場合にtrueになる
+        // ・false の場合、削除処理をスキップ
 
             // ⑥ 予約データを削除
             \DB::table('reserve_setting_users')
+            // ・reserve_setting_users テーブルを操作する
+            // ・Laravelのクエリビルダを使って、データベースのreserve_setting_usersテーブルを操作する準備をする
                 ->where('reserve_setting_id', $reservation_id)
+                // ・reserve_setting_id(予約ID)が$reservation_idに一致するデータを検索する
                 ->where('user_id', $user_id)
+                // user_id(ユーザーID)が$user_idに一致するデータを検索する
                 ->delete();
-                // reserve_setting_users 中間テーブル のデータを削除
-                // reserve_setting_id（予約ID） と user_id（ユーザーID） が一致するデータを削除
-                // 他のユーザーが同じ予約を持っている場合は、データがまだ残る
+                // ・条件に一致するデータを削除する
 
                 // ⑦ 元の画面に戻る
                 return redirect()->back();
+                // ・削除が完了したら、元のページにリダイレクト(戻る)
             }
 
         // <処理の流れ　まとめ>
