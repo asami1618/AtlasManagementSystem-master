@@ -111,11 +111,12 @@ class CalendarView{
             $reservations = $day->authReserveDate($day->everyDay()); // 予約データを取得
 
             foreach ($reservations as $reservation) {
-                $html[] = '      <div class="modal-footer justify-content-between">';
-                $html[] = '        <button type="button" class="btn btn-secondary bg-primary" data-bs-dismiss="modal">閉じる</button>';
-                $html[] = '        <button type="button" class="btn btn-danger confirmCancel" data-reservation-id="' . $reservation->id . '">キャンセルする</button>';
-                $html[] = '      </div>';
+              $html[] = '      <div class="modal-footer justify-content-between">';
+              $html[] = '        <button type="button" class="btn btn-secondary bg-primary" data-bs-dismiss="modal">閉じる</button>';
+              $html[] = '        <button type="button" class="btn btn-danger confirmCancel" data-reservation-id="">キャンセルする</button>';                
+              $html[] = '      </div>';
             }
+
             $html[] = '    </div>';
             $html[] = '  </div>';
             $html[] = '</div>';
@@ -136,7 +137,7 @@ class CalendarView{
     $(document).ready(function () {
       // ①ページ読み込みが完了した時に実行される処理
       const cancelModal = $("#cancelModal");
-      // 取得した要素を"cancelModal"という変数に保存
+      // 取得した要素(id="cancelModal"がついているdivタグ)を"cancelModal"という変数に保存
 
       // ②モーダルが表示される直前のイベントリスナーを設定
       cancelModal.on("show.bs.modal", function (event) {
@@ -146,17 +147,19 @@ class CalendarView{
         const part = button.data("part"); // data-part 属性の値を取得
         const reservationId = button.data("reservation-id"); // data-reservation-id 属性の値を取得
 
+        console.log(reservationId);
         // ④モーダルの内容を更新
         cancelModal.find(".modal-body p:nth-child(1)").text("予約日: " + date);
         cancelModal.find(".modal-body p:nth-child(2)").text("時間: " + part + "部");
 
         // ⑤キャンセルボタンに予約IDを設定
-        $("#confirmCancel").data("reservation-id", reservationId); 
+        // $(".confirmCancel").data("reservation-id", reservationId); 
+        // cancelModal.find(".confirmCancel).setAttribute("data-reservation-id", reservationId);
         // data-reservation-id を設定
       });
 
       // ⑥キャンセルボタンがクリックされたときの処理
-      $("#confirmCancel").on("click" , function() {
+      $(".confirmCancel").on("click" , function() {
         var reservationId = $(this).data("reservation-id");
 
         // ⑦AJAXでキャンセルリクエストを送信

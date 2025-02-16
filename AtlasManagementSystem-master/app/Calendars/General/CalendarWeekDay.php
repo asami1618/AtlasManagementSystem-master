@@ -158,6 +158,9 @@ class CalendarWeekDay{
   }
 
   function authReserveDate($reserveDate){
-    return Auth::user()->reserveSettings->where('setting_reserve', $reserveDate);
+    return Auth::user()->reserveSettings()->where('setting_reserve', $reserveDate)->get(); //2/16　get()を追加    // ポイント
+    //・reserveSettings に () を追加することで、Eloquent のリレーションメソッドとして動作
+    // ・where('setting_reserve', $reserveDate) をEloquentのクエリビルダで実行
+    //・get() を追加 して、データベースから取得
   }
 }
