@@ -79,16 +79,7 @@ class CalendarsController extends Controller
                 // reserve_setting_users 中間テーブル のデータを削除
                 // reserve_setting_id（予約ID） と user_id（ユーザーID） が一致するデータを削除
                 // 他のユーザーが同じ予約を持っている場合は、データがまだ残る
-
-                // 5.他に予約しているユーザーがいるかチェック
-                $remainingUsers = \DB::table('reserve_setting_users')
-                ->where('reserve_setting_id', $reservation_id)
-                ->count();
-
-                if ($remainingUsers == 0) {
-                // 他に予約しているユーザーがいなければ、予約データ自体を削除
-                ReserveSettings::where('id', $reservation_id)->delete();
-                }
+                return redirect()->back();
             }
 
         // <処理の流れ　まとめ>
