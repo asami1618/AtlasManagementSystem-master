@@ -42,32 +42,41 @@ class CalendarsController extends Controller
     }
 
     public function delete(Request $request){
-    // ①Request $request　はユーザーから送信されたデータを受け取るための変数
-    // ②「予約キャンセル」のボタンを押した時に送られるデータ(予約ID)を取得できる
+    // ・Request $request　はユーザーから送信されたデータを受け取るための変数
+    // ・「予約キャンセル」のボタンを押した時に送られるデータ(予約ID)を取得できる
 
         // ① ユーザーから送信されたデータ（予約ID）を受け取る
         $reservation_id = $request->input('reservation_id');
         // ・input('reservation_id')は、ユーザーが送信したreservation_id（予約ID）を取得するための関数
-        // ・送信されたデータは、フォームのhidden入力フィールド から来る
+        // 。input('reservation_id') は、フォームのhidden入力フィールドなどから送信された値も取得する
 
         // ② ログイン中のユーザーのIDを取得
-        $user_id = Auth::id(); // 現在ログインしているユーザーのIDを取得
+        $user_id = Auth::id();
+        // ・Auth::id()を使って、現在ログインしているユーザーのIDを取得
 
         // ③ 予約IDとユーザーIDがあるかチェック
         if ($reservation_id && $user_id) {
-        // $reservation_id-> フォームから送信された予約ID
-        // $user_id-> Auth::id()で取得したログインユーザーのID
-        // この条件が「true」なら、次の処理に進む（どちらかが空なら処理しない）
+        // ・この条件分岐は予約ID($reservation_id)と予約ID($user_id)が両方とも存在しているか確認している
+        // ・&&(AND演算子)を使って、両方が存在する場合にのみ次の処理を実行する
+        // ※ &&(AND演算子)は両方の条件が存在する(true)の場合にのみ処理を実行する
+
+        // チェックしている項目
+        // 1.$reservation_id -> 予約IDがあるか？(フォームから送信されたか)
+        // 2.$user_id -> ログインしているユーザーのIDがあるか(ログインしているか)
+        // この2つがどちらもtrue(存在する)なら、データベースを検索する処理に進む
 
         // ④ 予約があるかどうかをデータベースで確認
         $hasReservation = \DB::table('reserve_setting_users')
+        // \DB::table('reserve_setting_users')
+        // ・reserve_setting_usersテーブルを操作する準備をしている
+        // ・\DB::tableは Laravelのデータベースを使うための書き方
             ->where('reserve_setting_id', $reservation_id)
+            // ・reserve_setting_idがフォームから送られた$reservation_idと一致するデータを探す
             ->where('user_id', $user_id)
+            // ・user_id が現在ログインしている$user_id と一致するデータを探す
+            // ・つまり「このユーザーがこの予約を持っているか」をチェックしている
             ->exists();
-            // reserve_setting_users 中間テーブル を検索
-            // reserve_setting_id（予約ID） と user_id（ユーザーID） が一致するデータがあるか調べる
-            // 存在すれば true を返す（予約がある）
-            // なければ false（予約していない）
+            // ・検索したデータが存在すればtrue、なければfalseを返す
         }
 
         // ⑤ もし予約があるなら削除
