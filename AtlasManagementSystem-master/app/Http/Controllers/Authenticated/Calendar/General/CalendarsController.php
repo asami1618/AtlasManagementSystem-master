@@ -44,19 +44,23 @@ class CalendarsController extends Controller
     public function delete(Request $request){
     // ①Request $request　はユーザーから送信されたデータを受け取るための変数
     // ②「予約キャンセル」のボタンを押した時に送られるデータ(予約ID)を取得できる
+
+        // ① ユーザーから送信されたデータ（予約ID）を受け取る
         $reservation_id = $request->input('reservation_id');
-        // ①input('reservation_id')は、ユーザーが送信したreservation_id（予約ID）を取得するための関数
-        // ②送信されたデータは、フォームのhidden入力フィールド から来る
+        // ・input('reservation_id')は、ユーザーが送信したreservation_id（予約ID）を取得するための関数
+        // ・送信されたデータは、フォームのhidden入力フィールド から来る
+
+        // ② ログイン中のユーザーのIDを取得
         $user_id = Auth::id(); // 現在ログインしているユーザーのIDを取得
 
-        // 1.$reservation_id と $user_id をチェック
+        // ③ 予約IDとユーザーIDがあるかチェック
         if ($reservation_id && $user_id) {
         // $reservation_id-> フォームから送信された予約ID
         // $user_id-> Auth::id()で取得したログインユーザーのID
         // この条件が「true」なら、次の処理に進む（どちらかが空なら処理しない）
 
-        // 2.ユーザーがその予約を持っているか確認
-            $hasReservation = \DB::table('reserve_setting_users')
+        // ④ 予約があるかどうかをデータベースで確認
+        $hasReservation = \DB::table('reserve_setting_users')
             ->where('reserve_setting_id', $reservation_id)
             ->where('user_id', $user_id)
             ->exists();
@@ -66,12 +70,12 @@ class CalendarsController extends Controller
             // なければ false（予約していない）
         }
 
-        // 3.もし hasReservation が true（予約がある）なら削除
+        // ⑤ もし予約があるなら削除
         if ($hasReservation) {
             // 予約があるなら次の削除処理へ進む
             // 予約との関連を削除（中間テーブルのデータを削除）
 
-            // 4.ユーザーと予約の関連情報を削除
+            // ⑥ 予約データを削除
             \DB::table('reserve_setting_users')
                 ->where('reserve_setting_id', $reservation_id)
                 ->where('user_id', $user_id)
@@ -79,6 +83,8 @@ class CalendarsController extends Controller
                 // reserve_setting_users 中間テーブル のデータを削除
                 // reserve_setting_id（予約ID） と user_id（ユーザーID） が一致するデータを削除
                 // 他のユーザーが同じ予約を持っている場合は、データがまだ残る
+
+                // ⑦ 元の画面に戻る
                 return redirect()->back();
             }
 

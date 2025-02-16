@@ -578,12 +578,12 @@ select {
 /* Bootstrap の table-striped の背景色をカスタマイズ */
 /* 奇数行の背景色をに設定 */
 .reserve-table tbody tr:nth-child(odd){
-  background-color: white;
+  background-color: white !important;
 }
 
 /* 偶数行の背景色をブルーにする */
 .reserve-table tbody tr:nth-child(even) {
-  background-color: #03AAD2;
+  background-color: #e9fbff;
 }
 
 
