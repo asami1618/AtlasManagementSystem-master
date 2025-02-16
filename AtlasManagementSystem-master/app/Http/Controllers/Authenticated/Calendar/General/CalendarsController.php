@@ -42,17 +42,62 @@ class CalendarsController extends Controller
     }
 
     public function delete(Request $request){
-    //Request $requestは　ユーザーから送られてきたデータ(予約IDなど)を取得する
-    // 予約IDを取得
-    $reservation_id = $request->input('reservation_id');
-    // リクエストから「予約ID」を取得する
+    // ①Request $request　はユーザーから送信されたデータを受け取るための変数
+    // ②「予約キャンセル」のボタンを押した時に送られるデータ(予約ID)を取得できる
+        $reservation_id = $request->input('reservation_id');
+        // ①input('reservation_id')は、ユーザーが送信したreservation_id（予約ID）を取得するための関数
+        // ②送信されたデータは、フォームのhidden入力フィールド から来る
+        $user_id = Auth::id(); // 現在ログインしているユーザーのIDを取得
 
+        // 1.$reservation_id と $user_id をチェック
+        if ($reservation_id && $user_id) {
+        // $reservation_id-> フォームから送信された予約ID
+        // $user_id-> Auth::id()で取得したログインユーザーのID
+        // この条件が「true」なら、次の処理に進む（どちらかが空なら処理しない）
 
-    if ($reservation_id) {
-        // データベースから予約を削除
-        $deleted = ReserveSettings::where('id', $reservation_id)->delete();
-    }
-        
+        // 2.ユーザーがその予約を持っているか確認
+            $hasReservation = \DB::table('reserve_setting_users')
+            ->where('reserve_setting_id', $reservation_id)
+            ->where('user_id', $user_id)
+            ->exists();
+            // reserve_setting_users 中間テーブル を検索
+            // reserve_setting_id（予約ID） と user_id（ユーザーID） が一致するデータがあるか調べる
+            // 存在すれば true を返す（予約がある）
+            // なければ false（予約していない）
+        }
+
+        // 3.もし hasReservation が true（予約がある）なら削除
+        if ($hasReservation) {
+            // 予約があるなら次の削除処理へ進む
+            // 予約との関連を削除（中間テーブルのデータを削除）
+
+            // 4.ユーザーと予約の関連情報を削除
+            \DB::table('reserve_setting_users')
+                ->where('reserve_setting_id', $reservation_id)
+                ->where('user_id', $user_id)
+                ->delete();
+                // reserve_setting_users 中間テーブル のデータを削除
+                // reserve_setting_id（予約ID） と user_id（ユーザーID） が一致するデータを削除
+                // 他のユーザーが同じ予約を持っている場合は、データがまだ残る
+
+                // 5.他に予約しているユーザーがいるかチェック
+                $remainingUsers = \DB::table('reserve_setting_users')
+                ->where('reserve_setting_id', $reservation_id)
+                ->count();
+
+                if ($remainingUsers == 0) {
+                // 他に予約しているユーザーがいなければ、予約データ自体を削除
+                ReserveSettings::where('id', $reservation_id)->delete();
+                }
+            }
+
+        // <処理の流れ　まとめ>
+        // ①ユーザーが「予約キャンセル」ボタンを押す
+        // ②フォームが reservation_idをPOSTで送信する
+        // ③コントローラーのdelete()メソッドが、送られたreservation_idを取得する
+        // ④reservation_idがある場合、それに対応する予約情報をデータベースから削除する
+
+        // 下記不要↓↓
         // // 予約を検索して削除(データベースから該当する予約を探す)
         // $reservation = ReserveSettings::find($reservationId);
         // // ReserveSettings は予約データを管理するテーブル(モデル)
