@@ -388,10 +388,11 @@ li{
 }
 
 .add_search_conditions {
+  color: #778899;
   cursor:pointer;
   position: relative; /* 擬似要素を相対位置で配置 */
   display: inline-block; /* テキストが横に並ぶようにする */
-  border-bottom: 1px solid #000; /* 2pxの黒い棒線 */
+  border-bottom: 1px solid #778899; /* 2pxの黒い棒線 */
   padding-bottom: 5px; /* 文字と棒線の間に少し余白を追加 */
   padding-top: 20px;
   width: 85%;
@@ -551,6 +552,7 @@ select {
 
 /* ユーザー検索　リセットボタン */
 .users_reset_area{
+  color: #03AAD2;
   display: flex;          /* Flexbox を適用 */
   justify-content: center; /* 横方向に中央揃え */
   align-items: center;     /* 縦方向に中央揃え */

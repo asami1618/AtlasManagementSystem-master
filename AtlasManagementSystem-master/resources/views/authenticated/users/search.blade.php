@@ -128,13 +128,14 @@
           <a href="#" onclick="resetForm(event)">リセット</a>
         </div>
       </form>
+
       <script>
         function resetForm(event) {
           event.preventDefault(); // デフォルトのリンク動作を無効化
-          const form = document.getElementById('userSearchRequest');
-          form.reset(); // フォームのリセット
+          window.location.href = "{{ route('user.show') }}"; // 検索条件を削除してページをリロード
         }
       </script>
+
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     </div>
   </div>
