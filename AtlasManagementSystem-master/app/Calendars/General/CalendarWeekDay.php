@@ -94,7 +94,7 @@ class CalendarWeekDay{
     if (strtotime($ymd) <= strtotime($today)) {
       if ($user_reservations->isEmpty()) {
         // 予約していない場合
-        $html[] = '<p>受付終了</p>';
+        $html[] = '<p class="closed-text">受付終了</p>';
         // 12/22　下記追記・CalendarView80行目の「' . $day->everyDay() . '」を削除
         $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
       } else {

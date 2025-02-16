@@ -25,8 +25,8 @@ class CalendarView{
     $html[] = '<th class="border">水</th>';
     $html[] = '<th class="border">木</th>';
     $html[] = '<th class="border">金</th>';
-    $html[] = '<th class="border">土</th>';
-    $html[] = '<th class="border">日</th>';
+    $html[] = '<th class="border day-sat">土</th>';
+    $html[] = '<th class="border day-sun">日</th>';
     $html[] = '</tr>';
     $html[] = '</thead>';
     $html[] = '<tbody>';
@@ -47,7 +47,7 @@ class CalendarView{
         //　12/6　↓過去の日付かどうかを判定
         // ③日付を条件に応じて判定。
         if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
-          $html[] = '<td class="past-day border">';
+          $html[] = '<td class="past-day border '.$day->getClassName().'">';
         }else{
           $html[] = '<td class="border '.$day->getClassName().'">';
         }

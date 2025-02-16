@@ -66,6 +66,11 @@ li{
 
 
 /* スクール予約関連 */
+.day{
+  padding-top: 10px;
+}
+
+
 .day-blank{
   background:#D3D3D3;
 }
@@ -96,6 +101,12 @@ li{
 }
 .adjust-table-btn{
   width:70%;
+}
+
+/* 受付終了とリモ◯部の文字 */
+.closed-text, 
+.closed-part{
+  color: black;
 }
 
 /* モーダル */
@@ -552,7 +563,6 @@ select {
 
 /* ユーザー検索　リセットボタン */
 .users_reset_area{
-  color: #03AAD2;
   display: flex;          /* Flexbox を適用 */
   justify-content: center; /* 横方向に中央揃え */
   align-items: center;     /* 縦方向に中央揃え */
@@ -560,21 +570,22 @@ select {
 
 
 /* 予約詳細確認画面 */
-/* Bootstrap の table-striped の背景色をカスタマイズ */
-/* 奇数行の背景色をに設定 */
-.user_title_contents:nth-child(odd){
-  background-color: white;
-}
-
-/* 偶数行の背景色を白に設定 */
-.user_title_contents:nth-child(even) {
-  background-color: #f8f9fa; /* 薄いグレー */
-}
-
 .user_title{
   background-color: #03AAD2;
   color: #fff;
 }
+
+/* Bootstrap の table-striped の背景色をカスタマイズ */
+/* 奇数行の背景色をに設定 */
+.reserve-table tbody tr:nth-child(odd){
+  background-color: white;
+}
+
+/* 偶数行の背景色をブルーにする */
+.reserve-table tbody tr:nth-child(even) {
+  background-color: #03AAD2;
+}
+
 
 .date_text,
 .part_text{

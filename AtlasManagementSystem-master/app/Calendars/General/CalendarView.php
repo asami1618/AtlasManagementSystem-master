@@ -26,8 +26,8 @@ class CalendarView{
     $html[] = '<th>水</th>';
     $html[] = '<th>木</th>';
     $html[] = '<th>金</th>';
-    $html[] = '<th>土</th>';
-    $html[] = '<th>日</th>';
+    $html[] = '<th class="day-sat">土</th>';
+    $html[] = '<th class="day-sun">日</th>';
     $html[] = '</tr>';
     $html[] = '</thead>';
     $html[] = '<tbody>';
@@ -41,7 +41,7 @@ class CalendarView{
         $toDay = $this->carbon->copy()->format("Y-m-d");
         
         if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
-          $html[] = '<td class="past-day border">';
+          $html[] = '<td class="past-day border '.$day->getClassName().'">';
         }else{
           $html[] = '<td class="border '.$day->getClassName().'">';
         }
@@ -76,7 +76,7 @@ class CalendarView{
           // 12/15　条件が成立した場合の処理
           if($startDay <= $day->everyDay() && $toDay >= $day->everyDay()){
             $reserve = $day->authReserveDate($day->everyDay())->first();
-            $html[] = '<p class="m-auto p-0 w-75" style="font-size:16px">リモ' . $reserve->setting_part  . '部</p>';
+            $html[] = '<p class="m-auto p-0 w-75 closed-part" style="font-size:16px">リモ' . $reserve->setting_part  . '部</p>';
             $html[] = '<input type="hidden" name="getPart[]" value="" form="reserveParts">';
           }else{
             // 予約データを取得する例 (配列を仮定)
@@ -113,7 +113,7 @@ class CalendarView{
             foreach ($reservations as $reservation) {
               $html[] = '      <div class="modal-footer justify-content-between">';
               $html[] = '        <button type="button" class="btn btn-secondary bg-primary" data-bs-dismiss="modal">閉じる</button>';
-              $html[] = '        <button type="button" class="btn btn-danger confirmCancel" data-reservation-id="">キャンセルする</button>';                
+              $html[] = '        <button type="button" class="btn btn-danger confirmCancel" data-reservation-id="">キャンセルする</button>'; //フォームタグで設定するか　aタグで設定するか          
               $html[] = '      </div>';
             }
 
@@ -154,7 +154,7 @@ class CalendarView{
 
         // ⑤キャンセルボタンに予約IDを設定
         // $(".confirmCancel").data("reservation-id", reservationId); 
-        // cancelModal.find(".confirmCancel).setAttribute("data-reservation-id", reservationId);
+        cancelModal.find(".confirmCancel").attr("data-reservation-id", reservationId);
         // data-reservation-id を設定
       });
 

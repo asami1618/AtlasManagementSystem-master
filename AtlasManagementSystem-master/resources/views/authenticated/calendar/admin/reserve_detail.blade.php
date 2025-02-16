@@ -10,7 +10,7 @@
       <span class="ml-3 part_text">{{ $part }}部</span>
     </p>
     <div class="h-75 border">
-      <table class="table table-striped">
+      <table class="table table-striped reserve-table">
         <thead>
           <tr class="text-center user_title">
             <th class="w-25">ID</th>
