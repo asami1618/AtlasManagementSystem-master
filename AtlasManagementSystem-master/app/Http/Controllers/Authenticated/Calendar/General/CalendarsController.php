@@ -41,32 +41,38 @@ class CalendarsController extends Controller
         return redirect()->route('calendar.general.show', ['user_id' => Auth::id()]);
     }
 
-    public function delete(Request $request)
+    public function delete(Request $request){
     //Request $requestは　ユーザーから送られてきたデータ(予約IDなど)を取得する
-    {
-        // 予約IDを取得
-        $reservationId = $request->input('reservation_id');
-        // リクエストから「予約ID」を取得する
+    // 予約IDを取得
+    $reservation_id = $request->input('reservation_id');
+    // リクエストから「予約ID」を取得する
 
-        // 予約を検索して削除(データベースから該当する予約を探す)
-        $reservation = ReserveSettings::find($reservationId);
-        // ReserveSettings は予約データを管理するテーブル(モデル)
-        // find($reservationId) は指定したreservation_idのデータを検索する
-    
-        if ($reservation) {
-        // もし、$reservation にデータが入っていたら　予約が存在しキャンセル処理を行う
-            auth()->user()->reserveSettings()->detach($reservationId); //中間テーブルの削除
-            // ログインしているユーザーの予約との関連を削除(中間テーブルのデータを削除)
-            // ・auth()->user():現在ログインしているユーザー
-            // ・reserveSettings():ユーザーが持つ予約のリレーション
-            // ・detach($reservationId):reservation_idのデータを中間テーブルから削除
-            $reservation->delete(); 
-            //予約データ自体を削除
-            return response()->json(['message' => '予約がキャンセルされました'], 200);
-            // ・response()->json:JSON形式でレスポンスを作る
-            // ・['message' => '予約がキャンセルされました']:返すデータ
-            // ・200:HTTPステータスコード(成功表す)
 
-        }
+    if ($reservation_id) {
+        // データベースから予約を削除
+        $deleted = ReserveSettings::where('id', $reservation_id)->delete();
+    }
+        
+        // // 予約を検索して削除(データベースから該当する予約を探す)
+        // $reservation = ReserveSettings::find($reservationId);
+        // // ReserveSettings は予約データを管理するテーブル(モデル)
+        // // find($reservationId) は指定したreservation_idのデータを検索する
+        
+        // if ($reservation) {
+            // // もし、$reservation にデータが入っていたら　予約が存在しキャンセル処理を行う
+            //     auth()->user()->reserveSettings()->detach($reservationId); //中間テーブルの削除
+            //     // ログインしているユーザーの予約との関連を削除(中間テーブルのデータを削除)
+            //     // ・auth()->user():現在ログインしているユーザー
+            //     // ・reserveSettings():ユーザーが持つ予約のリレーション
+            //     // ・detach($reservationId):reservation_idのデータを中間テーブルから削除
+            //     $reservation->delete(); 
+            //     //予約データ自体を削除
+            //     return response()->json(['message' => '予約がキャンセルされました'], 200);
+            //     // ・response()->json:JSON形式でレスポンスを作る
+            //     // ・['message' => '予約がキャンセルされました']:返すデータ
+            //     // ・200:HTTPステータスコード(成功表す)
+            
+            // }
+            
     }
 }

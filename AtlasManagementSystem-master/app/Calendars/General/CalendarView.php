@@ -111,9 +111,17 @@ class CalendarView{
             $reservations = $day->authReserveDate($day->everyDay()); // 予約データを取得
 
             foreach ($reservations as $reservation) {
+              $reservation_id = htmlspecialchars($reservation['id'], ENT_QUOTES, 'UTF-8'); // 予約IDを安全に処理
+
               $html[] = '      <div class="modal-footer justify-content-between">';
               $html[] = '        <button type="button" class="btn btn-secondary bg-primary" data-bs-dismiss="modal">閉じる</button>';
-              $html[] = '        <button type="button" class="btn btn-danger confirmCancel" data-reservation-id="">キャンセルする</button>'; //フォームタグで設定するか　aタグで設定するか          
+
+              // フォームを追加
+              $html[] = '         <form action="/delete/calendar" method="POST" onsubmit="return confirm(\'本当にキャンセルしますか？\');">';
+              $html[] = '           <input type="hidden" name="_token" value="' . csrf_token() . '">'; // CSRF対策
+              $html[] = '           <input type="hidden" name="reservation_id" value="' . $reservation_id . '">';
+              $html[] = '           <button type="submit" class="btn btn-danger confirmCancel" data-reservation-id="">キャンセルする</button>'; //フォームタグで設定するか　aタグで設定するか
+              $html[] = '         </form>';
               $html[] = '      </div>';
             }
 
@@ -155,6 +163,8 @@ class CalendarView{
         // ⑤キャンセルボタンに予約IDを設定
         // $(".confirmCancel").data("reservation-id", reservationId); 
         cancelModal.find(".confirmCancel").attr("data-reservation-id", reservationId);
+        // ①cancelModal の中にあるconfirmCancelクラスを持つ要素を探す
+        // ②対象要素の data-reservation-id 属性の値をreservationId に設定
         // data-reservation-id を設定
       });
 
