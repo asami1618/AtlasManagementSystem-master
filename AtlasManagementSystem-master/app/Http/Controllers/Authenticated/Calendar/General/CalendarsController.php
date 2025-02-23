@@ -50,79 +50,84 @@ class CalendarsController extends Controller
     
     public function delete(Request $request)
     {
+        // dd($request->all());
+
         // dd($request->all()); // 送信されたデータをすべて確認
         // ・Request $request　はユーザーから送信されたデータを受け取るための変数
         // ・「予約キャンセル」のボタンを押した時に送られるデータ(予約ID)を取得できる
         
         // ① ユーザーから送信されたデータ（予約ID）を受け取る
-        $reservation_id = $request->input('reservation_id');
-        $reservation_user_id = $request->input('reservation_user_id'); 
+        $reservation_user_id = intval($request->input('reservation_user_id')); 
+        $reservation_id = intval($request->input('reservation_id'));
+        $user_id = auth()->id();// ここでログインユーザーのIDを取得
+
+        dd($reservation_user_id, $reservation_id, $user_id);
         // ・input('reservation_id')は、ユーザーが送信したreservation_id（予約ID）を取得するための関数
         // ・input('reservation_id') は、フォームのhidden入力フィールドなどから送信された値も取得する
         
-        // ② ログイン中のユーザーのIDを取得
-        $user_id = Auth::id();
-        // ・Auth::id()を使って、現在ログインしているユーザーのIDを取得
-        
-        // ③ 予約IDとユーザーIDがあるかチェック
+        // ② 予約IDとユーザーIDがあるかチェック
+        $hasReservation = null;
         if ($reservation_id && $user_id) {
             // ・この条件分岐は予約ID($reservation_id)と予約ID($user_id)が両方とも存在しているか確認している
-            // ・&&(AND演算子)を使って、両方が存在する場合にのみ次の処理を実行する
-            // ※ &&(AND演算子)は両方の条件が存在する(true)の場合にのみ処理を実行する
-            
-            // チェックしている項目
-            // 1.$reservation_id -> 予約IDがあるか？(フォームから送信されたか)
-            // 2.$user_id -> ログインしているユーザーのIDがあるか(ログインしているか)
-            // この2つがどちらもtrue(存在する)なら、データベースを検索する処理に進む
-            
+
             // ④ 予約があるかどうかをデータベースで確認
             $hasReservation = \DB::table('reserve_setting_users')
-            // \DB::table('reserve_setting_users')
             // ・reserve_setting_usersテーブルを操作する準備をしている
             // ・\DB::tableは Laravelのデータベースを使うための書き方
-            ->where('reserve_setting_id', $reservation_id)
-            // ・reserve_setting_idがフォームから送られた$reservation_idと一致するデータを探す
-            ->where('user_id', $user_id)
-            // ・user_id が現在ログインしている$user_id と一致するデータを探す
-            // ・つまり「このユーザーがこの予約を持っているか」をチェックしている
-            ->first();
-            // ・検索したデータが存在すればtrue、なければfalseを返す
-        }
-        
-        // ⑤ もし予約があるなら削除
-        if ($hasReservation) {
-            // ◇$hasReservation がtrueなら、削除処理を実行する
-            // ・exists()で調べた結果、ユーザーがこの予約を持っている場合にtrueになる
-            // ・false の場合、削除処理をスキップ
-            
-            // 予約データを削除する前に、予約枠を元に戻す処理を追加
-            // ⑥予約枠を元に戻す(該当する予約枠のの空き数を1つ増やす)
-            \DB::table('reserve_settings')
-            // 予約枠のテーブルを指定
+                ->where('id', intval($reservation_user_id)) 
+                // ・予約のユニークIDで検索する
+                ->where('user_id', intval($user_id)) // ログイン中のユーザーの予約を探す
+                // ・reserve_setting_idがフォームから送られた$reservation_idと一致するデータを探す
+                ->where('reserve_setting_id', intval($reservation_id)) // 予約のIDを指定            // ・user_id が現在ログインしている$user_id と一致するデータを探す
+                // ・つまり「このユーザーがこの予約を持っているか」をチェックしている
+                ->first();
+                // ・検索したデータが存在すればtrue、なければfalseを返す
+                // dd($hasReservation); // 結果を確認
+                
+                // ⑤ もし予約があるなら削除
+            if ($hasReservation) {
+                // ◇$hasReservation がtrueなら、削除処理を実行する
+                // ・exists()で調べた結果、ユーザーがこの予約を持っている場合にtrueになる
+                // ・false の場合、削除処理をスキップ
+                
+                // 予約データを削除する前に、予約枠を元に戻す処理を追加
+                // ⑥予約枠を元に戻す(該当する予約枠のの空き数を1つ増やす)
+                \DB::table('reserve_settings')
+                // 予約枠のテーブルを指定
                 ->where('id', $reservation_id)
                 // 'id'が$reservation_idに一致する1つの予約枠を探す
                 ->increment('limit_users', 1);
                 // 'limit_users'(空き枠数)の値を1つ増やす
-            
-            // ⑦予約データを削除
-            \DB::table('reserve_setting_users')
-            // ・reserve_setting_users テーブルを操作する
-            // ・Laravelのクエリビルダを使って、データベースのreserve_setting_usersテーブルを操作する準備をする
-                ->where('reserve_setting_id', $reservation_id)
+                
+                // dd("削除するデータ:", $hasReservation);
+                
+                \DB::table('reserve_setting_users')
+                // ・reserve_setting_users テーブルを操作する
+                // ・Laravelのクエリビルダを使って、データベースのreserve_setting_usersテーブルを操作する準備をする
+                // ->where('id', $reservation_user_id) // 予約のユニークなID
+                ->where('id', intval($reservation_user_id))
                 // ・reserve_setting_id(予約ID)が$reservation_idに一致するデータを検索する
-                ->where('user_id', $user_id)
+                // ->where('user_id',intval($user_id))
                 // ・user_id(ユーザーID)が$user_idに一致するデータを検索する
                 ->delete();
                 // ・条件に一致するデータを削除する
-            
-            // ⑧ 元の画面に戻る
-            // 削除後にカレンダー画面へリダイレクト
-            return redirect()->route('calendar.general.show', [
-                'reservation_id' => $reservation_id,
-                'reservation_user_id' => $reservation_user_id
-            ]);
+                
+                // // 削除後にデータが本当に消えたか確認
+                // $deletedReservation = \DB::table('reserve_setting_users')
+                // ->where('id', intval($hasReservation))
+                // ->first();
+                
+                // dd("削除後の状態:", $hasReservation);
+                
+                // ⑧ 元の画面に戻る
+                // 削除後にカレンダー画面へリダイレクト
+                return redirect()->route('calendar.general.show', [
+                    'reservation_id' => $reservation_id,
+                    'reservation_user_id' => $reservation_user_id
+                ]);
+            }
         }
-        
+        return redirect()->back();
         // <処理の流れ　まとめ>
         // ① フォームから予約ID(reservation_id)を受け取る
         // ② ログイン中のユーザーのID(user_id)を取得
