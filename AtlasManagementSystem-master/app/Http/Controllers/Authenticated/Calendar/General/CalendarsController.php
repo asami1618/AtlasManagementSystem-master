@@ -85,7 +85,16 @@ class CalendarsController extends Controller
         // ・exists()で調べた結果、ユーザーがこの予約を持っている場合にtrueになる
         // ・false の場合、削除処理をスキップ
 
-            // ⑥ 予約データを削除
+            // 予約データを削除する前に、予約枠を元に戻す処理を追加
+            // ⑥予約枠を元に戻す(該当する予約枠のの空き数を1つ増やす)
+            \DB::table('reserve_settings')
+            // 予約枠のテーブルを指定
+            ->where('id', $reservation_id)
+            // 'id'が$reservation_idに一致する1つの予約枠を探す
+            ->increment('limit_users', 1);
+            // 'limit_users'(空き枠数)の値を1つ増やす
+
+            // ⑦予約データを削除
             \DB::table('reserve_setting_users')
             // ・reserve_setting_users テーブルを操作する
             // ・Laravelのクエリビルダを使って、データベースのreserve_setting_usersテーブルを操作する準備をする
@@ -96,7 +105,7 @@ class CalendarsController extends Controller
                 ->delete();
                 // ・条件に一致するデータを削除する
 
-                // ⑦ 元の画面に戻る
+                // ⑧ 元の画面に戻る
                 return redirect()->back();
                 // ・削除が完了したら、元のページにリダイレクト(戻る)
             }
@@ -106,8 +115,9 @@ class CalendarsController extends Controller
         // ② ログイン中のユーザーのID(user_id)を取得
         // ③ 予約IDとユーザーIDがあるかチェック
         // ④ ユーザーがその予約を持っているかデータベースで確認
-        // ⑤ 予約があるなら削除
-        // ⑥ 削除が完了したら、元のページに戻る
+        // ⑤ 予約枠を元に戻す
+        // ⑥ 予約があるなら削除
+        // ⑦ 削除が完了したら、元のページに戻る
 
         // 下記不要↓↓
         // // 予約を検索して削除(データベースから該当する予約を探す)
