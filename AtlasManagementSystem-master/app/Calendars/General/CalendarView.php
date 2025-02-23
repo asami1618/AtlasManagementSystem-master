@@ -116,11 +116,19 @@ class CalendarView{
               $html[] = '      <div class="modal-footer justify-content-between">';
               $html[] = '        <button type="button" class="btn btn-secondary bg-primary" data-bs-dismiss="modal">閉じる</button>';
 
+              // 予約情報を取得
+              $reservation = \DB::table('reserve_setting_users')
+                  ->where('reserve_setting_id', $reservation_id)
+                  ->first();
+
+              $reservation_user_id = $reservation->user_id ?? null;
+              
               // フォームを追加
               $html[] = '         <form action="/delete/calendar" method="POST" onsubmit="return confirm(\'本当にキャンセルしますか？\');">';
               $html[] = '           <input type="hidden" name="_token" value="' . csrf_token() . '">'; // CSRF対策
               $html[] = '           <input type="hidden" name="reservation_id" value="' . $reservation_id . '">';
-              $html[] = '           <button type="submit" class="btn btn-danger confirmCancel" data-reservation-id="">キャンセルする</button>'; //フォームタグで設定するか　aタグで設定するか
+              $html[] = '           <input type="hidden" name="reservation_user_id" value="' . ($reservation_user_id ?? '') . '">';
+              $html[] = '           <button type="submit" class="btn btn-danger confirmCancel" data-reservation-id="' . ($reservation_id ?? '') . '">キャンセルする</button>'; //フォームタグで設定するか　aタグで設定するか
               $html[] = '         </form>';
               $html[] = '      </div>';
             }
