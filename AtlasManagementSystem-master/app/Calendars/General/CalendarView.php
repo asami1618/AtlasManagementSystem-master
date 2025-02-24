@@ -109,9 +109,12 @@ class CalendarView{
             $html[] = '      </div>';
 
             $reservations = $day->authReserveDate($day->everyDay()); // 予約データを取得
-
+            // $reservations = Auth::user()->reserveSettings()->get();
+            // dd($reservations);
+            
             foreach ($reservations as $reservation) {
               $reservation_id = $reservation->id;
+              $reservation_user_id = $reservation->user_id ?? null;
 
               $html[] = '      <div class="modal-footer justify-content-between">';
               $html[] = '        <button type="button" class="btn btn-secondary bg-primary" data-bs-dismiss="modal">閉じる</button>';
@@ -119,17 +122,20 @@ class CalendarView{
               // 予約情報を取得
               $reserved_user = \DB::table('reserve_setting_users')
                   ->where('reserve_setting_id', $reservation_id)
-                  ->get();
+                  ->first();
 
-              $reservation_user_id = $reservation->user_id ?? null;
+                if ($reserved_user) {
+                  $reservation_user_id = $reserved_user->user_id; // 正しく取得
+              }
+
               // dd($reservation_user_id);
               // dd($reservation);
               // フォームを追加
               $html[] = '         <form action="/delete/calendar" method="POST" onsubmit="return confirm(\'本当にキャンセルしますか？\');">';
               $html[] = '           <input type="hidden" name="_token" value="' . csrf_token() . '">'; // CSRF対策
-              $html[] = '           <input type="hidden" name="reservation_id" id="reservationIdInput">';
-              $html[] = '           <input type="hidden" name="reservation_user_id" id="reservationUserIdInput">';
-              $html[] = '           <button type="submit" class="btn btn-danger confirmCancel" data-reservation-id="' . $reservation_id . '">キャンセルする</button>'; //フォームタグで設定するか　aタグで設定するか
+              $html[] = '           <input type="hidden" id="reservationIdInput" name="reservation_id" >';
+              $html[] = '           <input type="hidden" id="reservationUserIdInput" name="reservation_user_id">';
+              $html[] = '           <button type="submit" class="btn btn-danger confirmCancel" data-reservation-id="' . $reservation_id . '" data-reservation-user-id="' . $reservation_user_id . '">キャンセルする</button>'; //フォームタグで設定するか　aタグで設定するか
               $html[] = '         </form>';
               $html[] = '      </div>';
             }
@@ -193,7 +199,12 @@ class CalendarView{
 
         // 8. キャンセルボタンがクリックされたらAJAXでリクエスト
         $(".confirmCancel").on("click", function () {
+        
           let reservationId = $(this).data("reservation-id"); // クリック時に正しく取得
+
+          console.log("選択した予約ID:", reservationId);
+          console.log("フォームにセットした予約ID:", $("#reservationIdInput").val());
+
 
         // 9. AJAXでサーバーにキャンセルリクエストを送る
         // AJAXという仕組みを用いてページを再読み込みせずにサーバーと通信
