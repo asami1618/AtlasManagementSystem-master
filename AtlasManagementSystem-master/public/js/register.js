@@ -121,34 +121,3 @@ $(function () {
       this.classList.toggle('open'); // クリック時にopenクラスをトグル
     });
   });
-  
-  // キャンセル処理
-  document.addEventListener("DOMContentLoaded", function () {
-    // ボタンがクリックされた時の処理
-    document.getElementById("confirmCancel").addEventListener("click", function () {
-        const reservationId = this.getAttribute("data-reservation-id"); // 予約IDを取得
-
-        // キャンセル処理のためのリクエストを送信
-        fetch(`/cancel-reservation/${reservationId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content // CSRFトークン
-              },
-              body: JSON.stringify({
-                  reservation_id: reservationId
-              })
-          })
-          .then(response => response.json())
-          .then(data => {
-              if (data.success) {
-                  // キャンセル成功後、ページをリロード
-                  location.reload();
-              }
-              // 失敗時にはアラートを表示しない
-          })
-          .catch(error => {
-              // エラーがあった場合も何も表示しない
-          });
-      });
-    });

@@ -60,8 +60,10 @@ class CalendarsController extends Controller
         $reservation_user_id = intval($request->input('reservation_user_id')); 
         $reservation_id = intval($request->input('reservation_id'));
         $user_id = auth()->id();// ここでログインユーザーのIDを取得
+        // dd(auth()->id());
+        // dd($reservation_id);
 
-        dd($reservation_user_id, $reservation_id, $user_id);
+        // dd($reservation_user_id, $reservation_id, $user_id);
         // ・input('reservation_id')は、ユーザーが送信したreservation_id（予約ID）を取得するための関数
         // ・input('reservation_id') は、フォームのhidden入力フィールドなどから送信された値も取得する
         
@@ -83,7 +85,10 @@ class CalendarsController extends Controller
                 ->first();
                 // ・検索したデータが存在すればtrue、なければfalseを返す
                 // dd($hasReservation); // 結果を確認
-                
+                // dd(auth()->id());
+                // dd($reservation_id);
+                // dd($reservation_user_id, $reservation_id, auth()->id());
+
                 // ⑤ もし予約があるなら削除
             if ($hasReservation) {
                 // ◇$hasReservation がtrueなら、削除処理を実行する
@@ -98,16 +103,16 @@ class CalendarsController extends Controller
                 // 'id'が$reservation_idに一致する1つの予約枠を探す
                 ->increment('limit_users', 1);
                 // 'limit_users'(空き枠数)の値を1つ増やす
+                // dd("予約枠の更新成功");
                 
                 // dd("削除するデータ:", $hasReservation);
                 
                 \DB::table('reserve_setting_users')
                 // ・reserve_setting_users テーブルを操作する
                 // ・Laravelのクエリビルダを使って、データベースのreserve_setting_usersテーブルを操作する準備をする
-                // ->where('id', $reservation_user_id) // 予約のユニークなID
-                ->where('id', intval($reservation_user_id))
-                // ・reserve_setting_id(予約ID)が$reservation_idに一致するデータを検索する
-                // ->where('user_id',intval($user_id))
+                ->where('reserve_setting_id',  $reserve_setting_id)
+                // ・一つ目の枠を絞り込む
+                ->where('user_id', $user_id)//ユーザーを絞り込む
                 // ・user_id(ユーザーID)が$user_idに一致するデータを検索する
                 ->delete();
                 // ・条件に一致するデータを削除する

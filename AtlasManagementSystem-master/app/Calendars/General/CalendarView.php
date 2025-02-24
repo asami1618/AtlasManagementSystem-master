@@ -111,24 +111,25 @@ class CalendarView{
             $reservations = $day->authReserveDate($day->everyDay()); // 予約データを取得
 
             foreach ($reservations as $reservation) {
-              $reservation_id = htmlspecialchars($reservation['id'], ENT_QUOTES, 'UTF-8'); // 予約IDを安全に処理
+              $reservation_id = $reservation->id;
 
               $html[] = '      <div class="modal-footer justify-content-between">';
               $html[] = '        <button type="button" class="btn btn-secondary bg-primary" data-bs-dismiss="modal">閉じる</button>';
 
               // 予約情報を取得
-              $reservation = \DB::table('reserve_setting_users')
+              $reserved_user = \DB::table('reserve_setting_users')
                   ->where('reserve_setting_id', $reservation_id)
-                  ->first();
+                  ->get();
 
               $reservation_user_id = $reservation->user_id ?? null;
-              
+              // dd($reservation_user_id);
+              // dd($reservation);
               // フォームを追加
               $html[] = '         <form action="/delete/calendar" method="POST" onsubmit="return confirm(\'本当にキャンセルしますか？\');">';
               $html[] = '           <input type="hidden" name="_token" value="' . csrf_token() . '">'; // CSRF対策
-              $html[] = '           <input type="hidden" name="reservation_id" value="' . $reservation_id . '">';
-              $html[] = '           <input type="hidden" name="reservation_user_id" value="' . ($reservation_user_id ?? '') . '">';
-              $html[] = '           <button type="submit" class="btn btn-danger confirmCancel" data-reservation-id="' . ($reservation_id ?? '') . '">キャンセルする</button>'; //フォームタグで設定するか　aタグで設定するか
+              $html[] = '           <input type="hidden" name="reservation_id" id="reservationIdInput">';
+              $html[] = '           <input type="hidden" name="reservation_user_id" id="reservationUserIdInput">';
+              $html[] = '           <button type="submit" class="btn btn-danger confirmCancel" data-reservation-id="' . $reservation_id . '">キャンセルする</button>'; //フォームタグで設定するか　aタグで設定するか
               $html[] = '         </form>';
               $html[] = '      </div>';
             }
@@ -150,37 +151,51 @@ class CalendarView{
     $html[] = '<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>';
     $html[] = '<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>';
     $html[] = '<script>
+    // 1. ページが読み込まれたら実行する
     $(document).ready(function () {
-      // ①ページ読み込みが完了した時に実行される処理
+      // 2. モーダル（ポップアップ画面）を取得
       const cancelModal = $("#cancelModal");
-      // 取得した要素(id="cancelModal"がついているdivタグ)を"cancelModal"という変数に保存
+      // ・$("#cancelModal") は <div id="cancelModal"> というモーダルを取得
+      // ・cancelModal という変数に保存して、後で使いやすくする->「キャンセル確認のポップアップ」 のこと
 
-      // ②モーダルが表示される直前のイベントリスナーを設定
+      // 3. モーダルが開かれる前に予約情報をセット
       cancelModal.on("show.bs.modal", function (event) {
-        // ③トリガーボタンの情報を取得
-        const button = $(event.relatedTarget); // トリガーとなったボタン
-        const date = button.data("date"); // data-date 属性の値を取得
-        const part = button.data("part"); // data-part 属性の値を取得
-        const reservationId = button.data("reservation-id"); // data-reservation-id 属性の値を取得
 
-        console.log(reservationId);
-        // ④モーダルの内容を更新
+        // 4. モーダルを開いたボタンの情報を取得
+        const button = $(event.relatedTarget); // トリガーとなったボタン
+        // event.relatedTarget は、モーダルを開いたボタンのこと
+        
+        const date = button.data("date"); // data-date 属性の値を取得(予約日)
+        const part = button.data("part"); // data-part 属性の値を取得(予約時間)
+        const reservationId = button.data("reservation-id"); // キャンセルボタン(button)の data-reservation-id 属性の値を取得する(予約ID)
+        const reservationUserId = button.data("reservation-user-id"); //キャンセルボタン(button)の data-reservation-user-id の値を取得する(ユーザーID)
+        // ->なぜこの情報を取得するのか？ 「どの予約をキャンセルするのか」「どのユーザーがキャンセルするのか」サーバーに伝えるため
+        
+        // 5. モーダルの内容を書き換える
         cancelModal.find(".modal-body p:nth-child(1)").text("予約日: " + date);
         cancelModal.find(".modal-body p:nth-child(2)").text("時間: " + part + "部");
+        
+        // 6. フォームの 「hidden input」に予約情報をセット
+        // 「フォーム内の隠し入力欄（hidden input）に値をセットする処理」
+        $("#reservationIdInput").val(reservationId);
+        // ・$("#reservationIdInput")-> id="reservationIdInput"の要素(inputタグ)を取得する
+        // ・.val(reservationId)-><input>の現在の入力値(value)を「reservationId」にセットする
+        $("#reservationUserIdInput").val(reservationUserId);
+        // ・$("#reservationUserIdInput")-> id="reservationUserIdInput"の要素(inputタグ)を取得
+        // ・.val(reservationUserId)-><input>の現在の入力値(value)を「reservationUserId」にセットする
 
-        // ⑤キャンセルボタンに予約IDを設定
-        // $(".confirmCancel").data("reservation-id", reservationId); 
+        // 7. キャンセルボタンに予約IDをセット
         cancelModal.find(".confirmCancel").attr("data-reservation-id", reservationId);
+        });
         // ①cancelModal の中にあるconfirmCancelクラスを持つ要素を探す
         // ②対象要素の data-reservation-id 属性の値をreservationId に設定
         // data-reservation-id を設定
-      });
 
-      // ⑥キャンセルボタンがクリックされたときの処理
-      $(".confirmCancel").on("click" , function() {
-        var reservationId = $(this).data("reservation-id");
+        // 8. キャンセルボタンがクリックされたらAJAXでリクエスト
+        $(".confirmCancel").on("click", function () {
+          let reservationId = $(this).data("reservation-id"); // クリック時に正しく取得
 
-        // ⑦AJAXでキャンセルリクエストを送信
+        // 9. AJAXでサーバーにキャンセルリクエストを送る
         // AJAXという仕組みを用いてページを再読み込みせずにサーバーと通信
         $.ajax({
           url: "/delete/calendar", //キャンセル処理を実行するサーバー
@@ -188,14 +203,6 @@ class CalendarView{
           type: "POST",
           data: { 
             reservation_id: reservationId, //送信するデータ(予約ID)を指定
-          },
-          success: function(response) { //キャンセルが成功した時の処理
-            console.log("サーバーの応答:", response);
-
-            // 成功したらモーダルを閉じてリロード
-            $("#cancelModal").modal("hide");
-            alert("予約がキャンセルされました");
-            location.reload(); // ページをリロードして反映
           }
         });
       });
