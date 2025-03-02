@@ -113,15 +113,16 @@ class CalendarsController extends Controller
                 // dd($request);
                 // 前に送ってないデータを入れて探していたが、該当するものがなく削除ができていなかった
                 
-                \DB::table('reserve_setting_users')//たくさんあるので絞り込みたい
+                \DB::table('reserve_setting_users')//たくさんあるので絞り込みたい->絞り込む時に必要な情報は何？
                 // ・reserve_setting_users テーブルを操作する
                 // ・Laravelのクエリビルダを使って、データベースのreserve_setting_usersテーブルを操作する準備をする
-                ->where('reserve_setting_id',  $reservation_id)
+                ->where('reserve_setting_id',  $reservation_id)//枠の情報
                 //・一つ目の枠を絞り込む
-                ->where('user_id', $user_id)//ユーザーを絞り込む
+                ->where('user_id', $user_id)//ユーザーを絞り込む(ユーザーの情報)
                 // ・user_id(ユーザーID)が$user_idに一致するデータを検索する
                 ->delete();
                 // ・条件に一致するデータを削除する
+                // ユーザーのIDと枠のIDを絞り込む
             }
         }
         // ⑧ 元の画面に戻る

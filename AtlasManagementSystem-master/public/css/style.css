@@ -69,10 +69,8 @@ li{
 .day{
   padding-top: 10px;
 }
-
-
 .day-blank{
-  background:#D3D3D3;
+  background:#959595;
 }
 .day-sat{
   color:#0000FF;
@@ -81,7 +79,7 @@ li{
   color:#FF0000;
 }
 .past-day{
-  background:#EEE;
+  background:#D3D3D3;
 }
 .calendar-td{
   min-width:100px;
