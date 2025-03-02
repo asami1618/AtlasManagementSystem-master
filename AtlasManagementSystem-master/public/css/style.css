@@ -370,7 +370,7 @@ li{
   flex-wrap:wrap;
   width:800px;
   margin:10px auto;
-  /* height:80vh; */
+  height:fit-content;
   overflow: scroll;
   padding:10px;
   background:#FFF;
