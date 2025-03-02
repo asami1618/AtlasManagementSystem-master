@@ -8,49 +8,49 @@ $(function () {
   });
 
   $(document).on('click keyup change', function () {
-    var over_name = $('.over_name').val().length;
+    var over_name = $('.over_name').text().length;
     if (over_name >= 1) {
       $('.over_name').addClass('success_name');
     } else {
       $('.over_name').removeClass('success_name');
     }
 
-    var over_name_kana = $('.over_name_kana').val().length;
+    var over_name_kana = $('.over_name_kana').text().length;
     if (over_name_kana >= 1) {
       $('.over_name_kana').addClass('success_name_kana');
     } else {
       $('.over_name_kana').removeClass('success_name_kana');
     }
 
-    var under_name = $('.under_name').val().length;
+    var under_name = $('.under_name').text().length;
     if (under_name >= 1) {
       $('.under_name').addClass('success_under_name');
     } else {
       $('.under_name').removeClass('success_under_name');
     }
 
-    var under_name_kana = $('.under_name_kana').val().length;
+    var under_name_kana = $('.under_name_kana').text().length;
     if (under_name_kana >= 1) {
       $('.under_name_kana').addClass('success_under_name_kana');
     } else {
       $('.under_name_kana').removeClass('success_under_name_kana');
     }
 
-    var mail_address = $('.mail_address').val().length;
+    var mail_address = $('.mail_address').text().length;
     if (mail_address >= 1) {
       $('.mail_address').addClass('success_mail_address');
     } else {
       $('.mail_address').removeClass('success_mail_address');
     }
 
-    var password = $('.password').val().length;
+    var password = $('.password').text().length;
     if (password >= 1) {
       $('.password').addClass('success_password');
     } else {
       $('.password').removeClass('success_password');
     }
 
-    var password_confirm = $('.password_confirmation').val().length;
+    var password_confirm = $('.password_confirmation').text().length;
     if (password_confirm >= 1) {
       $('.password_confirmation').addClass('success_password_confirm');
     } else {
@@ -111,13 +111,34 @@ $(function () {
   });
 
   // ユーザー一覧　検索条件の追加
-  document.querySelector('.add_search_conditions').addEventListener('click', function() {
-    this.classList.toggle('open'); // クリック時にopenクラスをトグル
+    document.addEventListener("DOMContentLoaded", function() {
+      // ・HTMLの読み込みが完了したタイミングでFubctionないの処理を実行
+      // ・「DOMのコンテンツが読み込まれた時」に発火するイベント
+      // ・基本的な使い方「要素.addEventListener('イベントの種類',関数)」
+      const span = document.querySelector('.add_search_conditions');
+      // ・document.querySelectorとは「指定したCSSセレクタに一致する最初の要素を取得」
+      // ・取得した要素を「span」という変数に格納
+      if (span) {
+        // ・spanに要素が正常に取得できたかチェック
+          span.addEventListener('click', function() {
+            // ・spanにclickイベントリスナーを追加
+            // ・spanがクリックされたら、function()内の処理を実行
+            this.classList.toggle('open');
+            // ・クリックされた要素(span)にopenクラスを追加/削除(トグル)
+            // ・thisは、イベント発火元のspanを指す
+            // ・classList.toggle() とは？
+            // ①指定したクラスがない場合 → 追加
+            // ②指定したクラスがある場合 → 削除
+        });
+      }
   });
   
-  // 　プロフィール
-  document.addEventListener('DOMContentLoaded', function() {
-    document.querySelector('.subject_edit_btn').addEventListener('click', function() {
-      this.classList.toggle('open'); // クリック時にopenクラスをトグル
-    });
+    document.addEventListener('DOMContentLoaded', function() {
+      const span = document.querySelector('.subject_edit_btn');
+
+      if (span) {
+        span.addEventListener('click', function() {
+            this.classList.toggle('open'); // クリック時にopenクラスをトグル
+        });
+      }
   });
