@@ -20,11 +20,11 @@ class CalendarSettingView{
     $html[] = '<table class="table m-auto border adjust-table">';
     $html[] = '<thead>';
     $html[] = '<tr>';
-    $html[] = '<th class="border">月</th>';
-    $html[] = '<th class="border">火</th>';
-    $html[] = '<th class="border">水</th>';
-    $html[] = '<th class="border">木</th>';
-    $html[] = '<th class="border">金</th>';
+    $html[] = '<th class="border day-mon">月</th>';
+    $html[] = '<th class="border day-tue">火</th>';
+    $html[] = '<th class="border day-wed">水</th>';
+    $html[] = '<th class="border day-thu">木</th>';
+    $html[] = '<th class="border day-fri">金</th>';
     $html[] = '<th class="border day-sat">土</th>';
     $html[] = '<th class="border day-sun">日</th>';
     $html[] = '</tr>';

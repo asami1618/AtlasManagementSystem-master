@@ -21,6 +21,11 @@ li{
   align-items: center;
 }
 
+.login_content,
+.new_register_content{
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 軽い影をつける */
+  border-radius: 10px; /* 角を丸くする */
+}
 
 .atlas-image {
   display: block;
@@ -62,15 +67,29 @@ li{
 .user_status{
   border-radius:10px;
   background:#FFF;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 軽い影をつける */
 }
 
 
 /* スクール予約関連 */
+.table{
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 軽い影をつける */
+  border-radius: 10px; /* 角を丸くする */
+}
 .day{
   padding-top: 10px;
 }
 .day-blank{
   background:#959595;
+}
+.day-mon,
+.day-tue,
+.day-wed,
+.day-thu,
+.day-fri,
+.day-sat,
+.day-sun{
+  background-color: white;
 }
 .day-sat{
   color:#0000FF;
@@ -151,6 +170,7 @@ li{
 .post_area{
   background:#FFF;
   border-radius:10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 軽い影をつける */
 }
 .post_bottom_area{
   justify-content: space-between;
