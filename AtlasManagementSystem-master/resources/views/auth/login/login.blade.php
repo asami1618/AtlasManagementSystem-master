@@ -12,9 +12,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&family=Oswald:wght@200&display=swap" rel="stylesheet">
   <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
 </head>
-<body>
+<body class="login_container_area">
   <form action="{{ route('loginPost') }}" method="POST">
-    <div class="container">
+    <div class="login_container">
       <img src="{{ asset('/image/atlas-black.png') }}" class="atlas-image" width="150" height="55">
     </div>
     <div class="w-100 vh-50 d-flex" style="align-items:center; justify-content:center;">

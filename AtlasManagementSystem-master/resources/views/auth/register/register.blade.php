@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&family=Oswald:wght@200&display=swap" rel="stylesheet">
   <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
 </head>
-<body>
+<body class="register_area">
   <form action="{{ route('registerPost') }}" method="POST">
     <div class="w-100 vh-100 d-flex" style="align-items:center; justify-content:center;">
       <div class="new_register_content w-25 vh-75 border p-3">
@@ -123,8 +123,8 @@
                 @endforeach
               </tr>
             @endif
-        <div class="mt-3">
-          <label class="d-block m-0 aa" style="font-size:13px">生年月日</label>
+        <div class="select_day_area mt-3">
+          <label class="date_of_birth d-block m-0 aa" style="font-size:13px">生年月日</label>
           <select class="old_year" name="old_year">
             <option value="none">-----</option>
             <option value="1985">1985</option>

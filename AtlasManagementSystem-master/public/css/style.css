@@ -13,8 +13,13 @@ li{
   list-style:none;
 }
 
+.login_container_area,
+.register_area{
+  background:#ECF1F6;
+}
+
 /* Atlasロゴ */
-.container {
+.login_container {
  /* 子要素を水平方向の中央に配置する */
   display: flex;
   justify-content: center;
@@ -25,6 +30,7 @@ li{
 .new_register_content{
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 軽い影をつける */
   border-radius: 10px; /* 角を丸くする */
+  background-color: white;
 }
 
 .atlas-image {
@@ -37,7 +43,27 @@ li{
   margin-bottom: 20px;
 }
 
+/* 新規登録画面 */
+.select_day_area{
+  display: flex;
+  flex-direction: column; /* 縦並びにする */
+  gap: 10px; /* 各要素の間隔 */
+  align-items: center;
+}
 
+.date_of_birth{
+  white-space: nowrap; /* ラベルを横にする */
+  margin-right: 10px; /* 適度な余白 */
+  gap: 5px; /* セレクトボックスの間隔 */
+}
+
+.old_year,
+.old_month,
+.old_day{
+  display: flex;
+  min-width: 20px; /* ラベルの固定幅 */
+
+}
 
 /* サイドバー */
 .sidebar{
