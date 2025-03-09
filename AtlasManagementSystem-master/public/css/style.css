@@ -657,7 +657,19 @@ select {
   margin-top: 30px;
 }
 
+.calendar_area{
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 軽い影をつける */
+}
+
 .calendar_title{
   margin-top: 10px;
   text-align: center;
+}
+
+.calendar_setting_area{
+  background-color: white;
+  padding-top: 30px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 軽い影をつける */
+  border-radius: 10px; /* 角を丸くする */
+
 }
