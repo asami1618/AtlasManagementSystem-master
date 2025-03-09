@@ -18,18 +18,18 @@ class CalendarView{
   function render(){
     $html = [];
     $html[] = '<div class="calendar text-center">';
-    $html[] = '<table class="table">';
-    $html[] = '<thead>';
-    $html[] = '<tr>';
-    $html[] = '<th>月</th>';
-    $html[] = '<th>火</th>';
-    $html[] = '<th>水</th>';
-    $html[] = '<th>木</th>';
-    $html[] = '<th>金</th>';
-    $html[] = '<th class="day-sat">土</th>';
-    $html[] = '<th class="day-sun">日</th>';
-    $html[] = '</tr>';
-    $html[] = '</thead>';
+    $html[] =   '<table class="table">';
+    $html[] =     '<thead>';
+    $html[] =       '<tr>';
+    $html[] =         '<th>月</th>';
+    $html[] =         '<th>火</th>';
+    $html[] =         '<th>水</th>';
+    $html[] =         '<th>木</th>';
+    $html[] =         '<th>金</th>';
+    $html[] =         '<th class="day-sat">土</th>';
+    $html[] =         '<th class="day-sun">日</th>';
+    $html[] =       '</tr>';
+    $html[] =     '</thead>';
     $html[] = '<tbody>';
     $weeks = $this->getWeeks();
     foreach($weeks as $week){

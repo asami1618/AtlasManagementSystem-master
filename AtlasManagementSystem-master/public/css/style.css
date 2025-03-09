@@ -26,7 +26,12 @@ li{
   align-items: center;
 }
 
-.login_content,
+.login_content{
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 軽い影をつける */
+  border-radius: 10px; /* 角を丸くする */
+  background-color: white;
+}
+
 .new_register_content{
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 軽い影をつける */
   border-radius: 10px; /* 角を丸くする */
@@ -47,22 +52,33 @@ li{
 .select_day_area{
   display: flex;
   flex-direction: column; /* 縦並びにする */
+  align-items: flex-start;
   gap: 10px; /* 各要素の間隔 */
-  align-items: center;
 }
 
-.date_of_birth{
-  white-space: nowrap; /* ラベルを横にする */
-  margin-right: 10px; /* 適度な余白 */
-  gap: 5px; /* セレクトボックスの間隔 */
+.birthdate-selects{
+  display: flex;
+  align-items: center;
+  gap: 20px; /* セレクトボックスの間隔 */
+  
 }
 
 .old_year,
 .old_month,
 .old_day{
-  display: flex;
-  min-width: 20px; /* ラベルの固定幅 */
+  border: none;
+  border-bottom: 1px solid #007bff; /* 青い下線 */
+  background-color: transparent;
+  outline: none;
+  /* min-width: 20px; ラベルの固定幅 */
+  border-radius: 0; /* 角丸をなくして棒線にする */
+  width: 85px;
+}
 
+.radio_area {
+  display: flex;
+  justify-content: space-between; /* 均等配置 */
+  width: 100%; /* 親要素の幅を最大にする */
 }
 
 /* サイドバー */
@@ -417,7 +433,7 @@ li{
   height:fit-content;
   overflow: scroll;
   padding:10px;
-  background:#FFF;
+  background:#ECF1F6;
   border-radius:5px;
 }
 .reserve_users_area span{
@@ -645,4 +661,3 @@ select {
   margin-top: 10px;
   text-align: center;
 }
-
