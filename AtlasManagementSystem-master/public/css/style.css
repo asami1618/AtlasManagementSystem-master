@@ -53,14 +53,13 @@ li{
   display: flex;
   flex-direction: column; /* 縦並びにする */
   align-items: flex-start;
-  gap: 10px; /* 各要素の間隔 */
+  gap: 2px; /* 各要素の間隔 */
 }
 
 .birthdate-selects{
   display: flex;
   align-items: center;
-  gap: 20px; /* セレクトボックスの間隔 */
-  
+  gap: 10px; /* セレクトボックスの間隔 */
 }
 
 .old_year,
@@ -83,13 +82,18 @@ li{
 
 /* サイドバー */
 .sidebar{
-  width:210px;
-  height:100vh;
+  /* width:210px; */
   background-color:#03AAD2;
   font-weight:bold;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 200px;
 }
 .main-container{
   width:100%;
+  margin-left: 200px;
 }
 .sidebar p a{
   color:#FFF;

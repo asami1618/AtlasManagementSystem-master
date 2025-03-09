@@ -48,8 +48,9 @@
       Userモデルに　"subjects"という"belongsToMany"や"hasMany"のリレーションが定義されていることが前提。　-->
       <div>
         @if($user->role == 4)
+        <span class="users_title">選択科目 :</span>
         @foreach($user->subjects as $subject)
-        <span class="users_title">選択科目 :</span><span>{{ $subject->subject }}</span>
+        <span>{{ $subject->subject }}</span>
         @endforeach
         @endif
       </div>
@@ -109,7 +110,7 @@
             @foreach($allSubjects as $subject)
                 <input type="checkbox" id="subject_{{ $subject->id }}" name="subject[]" value="{{ $subject->id }}" form="userSearchRequest">
                 <label for="subject_{{ $subject->id }}">{{ $subject->subject }}</label>
-            @endforeach
+                @endforeach
             <!-- <span>国語</span><input type="checkbox" name="subject[]"  form="userSearchRequest">
             <span>数学</span><input type="checkbox" name="subject[]" form="userSearchRequest">
             <span>英語</span><input type="checkbox" name="subject[]" form="userSearchRequest"> -->

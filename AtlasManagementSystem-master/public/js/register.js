@@ -98,6 +98,19 @@ $(function () {
       $('.register_btn').prop('disabled', true);
     }
   });
+
+  // // 新規登録
+  // document.addEventListener("DOMContentLoaded", function () {
+  //   const form = document.querySelector("form");
+  //   const submitButton = document.querySelector(".register_btn");
+
+  //   form.addEventListener("input", function () {
+  //     // すべての必須項目が入力されているかチェック
+  //     const isFormValid = form.checkValidity();
+  //     submitButton.disabled = !isFormValid; // フォームが有効ならボタンを有効化
+  //   });
+  // });
+
   
   //  掲示板　カテゴリー検索
   $(function () {
