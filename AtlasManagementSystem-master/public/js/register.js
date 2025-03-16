@@ -8,49 +8,49 @@ $(function () {
   });
 
   $(document).on('click keyup change', function () {
-    var over_name = $('.over_name').text().length;
+    var over_name = $('.over_name').val().length;
     if (over_name >= 1) {
       $('.over_name').addClass('success_name');
     } else {
       $('.over_name').removeClass('success_name');
     }
 
-    var over_name_kana = $('.over_name_kana').text().length;
+    var over_name_kana = $('.over_name_kana').val().length;
     if (over_name_kana >= 1) {
       $('.over_name_kana').addClass('success_name_kana');
     } else {
       $('.over_name_kana').removeClass('success_name_kana');
     }
 
-    var under_name = $('.under_name').text().length;
+    var under_name = $('.under_name').val().length;
     if (under_name >= 1) {
       $('.under_name').addClass('success_under_name');
     } else {
       $('.under_name').removeClass('success_under_name');
     }
 
-    var under_name_kana = $('.under_name_kana').text().length;
+    var under_name_kana = $('.under_name_kana').val().length;
     if (under_name_kana >= 1) {
       $('.under_name_kana').addClass('success_under_name_kana');
     } else {
       $('.under_name_kana').removeClass('success_under_name_kana');
     }
 
-    var mail_address = $('.mail_address').text().length;
+    var mail_address = $('.mail_address').val().length;
     if (mail_address >= 1) {
       $('.mail_address').addClass('success_mail_address');
     } else {
       $('.mail_address').removeClass('success_mail_address');
     }
 
-    var password = $('.password').text().length;
+    var password = $('.password').val().length;
     if (password >= 1) {
       $('.password').addClass('success_password');
     } else {
       $('.password').removeClass('success_password');
     }
 
-    var password_confirm = $('.password_confirmation').text().length;
+    var password_confirm = $('.password_confirmation').val().length;
     if (password_confirm >= 1) {
       $('.password_confirmation').addClass('success_password_confirm');
     } else {
@@ -99,17 +99,20 @@ $(function () {
     }
   });
 
-  // // 新規登録
-  // document.addEventListener("DOMContentLoaded", function () {
-  //   const form = document.querySelector("form");
-  //   const submitButton = document.querySelector(".register_btn");
+  // 新規登録
+  document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
+    const submitButton = document.querySelector(".register_btn");
 
-  //   form.addEventListener("input", function () {
-  //     // すべての必須項目が入力されているかチェック
-  //     const isFormValid = form.checkValidity();
-  //     submitButton.disabled = !isFormValid; // フォームが有効ならボタンを有効化
-  //   });
-  // });
+    form.addEventListener("input", function () {
+      // すべての必須項目が入力されているかチェック
+      const isFormValid = form.checkValidity();
+      submitButton.disabled = !isFormValid; // フォームが有効ならボタンを有効化
+    });
+  });
+
+  
+
 
   
   //  掲示板　カテゴリー検索

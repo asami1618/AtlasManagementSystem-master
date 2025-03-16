@@ -22,112 +22,99 @@
 
             <!-- バリデーション　エラーメッセージ表示 姓 over_name-->
             @if ($errors->has('over_name'))
-              <tr>
-                @foreach($errors->get('over_name') as $message)
-                <td> {{ $message }} </td>
-                @endforeach
-              </tr>
+              @foreach($errors->get('over_name') as $message)
+                <div class="error-message"> {{ $message }} </div>
+              @endforeach
             @endif
               <label class="d-block m-0" style="font-size:13px">姓</label>
               <div class="border-bottom border-primary" style="width:140px;">
-                <input type="text" style="width:140px;" class="border-0 over_name" name="over_name">
+                <input type="text" id="over_name" style="width:140px;" class="border-0 over_name" name="over_name">
               </div>
             </div>
 
             <!-- バリデーション　エラーメッセージ表示 名 under_name-->
             @if ($errors->has('under_name'))
-              <tr>
-                @foreach($errors->get('under_name') as $message)
-                <td> {{ $message }} </td>
-                @endforeach
-              </tr>
+              @foreach($errors->get('under_name') as $message)
+                <div class="error-message"> {{ $message }} </div>
+              @endforeach
             @endif
             <div class="" style="width:140px">
               <label class=" d-block m-0" style="font-size:13px">名</label>
               <div class="border-bottom border-primary" style="width:140px;">
-                <input type="text" style="width:140px;" class="border-0 under_name" name="under_name">
+                <input type="text" id="under_name" style="width:140px;" class="border-0 under_name" name="under_name">
               </div>
             </div>
           </div>
 
             <!-- バリデーション　エラーメッセージ表示 セイ over_name_kana-->
             @if ($errors->has('over_name_kana'))
-              <tr>
-                @foreach($errors->get('over_name_kana') as $message)
-                <td> {{ $message }} </td>
-                @endforeach
-              </tr>
+              @foreach($errors->get('over_name_kana') as $message)
+                <div class="error-message"> {{ $message }} </div> 
+              @endforeach
             @endif
           <div class="d-flex mt-3" style="justify-content:space-between">
             <div class="" style="width:140px">
               <label class="d-block m-0" style="font-size:13px">セイ</label>
               <div class="border-bottom border-primary" style="width:140px;">
-                <input type="text" style="width:140px;" class="border-0 over_name_kana" name="over_name_kana">
+                <input type="text" id="over_name_kana" style="width:140px;" class="border-0 over_name_kana" name="over_name_kana">
               </div>
             </div>
 
             <!-- バリデーション　エラーメッセージ表示 メイ under_name_kana-->
             @if ($errors->has('under_name_kana'))
-              <tr>
-                @foreach($errors->get('under_name_kana') as $message)
-                <td> {{ $message }} </td>
-                @endforeach
-              </tr>
+              @foreach($errors->get('under_name_kana') as $message)
+                <div class="error-message"> {{ $message }} </div>
+              @endforeach
             @endif
             <div class="" style="width:140px">
               <label class="d-block m-0" style="font-size:13px">メイ</label>
               <div class="border-bottom border-primary" style="width:140px;">
-                <input type="text" style="width:140px;" class="border-0 under_name_kana" name="under_name_kana">
+                <input type="text" id="under_name_kana" style="width:140px;" class="border-0 under_name_kana" name="under_name_kana">
               </div>
             </div>
           </div>
 
-            <!-- バリデーション　エラーメッセージ表示 メールアドレス mail_address-->
-            @if ($errors->has('mail_address'))
-              <tr>
-                @foreach($errors->get('mail_address') as $message)
-                <td> {{ $message }} </td>
-                @endforeach
-              </tr>
-            @endif
+          <!-- バリデーション　エラーメッセージ表示 メールアドレス mail_address-->
+          @if ($errors->has('mail_address'))
+            @foreach($errors->get('mail_address') as $message)
+              <div class="error-message"> {{ $message }} </div>
+            @endforeach
+            </tr>
+          @endif
           <div class="mt-3">
             <label class="m-0 d-block" style="font-size:13px">メールアドレス</label>
             <div class="border-bottom border-primary">
-              <input type="mail" class="w-100 border-0 mail_address" name="mail_address">
+              <input type="mail" id="mail_address" class="w-100 border-0 mail_address" name="mail_address">
             </div>
           </div>
         </div>
 
             <!-- バリデーション　エラーメッセージ表示 性別 sex-->
-            @if ($errors->has('sex'))
-              <tr>
-                @foreach($errors->get('sex') as $message)
-                <td> {{ $message }} </td>
-                @endforeach
-              </tr>
-            @endif
+          @if ($errors->has('sex'))
+            @foreach($errors->get('sex') as $message)
+              <div class="error-message">{{ $message }} </div>
+            @endforeach
+          @endif
         <div class="radio_area mt-3">
-          <input type="radio" name="sex" class="sex" value="1">
+          <input type="radio" id="sex_1" name="sex" class="sex" value="1">
           <label style="font-size:13px">男性</label>
-          <input type="radio" name="sex" class="sex" value="2">
+          <input type="radio" id="sex_2" name="sex" class="sex" value="2">
           <label style="font-size:13px">女性</label>
-          <input type="radio" name="sex" class="sex" value="3">
+          <input type="radio" id="sex_3" name="sex" class="sex" value="3">
           <label style="font-size:13px">その他</label>
         </div>
 
             <!-- バリデーション　エラーメッセージ表示 年 old_year-->
-            @if ($errors->has('birth'))
-              <tr>
-                @foreach($errors->get('birth') as $message)
-                <td> {{ $message }} </td>
-                @endforeach
-              </tr>
-            @endif
+          @if ($errors->has('birth'))
+            @foreach($errors->get('birth') as $message)
+              <div class="error-message">{{ $message }} </div>
+            @endforeach
+          @endif
         <div class="select_day_area mt-3">
           <label class="date_of_birth d-block m-0 aa" style="font-size:13px">生年月日</label>
 
           <div class="birthdate-selects">
-            <select class="old_year" name="old_year">
+            <select class="old_year" id="old_year" name="old_year">
               <option value="none">-----</option>
               <option value="1985">1985</option>
               <option value="1986">1986</option>
@@ -158,7 +145,7 @@
             </select>
             <label style="font-size:13px">年</label>
   
-            <select class="old_month" name="old_month">
+            <select class="old_month" id="old_month" name="old_month">
               <option value="none">-----</option>
               <option value="01">1</option>
               <option value="02">2</option>
@@ -175,7 +162,7 @@
             </select>
             <label style="font-size:13px">月</label>
   
-            <select class="old_day" name="old_day">
+            <select class="old_day" id="old_day" name="old_day">
               <option value="none">-----</option>
               <option value="01">1</option>
               <option value="02">2</option>
@@ -213,14 +200,12 @@
           </div>
         </div>
 
-            <!-- バリデーション　エラーメッセージ表示 役職 role-->
-            @if ($errors->has('role'))
-              <tr>
-                @foreach($errors->get('role') as $message)
-                <td> {{ $message }} </td>
-                @endforeach
-              </tr>
-            @endif
+          <!-- バリデーション　エラーメッセージ表示 役職 role-->
+          @if ($errors->has('role'))
+            @foreach($errors->get('role') as $message)
+              <div class="error-message"> {{ $message }} </div>
+            @endforeach
+          @endif
         <div class="mt-3">
           <label class="d-block m-0" style="font-size:13px">役職</label>
           <input type="radio" name="role" class="admin_role role" value="1">
@@ -233,14 +218,12 @@
           <label style="font-size:13px" class="other_role">生徒</label>
         </div>
 
-            <!-- バリデーション　エラーメッセージ表示 選択科目 role-->
-            @if ($errors->has('subject'))
-              <tr>
-                @foreach($errors->get('subject') as $message)
-                <td> {{ $message }} </td>
-                @endforeach
-              </tr>
-            @endif
+          <!-- バリデーション　エラーメッセージ表示 選択科目 role-->
+          @if ($errors->has('subject'))
+            @foreach($errors->get('subject') as $message)
+              <div class="error-message"> {{ $message }} </div>
+            @endforeach
+          @endif
         <div class="select_teacher d-none">
           <label class="d-block m-0" style="font-size:13px">選択科目</label>
           @foreach($subjects as $subject)
@@ -253,37 +236,33 @@
 
             <!-- バリデーション　エラーメッセージ表示 パスワード password-->
             @if ($errors->has('password'))
-              <tr>
-                @foreach($errors->get('password') as $message)
-                <td> {{ $message }} </td>
-                @endforeach
-              </tr>
+              @foreach($errors->get('password') as $message)
+                <div class="error-message"> {{ $message }} </div>
+              @endforeach
             @endif
         <div class="mt-3">
           <label class="d-block m-0" style="font-size:13px">パスワード</label>
           <div class="border-bottom border-primary">
-            <input type="password" class="border-0 w-100 password" name="password">
+            <input type="password" id="password" class="border-0 w-100 password" name="password">
           </div>
         </div>
 
             <!-- バリデーション　エラーメッセージ表示 確認用パスワード password_confirmation-->
             @if ($errors->has('password_confirmation'))
-              <tr>
-                @foreach($errors->get('password_confirmation') as $message)
-                <td> {{ $message }} </td>
-                @endforeach
-              </tr>
+              @foreach($errors->get('password_confirmation') as $message)
+                <div class="error-message"> {{ $message }} </div>
+              @endforeach
             @endif
         <div class="mt-3">
           <label class="d-block m-0" style="font-size:13px">確認用パスワード</label>
           <div class="border-bottom border-primary">
-            <input type="password" class="border-0 w-100 password_confirmation" name="password_confirmation">
+            <input type="password" id="password_confirmation" class="border-0 w-100 password_confirmation" name="password_confirmation">
           </div>
         </div>
 
         <!-- ボタンエリア -->
         <div class="mt-5 text-right">
-          <input type="submit" class="btn btn-primary register_btn" disabled value="新規登録" onclick="return confirm('登録してよろしいですか？')">
+          <input type="submit" class="btn btn-primary register_btn" value="新規登録" onclick="return confirm('登録してよろしいですか？')">
         </div>
         <div class="text-center">
           <a href="{{ route('loginView') }}">ログインはこちら</a>
@@ -295,5 +274,27 @@
   </div>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <script src="{{ asset('js/register.js') }}" rel="stylesheet"></script>
+  <!-- <script>
+    $(function () {
+      function checkForm() {
+        const requiredFilled = $(".over_name, .under_name, .over_name_kana, .under_name_kana, .mail_address, .password, .password_confirmation").get().every(el => el.value.trim() !== "");
+        const sexSelected = $("input[name='sex']:checked").length;
+        const roleSelected = $("input[name='role']:checked").length;
+        const dateSelected = $(".old_year").val() !== "none" && $(".old_month").val() !== "none" && $(".old_day").val() !== "none";
+        const subjectChecked = $(".select_teacher:visible input[type='checkbox']").length === 0 || $(".select_teacher input[type='checkbox']:checked").length > 0;
+        
+        $(".register_btn").prop("disabled", !(requiredFilled && sexSelected && roleSelected && dateSelected && subjectChecked));
+      }
+
+      $("input, select").on("input change", checkForm);
+
+      // $("input[name='role']").on("change", function () {
+      //   $(".select_teacher").toggleClass("d-none", !$(".admin_role:checked").length);
+      //   checkForm();
+      // });
+
+      checkForm();
+    });
+  </script> -->
 </body>
 </html>
