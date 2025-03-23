@@ -87,16 +87,10 @@ class CalendarsController extends Controller
             // ・つまり「このユーザーがこの予約を持っているか」をチェックしている
             ->first();
             // ・検索したデータが存在すればtrue、なければfalseを返す
-            // dd($hasReservation); // 結果を確認
-            // dd(auth()->id());
-            // dd($reservation_id);
-            // dd($reservation_user_id, $reservation_id, auth()->id());
             
             // ⑤ もし予約があるなら削除
             if ($hasReservation) {
                 // ◇$hasReservation がtrueなら、削除処理を実行する
-                // ・exists()で調べた結果、ユーザーがこの予約を持っている場合にtrueになる
-                // ・false の場合、削除処理をスキップ
                 
                 // 予約データを削除する前に、予約枠を元に戻す処理を追加
                 // ⑥予約枠を元に戻す(該当する予約枠のの空き数を1つ増やす)
@@ -110,19 +104,18 @@ class CalendarsController extends Controller
                 // input hidden に予約IDとユーザーIDを埋め込んでいるため、リクエストで取得できる
                 // $reserve_setting_id = $request->input('reserve_setting_id');
                 // $user_id = $request->input('user_id');
-                // dd($request);
-                // 前に送ってないデータを入れて探していたが、該当するものがなく削除ができていなかった
+                // ※送ってないデータを入れて探していたが、該当するものがなく削除ができていなかった
                 
-                \DB::table('reserve_setting_users')//たくさんあるので絞り込みたい->絞り込む時に必要な情報は何？
-                // ・reserve_setting_users テーブルを操作する
-                // ・Laravelのクエリビルダを使って、データベースのreserve_setting_usersテーブルを操作する準備をする
+                \DB::table('reserve_setting_users')
+                // ・1.reserve_setting_users テーブルの
                 ->where('reserve_setting_id',  $reservation_id)//枠の情報
-                //・一つ目の枠を絞り込む
+                //・2.reserve_setting_idレコードの特定の枠を
                 ->where('user_id', $user_id)//ユーザーを絞り込む(ユーザーの情報)
-                // ・user_id(ユーザーID)が$user_idに一致するデータを検索する
+                //・3.特定のユーザーに
+                //(user_id(ユーザーID)が$user_idに一致するデータを検索する)
                 ->delete();
+                //・4.「delete()」処理をする
                 // ・条件に一致するデータを削除する
-                // ユーザーのIDと枠のIDを絞り込む
             }
         }
         // ⑧ 元の画面に戻る

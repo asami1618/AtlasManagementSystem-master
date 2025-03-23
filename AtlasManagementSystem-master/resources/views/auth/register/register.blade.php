@@ -46,27 +46,29 @@
             </div>
           </div>
 
-            <!-- バリデーション　エラーメッセージ表示 セイ over_name_kana-->
-            @if ($errors->has('over_name_kana'))
-              @foreach($errors->get('over_name_kana') as $message)
-                <div class="error-message"> {{ $message }} </div> 
-              @endforeach
-            @endif
           <div class="d-flex mt-3" style="justify-content:space-between">
-            <div class="" style="width:140px">
+            <div style="width:140px">
+              <!-- バリデーション　エラーメッセージ表示 セイ over_name_kana-->
+              @if ($errors->has('over_name_kana'))
+                @foreach($errors->get('over_name_kana') as $message)
+                  <div class="error-message"> {{ $message }} </div> 
+                @endforeach
+              @endif
+              <!-- セイ -->
               <label class="d-block m-0" style="font-size:13px">セイ</label>
               <div class="border-bottom border-primary" style="width:140px;">
                 <input type="text" id="over_name_kana" style="width:140px;" class="border-0 over_name_kana" name="over_name_kana">
               </div>
             </div>
 
-            <!-- バリデーション　エラーメッセージ表示 メイ under_name_kana-->
-            @if ($errors->has('under_name_kana'))
-              @foreach($errors->get('under_name_kana') as $message)
-                <div class="error-message"> {{ $message }} </div>
-              @endforeach
-            @endif
-            <div class="" style="width:140px">
+            <!-- メイ -->
+            <div style="width:140px">
+              <!-- バリデーション　エラーメッセージ表示 メイ under_name_kana-->
+              @if ($errors->has('under_name_kana'))
+                @foreach($errors->get('under_name_kana') as $message)
+                  <div class="error-message"> {{ $message }} </div>
+                @endforeach
+              @endif
               <label class="d-block m-0" style="font-size:13px">メイ</label>
               <div class="border-bottom border-primary" style="width:140px;">
                 <input type="text" id="under_name_kana" style="width:140px;" class="border-0 under_name_kana" name="under_name_kana">
@@ -274,27 +276,5 @@
   </div>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <script src="{{ asset('js/register.js') }}" rel="stylesheet"></script>
-  <!-- <script>
-    $(function () {
-      function checkForm() {
-        const requiredFilled = $(".over_name, .under_name, .over_name_kana, .under_name_kana, .mail_address, .password, .password_confirmation").get().every(el => el.value.trim() !== "");
-        const sexSelected = $("input[name='sex']:checked").length;
-        const roleSelected = $("input[name='role']:checked").length;
-        const dateSelected = $(".old_year").val() !== "none" && $(".old_month").val() !== "none" && $(".old_day").val() !== "none";
-        const subjectChecked = $(".select_teacher:visible input[type='checkbox']").length === 0 || $(".select_teacher input[type='checkbox']:checked").length > 0;
-        
-        $(".register_btn").prop("disabled", !(requiredFilled && sexSelected && roleSelected && dateSelected && subjectChecked));
-      }
-
-      $("input, select").on("input change", checkForm);
-
-      // $("input[name='role']").on("change", function () {
-      //   $(".select_teacher").toggleClass("d-none", !$(".admin_role:checked").length);
-      //   checkForm();
-      // });
-
-      checkForm();
-    });
-  </script> -->
 </body>
 </html>
