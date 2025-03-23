@@ -14,11 +14,11 @@
 </head>
 <body class="register_area">
   <form action="{{ route('registerPost') }}" method="POST">
-    <div class="w-100 vh-100 d-flex" style="align-items:center; justify-content:center;">
-      <div class="new_register_content w-25 vh-75 border p-3">
+    <div class="w-100 d-flex" style="align-items:center; justify-content:center; min-height: 100vh; padding: 20px 0;">
+      <div class="new_register_content border p-3 w-100" style="width: 100%; max-width: 400px; height: auto; min-height: 75vh;">
         <div class="register_form">
           <div class="d-flex mt-3" style="justify-content:space-between">
-            <div class="" style="width:140px">
+            <div style="width:140px">
 
             <!-- バリデーション　エラーメッセージ表示 姓 over_name-->
             @if ($errors->has('over_name'))

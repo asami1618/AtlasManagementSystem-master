@@ -33,6 +33,7 @@ li{
 }
 
 .new_register_content{
+  padding: 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 軽い影をつける */
   border-radius: 10px; /* 角を丸くする */
   background-color: white;
