@@ -32,13 +32,13 @@
               </div>
             </div>
 
-            <!-- バリデーション　エラーメッセージ表示 名 under_name-->
-            @if ($errors->has('under_name'))
-              @foreach($errors->get('under_name') as $message)
-                <div class="error-message"> {{ $message }} </div>
-              @endforeach
-            @endif
-            <div class="" style="width:140px">
+            <div style="width:140px">
+              <!-- バリデーション　エラーメッセージ表示 名 under_name-->
+              @if ($errors->has('under_name'))
+                @foreach($errors->get('under_name') as $message)
+                  <div class="error-message"> {{ $message }} </div>
+                @endforeach
+              @endif
               <label class=" d-block m-0" style="font-size:13px">名</label>
               <div class="border-bottom border-primary" style="width:140px;">
                 <input type="text" id="under_name" style="width:140px;" class="border-0 under_name" name="under_name">
@@ -264,7 +264,7 @@
 
         <!-- ボタンエリア -->
         <div class="mt-5 text-right">
-          <input type="submit" class="btn btn-primary register_btn" value="新規登録" onclick="return confirm('登録してよろしいですか？')">
+          <input type="submit" class="btn btn-primary register_btn" value="新規登録" onclick="return confirm('登録してよろしいですか？')" disabled>
         </div>
         <div class="text-center">
           <a href="{{ route('loginView') }}">ログインはこちら</a>

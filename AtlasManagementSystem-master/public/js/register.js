@@ -99,17 +99,37 @@ $(function () {
     }
   });
 
-  // 新規登録
-  document.addEventListener("DOMContentLoaded", function () {
-    const form = document.querySelector("form");
-    const submitButton = document.querySelector(".register_btn");
+  // // 新規登録
+  // document.addEventListener("DOMContentLoaded", function () {
+  //   const form = document.querySelector("form");
+  //   const submitButton = document.querySelector(".register_btn");
 
-    form.addEventListener("input", function () {
-      // すべての必須項目が入力されているかチェック
-      const isFormValid = form.checkValidity();
-      submitButton.disabled = !isFormValid; // フォームが有効ならボタンを有効化
-    });
+  //   form.addEventListener("input", function () {
+  //     // すべての必須項目が入力されているかチェック
+  //     const isFormValid = form.checkValidity();
+  //     submitButton.disabled = !isFormValid; // フォームが有効ならボタンを有効化
+  //   });
+  // });
+
+  // 新規登録 非活性設定
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.querySelector("form");
+      // form:ページ内の<form>要素を取得
+      const submitButton = document.querySelector(".register_btn");
+      // submitButton:クラス名「.register_btn」を持つボタンを取得
+
+      // 初期状態でボタンを無効化
+      submitButton.disabled = true;
+      // trueに設定しておくとボタンが押せなくなる
+
+      form.addEventListener("input", function () {
+          // すべての必須項目が入力されているかチェック
+          submitButton.disabled = !form.checkValidity();
+          // form.checkValidity():フォーム検証メソッド
+          // フォーム内のすべての要素(<input>など)をチェック
+      });
   });
+
 
   
 
